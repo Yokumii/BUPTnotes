@@ -1,14 +1,8 @@
 # BUPTnotes
 
-BUPTnotes 是一份面向北京邮电大学计算机相关课程的个人学习笔记，使用 [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) 构建。
+个人学习笔记 in BUPT SCS，使用 [MkDocs Material](https://squidfunk.github.io/mkdocs-material/) 构建。
 
 在线阅读：[buptwiki.yokumi.cn](https://buptwiki.yokumi.cn)
-
-## 内容
-
-目前涵盖计算导论、离散数学、数据结构、数字逻辑、计算机组成原理、计算机网络、操作系统、数据库、编译原理、算法设计、计算机系统结构等课程。
-
-部分内容由原始笔记经 LLM 辅助整理，可能存在错误或遗漏，请结合教材和课程资料审慎参考。
 
 ## 本地预览
 
