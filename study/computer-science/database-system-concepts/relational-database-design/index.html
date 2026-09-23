@@ -1,0 +1,3000 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Yokumi's Course Notes in Beijing University of Posts and Telecommunications">
+      
+      
+        <meta name="author" content="Yokumi">
+      
+      
+        <link rel="canonical" href="https://buptwiki.yokumi.cn/study/computer-science/database-system-concepts/relational-database-design/">
+      
+      
+        <link rel="prev" href="../er-model/">
+      
+      
+        <link rel="next" href="../data-storage-structures/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>关系数据库设计 - Yokumi's BUPT Course Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Serif SC";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../../.." title="Yokumi&#39;s BUPT Course Notes" class="md-header__button md-logo" aria-label="Yokumi's BUPT Course Notes" data-md-component="logo">
+      
+  <img src="https://webp-pic.yokumi.cn/2026/09/20260923163304050.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Yokumi's BUPT Course Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              关系数据库设计
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="cyan"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Yokumii/BUPTnotes" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yokumii/BUPTnotes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Yokumi&#39;s BUPT Course Notes" class="md-nav__button md-logo" aria-label="Yokumi's BUPT Course Notes" data-md-component="logo">
+      
+  <img src="https://webp-pic.yokumi.cn/2026/09/20260923163304050.png" alt="logo">
+
+    </a>
+    Yokumi's BUPT Course Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Yokumii/BUPTnotes" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yokumii/BUPTnotes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../introduction-to-computing-and-programming/c-programming/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算导论与程序设计
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../discrete-math/dm-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    离散数学
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../data-structures/ds-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../digital-logic-and-digital-systems/verilog-programming/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数字逻辑与数字系统
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-organization/co-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机组成原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../csapp/csapp-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    深入理解计算机系统(CSAPP)
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-network/cn-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机网络
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../formal-languages-and-automata/fla-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    形式语言与自动机
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../compiler-principle-and-technology/compiler-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编译原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../operating-system/os-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    操作系统
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_12" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_12" id="__nav_12_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据库系统概念
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_12_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_12">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    数据库系统概念
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据库系统引论
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../relational-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    关系模型
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL 基础
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intermediate-sql/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SQL 进阶
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../er-model/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    E-R 模型与数据库设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    关系数据库设计
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    关系数据库设计
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        函数依赖
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="函数依赖">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        定义
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        超键与候选键
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        平凡依赖
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        传递依赖
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        部分依赖
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        逻辑蕴含与闭包
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="逻辑蕴含与闭包">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#f" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        闭包 \(F^+\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#armstrong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Armstrong 公理体系
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        属性集闭包 \(X^+\)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="属性集闭包 \(X^+\)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        闭包的应用
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        正则覆盖/最小覆盖
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="正则覆盖/最小覆盖">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        计算算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多余属性判定
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="多余属性判定">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        左侧多余属性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        右侧多余属性
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        范式
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="范式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1nf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1NF（第一范式）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2nf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2NF（第二范式）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3nf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3NF（第三范式）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bcnfboyce-codd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BCNF（Boyce-Codd 范式）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        候选键计算算法
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        分解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="分解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        定义
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        无损连接
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保持函数依赖
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3nf_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3NF 分解算法
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bcnf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BCNF 分解算法
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设计工作流
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-storage-structures/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据存储结构
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../indexing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    索引
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../query-processing/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    查询处理
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../query-optimization/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    查询优化
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transactions/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    事务
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../concurrency-control/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    并发控制
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../recovery-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    恢复系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../db-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据库系统复习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../design-and-analysis-of-algorithms/complexity-analysis/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    算法设计与分析
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../modern-switching-and-networks/introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    现代交换原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-architecture/basics/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机系统结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        函数依赖
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="函数依赖">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        定义
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        超键与候选键
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        平凡依赖
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        传递依赖
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        部分依赖
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        逻辑蕴含与闭包
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="逻辑蕴含与闭包">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#f" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        闭包 \(F^+\)
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#armstrong" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Armstrong 公理体系
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#x" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        属性集闭包 \(X^+\)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="属性集闭包 \(X^+\)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        闭包的应用
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        正则覆盖/最小覆盖
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="正则覆盖/最小覆盖">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        计算算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多余属性判定
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="多余属性判定">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        左侧多余属性
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        右侧多余属性
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        范式
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="范式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#1nf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        1NF（第一范式）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#2nf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        2NF（第二范式）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#3nf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3NF（第三范式）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#bcnfboyce-codd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BCNF（Boyce-Codd 范式）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        候选键计算算法
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        分解
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="分解">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        定义
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        无损连接
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        保持函数依赖
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#3nf_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        3NF 分解算法
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#bcnf" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        BCNF 分解算法
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        设计工作流
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../db-introduction/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    数据库系统概念
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Yokumii/BUPTnotes/edit/main/docs/study/computer-science/database-system-concepts/relational-database-design.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Yokumii/BUPTnotes/raw/main/docs/study/computer-science/database-system-concepts/relational-database-design.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="_1">关系数据库设计</h1>
+<h2 id="_2">函数依赖</h2>
+<p><strong>函数依赖（Functional Dependency, FD）</strong> 是关系数据库设计理论的核心概念。</p>
+<h3 id="_3">定义</h3>
+<p>若关系模式 <span class="arithmatex">\(R\)</span> 上满足函数依赖 <span class="arithmatex">\(\alpha \rightarrow \beta\)</span>，则对 <span class="arithmatex">\(R\)</span> 的所有合法实例 <span class="arithmatex">\(r\)</span>，其中任意两个元组 <span class="arithmatex">\(t_1, t_2\)</span>：</p>
+<div class="arithmatex">\[t_1[\alpha] = t_2[\alpha] \implies t_1[\beta] = t_2[\beta]\]</div>
+<p>即：<span class="arithmatex">\(\alpha\)</span> 的值相同则 <span class="arithmatex">\(\beta\)</span> 的值必然相同，<span class="arithmatex">\(\beta\)</span> 的值由 <span class="arithmatex">\(\alpha\)</span> 的值函数决定。</p>
+<h3 id="_4">超键与候选键</h3>
+<ul>
+<li><strong>超键（Superkey）</strong>：<span class="arithmatex">\(K \rightarrow R\)</span>，即 <span class="arithmatex">\(K\)</span> 的值能函数决定关系 <span class="arithmatex">\(R\)</span> 中所有属性的值</li>
+<li><strong>候选键（Candidate Key）</strong>：最小的超键，即 <span class="arithmatex">\(K\)</span> 是超键且不存在 <span class="arithmatex">\(K\)</span> 的真子集也是超键</li>
+</ul>
+<div class="admonition tip">
+<p class="admonition-title">超键 vs 候选键</p>
+<p>超键保证唯一性但可能包含冗余属性；候选键是"最精简"的超键，任何真子集都不再是超键。</p>
+</div>
+<h3 id="_5">平凡依赖</h3>
+<p><strong>平凡依赖（Trivial FD）</strong>：<span class="arithmatex">\(\beta \subseteq \alpha\)</span> 时，<span class="arithmatex">\(\alpha \rightarrow \beta\)</span> 总是成立。</p>
+<p>例如 <span class="arithmatex">\(\{A, B\} \rightarrow \{A\}\)</span> 是平凡的。</p>
+<h3 id="_6">传递依赖</h3>
+<p><strong>传递依赖（Transitive Dependency）</strong>：若 <span class="arithmatex">\(\alpha \rightarrow \beta\)</span> 且 <span class="arithmatex">\(\beta \rightarrow \gamma\)</span>，其中 <span class="arithmatex">\(\beta \not\supseteq \alpha\)</span>（<span class="arithmatex">\(\beta\)</span> 不是 <span class="arithmatex">\(\alpha\)</span> 的子集），且 <span class="arithmatex">\(\beta \rightarrow \alpha\)</span> 不成立（<span class="arithmatex">\(\beta\)</span> 不能反过来决定 <span class="arithmatex">\(\alpha\)</span>），则 <span class="arithmatex">\(\gamma\)</span> 对 <span class="arithmatex">\(\alpha\)</span> 传递依赖。</p>
+<div class="admonition abstract">
+<p class="admonition-title">传递依赖的关键条件</p>
+<p><span class="arithmatex">\(\beta \rightarrow \alpha\)</span> 不成立这一条件至关重要——若 <span class="arithmatex">\(\beta \rightarrow \alpha\)</span> 成立，则 <span class="arithmatex">\(\alpha\)</span> 和 <span class="arithmatex">\(\beta\)</span> 是等价的，此时 <span class="arithmatex">\(\alpha \rightarrow \gamma\)</span> 是直接依赖而非传递依赖。</p>
+</div>
+<h3 id="_7">部分依赖</h3>
+<p><strong>部分依赖（Partial Dependency）</strong>：若 <span class="arithmatex">\(\alpha \rightarrow \beta\)</span>，但存在 <span class="arithmatex">\(\alpha\)</span> 的真子集 <span class="arithmatex">\(\gamma \subset \alpha\)</span> 也满足 <span class="arithmatex">\(\gamma \rightarrow \beta\)</span>，则 <span class="arithmatex">\(\beta\)</span> 对 <span class="arithmatex">\(\alpha\)</span> 部分依赖。</p>
+<p>部分依赖意味着 <span class="arithmatex">\(\beta\)</span> 不需要 <span class="arithmatex">\(\alpha\)</span> 的全部属性就能被决定，这是 2NF 要消除的问题。</p>
+<h2 id="_8">逻辑蕴含与闭包</h2>
+<h3 id="f">闭包 <span class="arithmatex">\(F^+\)</span></h3>
+<p>给定函数依赖集 <span class="arithmatex">\(F\)</span>，其<strong>闭包 <span class="arithmatex">\(F^+\)</span></strong> 是 <span class="arithmatex">\(F\)</span> 所能逻辑蕴含的所有函数依赖的集合。</p>
+<p>若 <span class="arithmatex">\(F\)</span> 逻辑蕴含 <span class="arithmatex">\(\alpha \rightarrow \beta\)</span>，记作 <span class="arithmatex">\(F \models \alpha \rightarrow \beta\)</span>，则 <span class="arithmatex">\(\alpha \rightarrow \beta \in F^+\)</span>。</p>
+<h3 id="armstrong">Armstrong 公理体系</h3>
+<p><strong>Armstrong 公理</strong>是推导 <span class="arithmatex">\(F^+\)</span> 的基础规则，既完备又可靠：</p>
+<table>
+<thead>
+<tr>
+<th>公理/规则</th>
+<th>形式</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>自反律（Reflexivity）</td>
+<td><span class="arithmatex">\(\beta \subseteq \alpha \implies \alpha \rightarrow \beta\)</span></td>
+<td>子集总是函数决定自身</td>
+</tr>
+<tr>
+<td>增广律（Augmentation）</td>
+<td><span class="arithmatex">\(\alpha \rightarrow \beta \implies \gamma\alpha \rightarrow \gamma\beta\)</span></td>
+<td>两边同时添加任意属性集合</td>
+</tr>
+<tr>
+<td>传递律（Transitivity）</td>
+<td><span class="arithmatex">\(\alpha \rightarrow \beta, \beta \rightarrow \gamma \implies \alpha \rightarrow \gamma\)</span></td>
+<td>函数依赖的链式推导</td>
+</tr>
+</tbody>
+</table>
+<p><strong>附加推导规则</strong>（可由公理推出）：</p>
+<table>
+<thead>
+<tr>
+<th>规则</th>
+<th>形式</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>合并律（Union）</td>
+<td><span class="arithmatex">\(\alpha \rightarrow \beta, \alpha \rightarrow \gamma \implies \alpha \rightarrow \beta\gamma\)</span></td>
+</tr>
+<tr>
+<td>分解律（Decomposition）</td>
+<td><span class="arithmatex">\(\alpha \rightarrow \beta\gamma \implies \alpha \rightarrow \beta, \alpha \rightarrow \gamma\)</span></td>
+</tr>
+<tr>
+<td>伪传递律（Pseudotransitivity）</td>
+<td><span class="arithmatex">\(\alpha \rightarrow \beta, \gamma\beta \rightarrow \delta \implies \gamma\alpha \rightarrow \delta\)</span></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition tip">
+<p class="admonition-title">合并律与分解律的推论</p>
+<p><span class="arithmatex">\(\alpha \rightarrow \beta\)</span> 当且仅当 <span class="arithmatex">\(\alpha \rightarrow \{B_i\}\)</span> 对 <span class="arithmatex">\(\beta\)</span> 中每个属性 <span class="arithmatex">\(B_i\)</span> 都成立。</p>
+</div>
+<h2 id="x">属性集闭包 <span class="arithmatex">\(X^+\)</span></h2>
+<h3 id="_9">算法</h3>
+<p>给定函数依赖集 <span class="arithmatex">\(F\)</span> 和属性集 <span class="arithmatex">\(X\)</span>，计算 <span class="arithmatex">\(X^+\)</span>（<span class="arithmatex">\(X\)</span> 在 <span class="arithmatex">\(F\)</span> 下能函数决定的所有属性的集合）：</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">6</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>X⁺ = X
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>repeat
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>    for each α → β in F:
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>        if α ⊆ X⁺:
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>            X⁺ = X⁺ ∪ β
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>until X⁺ no longer changes
+</span></code></pre></div></td></tr></table></div>
+<h3 id="_10">闭包的应用</h3>
+<table>
+<thead>
+<tr>
+<th>应用</th>
+<th>方法</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>测试超键</td>
+<td><span class="arithmatex">\(X^+ = R\)</span> 则 <span class="arithmatex">\(X\)</span> 是超键</td>
+</tr>
+<tr>
+<td>测试函数依赖</td>
+<td><span class="arithmatex">\(\beta \subseteq \alpha^+\)</span> 则 <span class="arithmatex">\(\alpha \rightarrow \beta \in F^+\)</span></td>
+</tr>
+<tr>
+<td>计算 <span class="arithmatex">\(F^+\)</span></td>
+<td>对 <span class="arithmatex">\(R\)</span> 的每个子集 <span class="arithmatex">\(X\)</span> 计算 <span class="arithmatex">\(X^+\)</span>，得到 <span class="arithmatex">\(X \rightarrow X^+\)</span> 中的所有 FD</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_11">正则覆盖/最小覆盖</h2>
+<p><strong>正则覆盖（Canonical Cover）<span class="arithmatex">\(F_c\)</span></strong> 是与 <span class="arithmatex">\(F\)</span> 等价（<span class="arithmatex">\(F_c^+ = F^+\)</span>）的最简函数依赖集，满足：</p>
+<ol>
+<li>右侧均为单属性</li>
+<li>无冗余依赖（删除任何一条依赖后不再等价）</li>
+<li>无多余属性（左侧不含可删除的属性）</li>
+</ol>
+<h3 id="_12">计算算法</h3>
+<ol>
+<li><strong>合并右侧</strong>：将 <span class="arithmatex">\(\alpha \rightarrow \beta_1\)</span> 和 <span class="arithmatex">\(\alpha \rightarrow \beta_2\)</span> 合并为 <span class="arithmatex">\(\alpha \rightarrow \beta_1\beta_2\)</span></li>
+<li><strong>去除多余属性</strong>：逐一检查左侧每个属性是否多余</li>
+<li><strong>去除冗余依赖</strong>：逐一检查每条依赖是否冗余</li>
+</ol>
+<h2 id="_13">多余属性判定</h2>
+<h3 id="_14">左侧多余属性</h3>
+<p><span class="arithmatex">\(\alpha \rightarrow \beta\)</span> 中左侧属性 <span class="arithmatex">\(A\)</span> 多余的条件：在 <span class="arithmatex">\(F\)</span> 下 <span class="arithmatex">\((\alpha - A)^+\)</span> 包含 <span class="arithmatex">\(\beta\)</span>。</p>
+<p>即：去掉 <span class="arithmatex">\(A\)</span> 后，剩余属性仍能决定 <span class="arithmatex">\(\beta\)</span>。</p>
+<h3 id="_15">右侧多余属性</h3>
+<p><span class="arithmatex">\(\alpha \rightarrow \beta\)</span> 中右侧属性 <span class="arithmatex">\(A\)</span> 多余的条件：在修改后的 <span class="arithmatex">\(F' = F - \{\alpha \rightarrow \beta\} \cup \{\alpha \rightarrow (\beta - A)\}\)</span> 下，<span class="arithmatex">\(\alpha^+\)</span> 包含 <span class="arithmatex">\(A\)</span>。</p>
+<p>即：去掉 <span class="arithmatex">\(A\)</span> 后，<span class="arithmatex">\(\alpha\)</span> 仍能通过其他依赖推出 <span class="arithmatex">\(A\)</span>。</p>
+<div class="admonition tip">
+<p class="admonition-title">判定方法总结</p>
+<ul>
+<li><strong>左侧多余</strong>：用原始 <span class="arithmatex">\(F\)</span> 计算 <span class="arithmatex">\((\alpha - A)^+\)</span>，检查是否包含 <span class="arithmatex">\(\beta\)</span></li>
+<li><strong>右侧多余</strong>：用修改后的 <span class="arithmatex">\(F'\)</span> 计算 <span class="arithmatex">\(\alpha^+\)</span>，检查是否包含 <span class="arithmatex">\(A\)</span></li>
+</ul>
+</div>
+<h2 id="_16">范式</h2>
+<h3 id="1nf">1NF（第一范式）</h3>
+<p>所有属性值都是<strong>原子的（不可再分）</strong>。</p>
+<h3 id="2nf">2NF（第二范式）</h3>
+<p>在 1NF 基础上，<strong>消除非键属性对候选键的部分依赖</strong>。</p>
+<p>即：每个非键属性必须<strong>完全函数依赖</strong>于每个候选键，不能只依赖候选键的某个真子集。</p>
+<div class="admonition abstract">
+<p class="admonition-title">2NF 要解决的问题</p>
+<p>部分依赖导致冗余：若非键属性仅依赖候选键的一部分，则候选键其他属性的值变化不影响该非键属性，造成冗余存储和更新异常。</p>
+</div>
+<h3 id="3nf">3NF（第三范式）</h3>
+<p>在 2NF 基础上，<strong>消除非键属性对候选键的传递依赖</strong>。</p>
+<p>即：每个非键属性必须<strong>直接函数依赖</strong>于候选键，不能通过其他非键属性间接依赖。</p>
+<p>形式化定义：对 <span class="arithmatex">\(F\)</span> 中每条 <span class="arithmatex">\(\alpha \rightarrow \beta\)</span>，以下至少一条成立：</p>
+<ol>
+<li><span class="arithmatex">\(\alpha \rightarrow \beta\)</span> 是平凡的（<span class="arithmatex">\(\beta \subseteq \alpha\)</span>）</li>
+<li><span class="arithmatex">\(\alpha\)</span> 是 <span class="arithmatex">\(R\)</span> 的超键</li>
+<li><span class="arithmatex">\(\beta - \alpha\)</span> 中的每个属性都属于 <span class="arithmatex">\(R\)</span> 的某个候选键</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">3NF 的第三条件</p>
+<p>第三条件允许主属性（候选键中的属性）之间存在函数依赖，这是 3NF 与 BCNF 的关键区别。</p>
+</div>
+<h3 id="bcnfboyce-codd">BCNF（Boyce-Codd 范式）</h3>
+<p>在 3NF 基础上进一步要求：<strong>所有属性（包括键属性）都必须直接/完全依赖于每个包含它们的候选键</strong>。</p>
+<p>形式化定义：对 <span class="arithmatex">\(F\)</span> 中每条 <span class="arithmatex">\(\alpha \rightarrow \beta\)</span>，以下至少一条成立：</p>
+<ol>
+<li><span class="arithmatex">\(\alpha \rightarrow \beta\)</span> 是平凡的（<span class="arithmatex">\(\beta \subseteq \alpha\)</span>）</li>
+<li><span class="arithmatex">\(\alpha\)</span> 是 <span class="arithmatex">\(R\)</span> 的超键</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">BCNF vs 3NF</p>
+<p>BCNF 比 3NF 更严格：BCNF 不允许任何非超键的决定因子，即使是主属性之间的依赖也不允许。3NF 的第三条件在 BCNF 中被取消。</p>
+<table>
+<thead>
+<tr>
+<th>范式</th>
+<th>允许的非超键决定因子</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3NF</td>
+<td>主属性（候选键中的属性）之间的 FD</td>
+</tr>
+<tr>
+<td>BCNF</td>
+<td>不允许任何非超键决定因子</td>
+</tr>
+</tbody>
+</table>
+</div>
+<h2 id="_17">候选键计算算法</h2>
+<p>通过属性分类来逐步确定候选键：</p>
+<table>
+<thead>
+<tr>
+<th>分类</th>
+<th>条件</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>L 类</strong></td>
+<td>仅出现在 FD 左侧</td>
+<td>必然属于所有候选键</td>
+</tr>
+<tr>
+<td><strong>R 类</strong></td>
+<td>仅出现在 FD 右侧</td>
+<td>不可能属于任何候选键</td>
+</tr>
+<tr>
+<td><strong>N 类</strong></td>
+<td>左右都不出现</td>
+<td>必然属于所有候选键</td>
+</tr>
+<tr>
+<td><strong>LR 类</strong></td>
+<td>左右都出现</td>
+<td>可能属于候选键，需进一步判断</td>
+</tr>
+</tbody>
+</table>
+<p><strong>算法步骤</strong>：</p>
+<ol>
+<li>确定属性分类</li>
+<li><span class="arithmatex">\(L\)</span> 类和 <span class="arithmatex">\(N\)</span> 类属性一定在候选键中，令 <span class="arithmatex">\(X = L \cup N\)</span></li>
+<li>计算 <span class="arithmatex">\(X^+\)</span>，若 <span class="arithmatex">\(X^+ = R\)</span>，则 <span class="arithmatex">\(X\)</span> 是唯一候选键</li>
+<li>若 <span class="arithmatex">\(X^+ \neq R\)</span>，逐一尝试将 <span class="arithmatex">\(LR\)</span> 类属性加入 <span class="arithmatex">\(X\)</span>，直到 <span class="arithmatex">\(X^+ = R\)</span></li>
+</ol>
+<h2 id="_18">分解</h2>
+<h3 id="_19">定义</h3>
+<p>将关系模式 <span class="arithmatex">\(R\)</span> 分解为 <span class="arithmatex">\(R_1, R_2, \ldots, R_n\)</span>，满足 <span class="arithmatex">\(R = R_1 \cup R_2 \cup \ldots \cup R_n\)</span>。</p>
+<h3 id="_20">无损连接</h3>
+<p><strong>无损连接（Lossless-Join）</strong>：分解后的关系通过自然连接能完全恢复原关系的所有信息。</p>
+<div class="arithmatex">\[r = \Pi_{R_1}(r) \bowtie \Pi_{R_2}(r) \bowtie \ldots \bowtie \Pi_{R_n}(r)\]</div>
+<p><strong>二路分解的无损连接判定</strong>：</p>
+<p><span class="arithmatex">\(R_1 \cap R_2 \rightarrow R_1\)</span> 或 <span class="arithmatex">\(R_1 \cap R_2 \rightarrow R_2\)</span> 成立则分解为无损的。</p>
+<p>即：两个分解子模式的交集必须能函数决定其中至少一个子模式。</p>
+<div class="admonition abstract">
+<p class="admonition-title">无损连接的意义</p>
+<p>无损连接保证分解不会丢失信息——原关系中的每个元组都能通过连接恢复，不会出现"虚假元组"或信息丢失。</p>
+</div>
+<h3 id="_21">保持函数依赖</h3>
+<p><strong>保持函数依赖（Dependency Preservation）</strong>：</p>
+<div class="arithmatex">\[\left(F_1 \cup F_2 \cup \ldots \cup F_n\right)^+ = F^+\]</div>
+<p>其中 <span class="arithmatex">\(F_i\)</span> 是 <span class="arithmatex">\(F\)</span> 在 <span class="arithmatex">\(R_i\)</span> 上的投影（即仅涉及 <span class="arithmatex">\(R_i\)</span> 中属性的 FD）。</p>
+<p>保持函数依赖意味着分解后无需跨关系检查 FD 约束，所有约束都能在各自的关系内独立验证。</p>
+<div class="admonition tip">
+<p class="admonition-title">无损连接 vs 保持函数依赖</p>
+<ul>
+<li>无损连接是<strong>必须</strong>保证的（否则分解丢失信息）</li>
+<li>保持函数依赖是<strong>尽量</strong>保证的（不保持时验证约束需要连接操作）</li>
+<li>BCNF 分解总是无损的，但可能无法保持函数依赖</li>
+<li>3NF 分解算法既保证无损连接又保持函数依赖</li>
+</ul>
+</div>
+<h2 id="3nf_1">3NF 分解算法</h2>
+<p><strong>输入</strong>：关系模式 <span class="arithmatex">\(R\)</span>，函数依赖集 <span class="arithmatex">\(F\)</span> 的正则覆盖 <span class="arithmatex">\(F_c\)</span></p>
+<p><strong>输出</strong>：满足 3NF、无损连接、保持函数依赖的分解</p>
+<p><strong>步骤</strong>：</p>
+<ol>
+<li><strong>求正则覆盖 <span class="arithmatex">\(F_c\)</span></strong></li>
+<li><strong>为 <span class="arithmatex">\(F_c\)</span> 中每条 FD <span class="arithmatex">\(\alpha \rightarrow \beta\)</span> 创建关系模式 <span class="arithmatex">\(\alpha \cup \beta\)</span></strong></li>
+<li><strong>检查是否包含候选键</strong>：若步骤 2 产生的关系中没有一个包含 <span class="arithmatex">\(R\)</span> 的候选键，则添加一个包含候选键的关系模式</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">3NF 分解算法的性质</p>
+<ul>
+<li>保证结果为 3NF</li>
+<li>保证无损连接（因为包含候选键的关系模式确保了连接的无损性）</li>
+<li>保证保持函数依赖（每条 FD 的属性都在某个关系模式中）</li>
+<li>可能不是 BCNF</li>
+</ul>
+</div>
+<h2 id="bcnf">BCNF 分解算法</h2>
+<p><strong>步骤</strong>（递归分解）：</p>
+<ol>
+<li>找到违反 BCNF 的函数依赖 <span class="arithmatex">\(\alpha \rightarrow \beta\)</span>（<span class="arithmatex">\(\alpha\)</span> 不是超键）</li>
+<li>将 <span class="arithmatex">\(R\)</span> 分解为两个子模式：<ul>
+<li><span class="arithmatex">\(R_1 = \alpha \cup \beta\)</span></li>
+<li><span class="arithmatex">\(R_2 = R - (\beta - \alpha)\)</span></li>
+</ul>
+</li>
+<li>对 <span class="arithmatex">\(R_1\)</span> 和 <span class="arithmatex">\(R_2\)</span> 重复上述步骤，直到所有子模式都满足 BCNF</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">BCNF 分解算法的性质</p>
+<ul>
+<li>保证结果为 BCNF</li>
+<li>保证无损连接（每次二路分解都满足 <span class="arithmatex">\(R_1 \cap R_2 = \alpha\)</span>，且 <span class="arithmatex">\(\alpha \rightarrow \beta\)</span> 即 <span class="arithmatex">\(R_1 \cap R_2 \rightarrow R_1\)</span>，满足无损条件）</li>
+<li><strong>可能无法保持函数依赖</strong></li>
+</ul>
+</div>
+<details class="warning" open="open">
+<summary>BCNF 分解的局限</summary>
+<p>当存在主属性之间的函数依赖时，BCNF 分解可能导致某些 FD 的属性被分散到不同关系中，从而无法在单一关系内验证这些约束。例如 <span class="arithmatex">\(\alpha \rightarrow \beta\)</span> 中 <span class="arithmatex">\(\beta\)</span> 包含主属性，分解后可能无法保持这条 FD。</p>
+</details>
+<h2 id="_22">设计工作流</h2>
+<p>数据库设计的整体流程：</p>
+<ol>
+<li><strong>E-R 模型设计</strong> → 获得概念模型</li>
+<li><strong>转换为关系模式</strong> → 获得初始关系模式</li>
+<li><strong>识别范式级别</strong> → 分析每条 FD，判断当前模式满足的范式</li>
+<li><strong>分解优化</strong> → 根据需要选择 3NF 或 BCNF 分解算法进行规范化</li>
+</ol>
+<div class="admonition tip">
+<p class="admonition-title">设计决策指南</p>
+<table>
+<thead>
+<tr>
+<th>场景</th>
+<th>推荐方案</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>需要同时保证无损连接和保持函数依赖</td>
+<td>3NF 分解算法</td>
+</tr>
+<tr>
+<td>需要更严格的范式（消除所有非超键决定因子）</td>
+<td>BCNF 分解算法（接受可能丢失 FD 保持性）</td>
+</tr>
+<tr>
+<td>FD 涉及主属性间的依赖</td>
+<td>3NF（BCNF 会过度分解）</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../er-model/" class="md-footer__link md-footer__link--prev" aria-label="上一页: E-R 模型与数据库设计">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                E-R 模型与数据库设计
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../data-storage-structures/" class="md-footer__link md-footer__link--next" aria-label="下一页: 数据存储结构">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                数据存储结构
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 - 2026 Yokumi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Yokumii" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://blog.yokumi.cn" target="_blank" rel="noopener" title="blog.yokumi.cn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M224 24c0-13.3 10.7-24 24-24 145.8 0 264 118.2 264 264 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-119.3-96.7-216-216-216-13.3 0-24-10.7-24-24M80 96c26.5 0 48 21.5 48 48v224c0 26.5 21.5 48 48 48s48-21.5 48-48-21.5-48-48-48c-8.8 0-16-7.2-16-16v-64c0-8.8 7.2-16 16-16 79.5 0 144 64.5 144 144s-64.5 144-144 144S32 447.5 32 368V144c0-26.5 21.5-48 48-48m168 0c92.8 0 168 75.2 168 168 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-66.3-53.7-120-120-120-13.3 0-24-10.7-24-24s10.7-24 24-24"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:yokumi0704@gmail.com" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M536.4-26.3c9.8-3.5 20.6-1 28 6.3s9.8 18.2 6.3 28l-178 496.9c-5 13.9-18.1 23.1-32.8 23.1-14.2 0-27-8.6-32.3-21.7l-64.2-158c-4.5-11-2.5-23.6 5.2-32.6l94.5-112.4c5.1-6.1 4.7-15-.9-20.6s-14.6-6-20.6-.9l-112.4 94.3c-9.1 7.6-21.6 9.6-32.6 5.2L38.1 216.8c-13.1-5.3-21.7-18.1-21.7-32.3 0-14.7 9.2-27.8 23.1-32.8z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest", "search.highlight", "search.share", "header.autohide", "navigation.footer", "content.footnote.tooltips", "content.code.copy", "content.code.select", "content.code.annotate", "content.action.edit", "content.action.view", "content.tooltips"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../../assets/javascripts/katex.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

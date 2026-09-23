@@ -1,0 +1,4101 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Yokumi's Course Notes in Beijing University of Posts and Telecommunications">
+      
+      
+        <meta name="author" content="Yokumi">
+      
+      
+        <link rel="canonical" href="https://buptwiki.yokumi.cn/study/computer-science/computer-organization/storage-system/">
+      
+      
+        <link rel="prev" href="../arithmetic-unit/">
+      
+      
+        <link rel="next" href="../instruction-system/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>存储系统 - Yokumi's BUPT Course Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Serif SC";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../../.." title="Yokumi&#39;s BUPT Course Notes" class="md-header__button md-logo" aria-label="Yokumi's BUPT Course Notes" data-md-component="logo">
+      
+  <img src="https://webp-pic.yokumi.cn/2026/09/20260923163304050.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Yokumi's BUPT Course Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              存储系统
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="cyan"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Yokumii/BUPTnotes" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yokumii/BUPTnotes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Yokumi&#39;s BUPT Course Notes" class="md-nav__button md-logo" aria-label="Yokumi's BUPT Course Notes" data-md-component="logo">
+      
+  <img src="https://webp-pic.yokumi.cn/2026/09/20260923163304050.png" alt="logo">
+
+    </a>
+    Yokumi's BUPT Course Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Yokumii/BUPTnotes" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yokumii/BUPTnotes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../introduction-to-computing-and-programming/c-programming/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算导论与程序设计
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../discrete-math/dm-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    离散数学
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../data-structures/ds-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../digital-logic-and-digital-systems/verilog-programming/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数字逻辑与数字系统
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_6" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机组成原理
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    计算机组成原理
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../co-overview/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机组成原理概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../arithmetic-unit/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    运算方法与运算器
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    存储系统
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    存储系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储器概述
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="存储器概述">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储器的分类
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储器的目标
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        并行技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储容量与存取速度
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SRAM 存储器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SRAM 存储器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本时序
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基本时序">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        读周期
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        写周期
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRAM 存储器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DRAM 存储器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sram-vs-dram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SRAM vs. DRAM 对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dram_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRAM 芯片的逻辑结构
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DRAM 芯片的逻辑结构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        读时序
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        写时序
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dram_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRAM 的刷新
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dram_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRAM 控制器
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储器芯片性能改进
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="存储器芯片性能改进">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dramfpm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        快页模式 DRAM（FPM）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dram-cdram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        增强型 DRAM / CDRAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dramsdram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        同步 DRAM（SDRAM）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="同步 DRAM（SDRAM）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        内存模块的封装
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dram_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRAM 主存读/写正确性校验
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        只读存储器和闪存
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="只读存储器和闪存">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        特点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        分类
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        并行存储器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="并行存储器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dpram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        双端口存储器 DPRAM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="双端口存储器 DPRAM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#idt7133" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实例：IDT7133
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多模块交叉存储器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="多模块交叉存储器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        顺序方式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交叉方式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多模块交叉存储器的特点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        举例：二模块交叉存储器
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache 存储器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cache 存储器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        局部性原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache 概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三级存储系统
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache 基本工作原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主存和 Cache 的分块
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache 的结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主存与 Cache 的地址映射
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="主存与 Cache 的地址映射">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        全相联映射
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        直接映射
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v 路组相联映射
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache 块替换策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache 写操作
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cache 写操作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#write-hit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        写命中（Write Hit）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write-miss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        写缺失（Write Miss）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache 性能指标
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        虚拟存储器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="虚拟存储器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主存 - 外存层次
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储管理方式
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="存储管理方式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        段式存储管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        页式存储管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tlb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TLB 快表
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TLB 快表">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v-tlb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v 路组相联 TLB 访问
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多级页表
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="多级页表">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二级页表
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        k 级页表的地址翻译
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_37" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        页面替换算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        段页式虚拟存储器
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../instruction-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    指令系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cpu/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    中央处理器
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../bus-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    总线系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../io-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    输入输出系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../peripheral-devices/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    外围设备
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../co-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机组成原理复习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../csapp/csapp-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    深入理解计算机系统(CSAPP)
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-network/cn-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机网络
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../formal-languages-and-automata/fla-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    形式语言与自动机
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../compiler-principle-and-technology/compiler-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编译原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../operating-system/os-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    操作系统
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../database-system-concepts/db-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据库系统概念
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../design-and-analysis-of-algorithms/complexity-analysis/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    算法设计与分析
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../modern-switching-and-networks/introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    现代交换原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-architecture/basics/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机系统结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储器概述
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="存储器概述">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储器的分类
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储器的目标
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        并行技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储容量与存取速度
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SRAM 存储器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SRAM 存储器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本时序
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基本时序">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        读周期
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        写周期
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#dram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRAM 存储器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DRAM 存储器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sram-vs-dram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SRAM vs. DRAM 对比
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dram_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRAM 芯片的逻辑结构
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DRAM 芯片的逻辑结构">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        读时序
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        写时序
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dram_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRAM 的刷新
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dram_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRAM 控制器
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储器芯片性能改进
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="存储器芯片性能改进">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dramfpm" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        快页模式 DRAM（FPM）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dram-cdram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        增强型 DRAM / CDRAM
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dramsdram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        同步 DRAM（SDRAM）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="同步 DRAM（SDRAM）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        内存模块的封装
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dram_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DRAM 主存读/写正确性校验
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        只读存储器和闪存
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="只读存储器和闪存">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        特点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        分类
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        并行存储器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="并行存储器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#dpram" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        双端口存储器 DPRAM
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="双端口存储器 DPRAM">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#idt7133" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        实例：IDT7133
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多模块交叉存储器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="多模块交叉存储器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        顺序方式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交叉方式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多模块交叉存储器的特点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        举例：二模块交叉存储器
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#cache" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache 存储器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cache 存储器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        局部性原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache 概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        三级存储系统
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache 基本工作原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主存和 Cache 的分块
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache 的结构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主存与 Cache 的地址映射
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="主存与 Cache 的地址映射">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        全相联映射
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_29" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        直接映射
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#v" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v 路组相联映射
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache 块替换策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache 写操作
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Cache 写操作">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#write-hit" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        写命中（Write Hit）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#write-miss" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        写缺失（Write Miss）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cache_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Cache 性能指标
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_30" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        虚拟存储器
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="虚拟存储器">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_31" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#-" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        主存 - 外存层次
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_32" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        存储管理方式
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="存储管理方式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_33" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        段式存储管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_34" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        页式存储管理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tlb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        TLB 快表
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="TLB 快表">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#v-tlb" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        v 路组相联 TLB 访问
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_35" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多级页表
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="多级页表">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_36" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        二级页表
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#k" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        k 级页表的地址翻译
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_37" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        页面替换算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_38" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        段页式虚拟存储器
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../co-overview/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    计算机组成原理
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Yokumii/BUPTnotes/edit/main/docs/study/computer-science/computer-organization/storage-system.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Yokumii/BUPTnotes/raw/main/docs/study/computer-science/computer-organization/storage-system.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="_1">存储系统</h1>
+<h2 id="_2">存储器概述</h2>
+<h3 id="_3">存储器的分类</h3>
+<p>存储器可从多个维度分类：</p>
+<dl>
+<dt>按介质</dt>
+<dd>半导体存储器、磁介质存储器、光存储器</dd>
+<dt>按与 CPU 的耦合程度</dt>
+<dd>内存（主存 + Cache）、外存</dd>
+<dt>按读写功能</dt>
+<dd>读写存储器 RWM、只读存储器 ROM</dd>
+<dt>按掉电后信息是否保持</dt>
+<dd>易失性、非易失性</dd>
+<dt>按数据存取的随机性</dt>
+<dd>随机存取 RAM（给定地址即可拿到数据，与前一个访问地址无关）、顺序存取 SAM（如磁带）、直接存取 DAM（确定区域后顺序存取）</dd>
+<dt>习惯分类</dt>
+<dd>RAM vs. ROM；SRAM vs. DRAM（内存条）vs. 闪存</dd>
+</dl>
+<h3 id="_4">存储器的目标</h3>
+<p>存储器设计追求<strong>大容量、高速度、低价格</strong>，三者互相矛盾，因此采用层次结构来兼顾。</p>
+<figure>
+  <img alt="存储器层次结构" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165207592.png" width="70%" />
+</figure>
+<h3 id="_5">并行技术</h3>
+<ul>
+<li><strong>单体多字</strong>：一个读写体，每次存取多个字</li>
+<li><strong>多体单字</strong>：多个读写体，交叉编址，向多个地址读取内容</li>
+</ul>
+<h3 id="_6">存储容量与存取速度</h3>
+<dl>
+<dt>存储容量</dt>
+<dd>存储字数（存储单元数） <span class="arithmatex">\(\times\)</span> 存储字长（每单元的比特数）</dd>
+<dt>访问时间 / 存取时间 <span class="arithmatex">\(T_A\)</span></dt>
+<dd>从启动一次存储器操作到该操作完成所经历的时间，即从存储器接收到读/写命令到信息被读出或写入完成所需的时间</dd>
+<dt>存取周期 <span class="arithmatex">\(T_m\)</span></dt>
+<dd>存储器在连续读写过程中，完成一次完整的读/写操作所需的全部时间，即 CPU 连续两次独立访问存储器的最小时间间隔</dd>
+</dl>
+<details class="note" open="open">
+<summary>存取周期 vs. 存取时间</summary>
+<p>存取周期 <span class="arithmatex">\(T_m\)</span> 一般大于存取时间 <span class="arithmatex">\(T_A\)</span>，因为存储器完成读/写操作后一般需要一段恢复内部状态的复原时间：</p>
+<div class="arithmatex">\[T_m = T_A + \text{恢复时间}\]</div>
+</details>
+<dl>
+<dt>存储器带宽</dt>
+<dd>单位时间内能传输的信息量</dd>
+</dl>
+<h2 id="sram">SRAM 存储器</h2>
+<h3 id="_7">基本结构</h3>
+<p>SRAM 的存储元使用<strong>六晶体管 MOS</strong> 来记忆信息，静态是指即使信息被读出后，它仍保持其原状态而<strong>不需要再生（非破坏性读出）</strong>。</p>
+<figure>
+  <img alt="SRAM 基本结构1" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165215121.png" width="70%" />
+</figure>
+<figure>
+  <img alt="SRAM 基本结构2" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165219490.png" width="70%" />
+</figure>
+<h3 id="_8">基本时序</h3>
+<h4 id="_9">读周期</h4>
+<figure>
+  <img alt="SRAM 读周期时序" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165225529.png" width="70%" />
+</figure>
+<h4 id="_10">写周期</h4>
+<figure>
+  <img alt="SRAM 写周期时序" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165228414.png" width="70%" />
+</figure>
+<h2 id="dram">DRAM 存储器</h2>
+<h3 id="_11">概述</h3>
+<p>DRAM 靠 <strong>MOS 管中栅极电容</strong>是否存储电荷来表示 0 和 1。其需要的 MOS 管和 SRAM 相比更少，所以体积更小，集成度更高，但是由于存在漏电，需要周期性对电容进行充电，防止内容丢失，我们称该过程为<strong>动态刷新</strong>。</p>
+<figure>
+  <img alt="DRAM 写操作" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165232536.png" width="70%" />
+</figure>
+<figure>
+  <img alt="DRAM 读操作（含刷新）" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165234926.png" width="70%" />
+</figure>
+<details class="warning" open="open">
+<summary>DRAM 的破坏性读出</summary>
+<p>DRAM 的读操作相当于对原来充满电的电容进行放电或对原来没电的电容进行充电，所以对原数据具有<strong>破坏性</strong>。在读出后还需要进行<strong>刷新</strong>，将数据<strong>回写</strong>，以恢复原信息。</p>
+<p>笔记本电脑的浅睡眠模式下，数据没有被存入硬盘，所以需要不断刷新 DRAM，此时的耗电量就主要来自对 DRAM 的刷新。</p>
+</details>
+<h3 id="sram-vs-dram">SRAM vs. DRAM 对比</h3>
+<table>
+<thead>
+<tr>
+<th><strong>对比项</strong></th>
+<th><strong>SRAM</strong></th>
+<th><strong>DRAM</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>速度</strong></td>
+<td><strong>快</strong>（10ns 级）</td>
+<td>慢（几十 ns）</td>
+</tr>
+<tr>
+<td><strong>集成度</strong></td>
+<td>低</td>
+<td><strong>高（适合大容量）</strong></td>
+</tr>
+<tr>
+<td><strong>功耗</strong></td>
+<td>高（持续维持状态）</td>
+<td>低（尽管需刷新，但每位电路简单）</td>
+</tr>
+<tr>
+<td><strong>成本</strong></td>
+<td>高</td>
+<td>低</td>
+</tr>
+<tr>
+<td><strong>送地址</strong></td>
+<td>行列地址同时送</td>
+<td><strong>行列地址分两次送（分时复用）</strong></td>
+</tr>
+<tr>
+<td><strong>破坏性读出</strong></td>
+<td>非破坏性（静态）</td>
+<td>破坏性（动态）</td>
+</tr>
+<tr>
+<td><strong>刷新机制</strong></td>
+<td>无需刷新</td>
+<td>需要定期<strong>刷新</strong></td>
+</tr>
+<tr>
+<td><strong>结构复杂度</strong></td>
+<td>使用 6 个晶体管</td>
+<td>使用 1 个晶体管 + 1 个电容</td>
+</tr>
+<tr>
+<td><strong>用途</strong></td>
+<td>高速缓存（Cache）、寄存器</td>
+<td>主存（RAM）、显存等</td>
+</tr>
+</tbody>
+</table>
+<figure>
+  <img alt="SRAM vs DRAM" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165239383.png" width="70%" />
+</figure>
+<h3 id="dram_1">DRAM 芯片的逻辑结构</h3>
+<figure>
+  <img alt="DRAM 芯片逻辑结构" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165246063.png" width="70%" />
+</figure>
+<details class="note" open="open">
+<summary>DRAM 地址线分时复用</summary>
+<p>DRAM 是<strong>按行刷新</strong>。地址线只有 20 条，行地址和列地址分别先后通过地址线送入地址锁存器，实现地址线的分时复用。RAS（行地址有效信号）先于 CAS（列地址有效信号）有效，即<strong>先送入行地址，再送入列地址</strong>。</p>
+</details>
+<h4 id="_12">读时序</h4>
+<figure>
+  <img alt="DRAM 读时序1" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165248355.png" width="70%" />
+</figure>
+<figure>
+  <img alt="DRAM 读时序2" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165253187.png" width="70%" />
+</figure>
+<p>重要参数：</p>
+<ul>
+<li><span class="arithmatex">\(t_{RAC}\)</span>：从 RAS 信号有效到有效数据开始读出的时间间隔，也称<strong>读访问时间</strong></li>
+<li><span class="arithmatex">\(t_{CAC}\)</span>：从 CAS 信号有效到有效数据开始读出的时间间隔</li>
+<li><span class="arithmatex">\(t_{RC}\)</span>：连续两个 RAS 下降沿之间的最短间隔，即<strong>读周期时间</strong></li>
+<li><span class="arithmatex">\(t_{PC}\)</span>：连续两个 CAS 下降沿之间的最短间隔，即<strong>页模式下的读或写周期</strong></li>
+</ul>
+<h4 id="_13">写时序</h4>
+<figure>
+  <img alt="DRAM 写时序1" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165257475.png" width="70%" />
+</figure>
+<figure>
+  <img alt="DRAM 写时序2" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165304737.png" width="70%" />
+</figure>
+<h3 id="dram_2">DRAM 的刷新</h3>
+<dl>
+<dt>集中式刷新</dt>
+<dd>在整个刷新间隔内，前一段时间进行读/写周期，需要进行刷新操作时，暂停读/写周期，逐行刷新整个存储器。但在刷新时间内，处理器无法访问存储器。</dd>
+<dt>分散式刷新</dt>
+<dd>
+<p>每一行的刷新操作被均分分配到刷新周期内，通过以下 2 种方式进行刷新操作：</p>
+<ol>
+<li>用 RAS 启动刷新操作，但需要外部刷新地址计数器</li>
+<li>用先送 CAS、再送 RAS 表示启动刷新操作，DRAM 内部有自动递增的刷新地址计数器</li>
+</ol>
+</dd>
+</dl>
+<details class="example" open="open">
+<summary>分散式刷新的典型计算</summary>
+<p>某 DRAM 有 1024 行，若刷新周期为 8 ms，则必须在 8 ms 内把所有 1024 行刷新一遍，即每隔 <span class="arithmatex">\(8\text{ms} \div 1024 = 7.8\mu\text{s}\)</span> 刷新一行。</p>
+</details>
+<h3 id="dram_3">DRAM 控制器</h3>
+<figure>
+  <img alt="DRAM 控制器结构" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165311586.png" width="70%" />
+</figure>
+<p>DRAM 控制器包含以下组件：</p>
+<ul>
+<li><strong>地址多路开关</strong>：分时送出行、列或刷新地址</li>
+<li><strong>定时发生器</strong>：提供 RAS、CAS 和写信号 WR</li>
+<li><strong>仲裁电路</strong>：裁定 CPU 的访问请求和刷新定时器的刷新请求，优先进行刷新</li>
+<li><strong>刷新定时器</strong>：定时提供刷新请求</li>
+</ul>
+<h3 id="_14">存储器芯片性能改进</h3>
+<p>DRAM 性能改进主要通过以下思路：</p>
+<ul>
+<li>允许重复存取行缓冲区而无需增加另外的行存取时间：<strong>快页模式 FPM</strong>、<strong>扩展数据输出 EDO</strong>、<strong>增强型 DRAM / CDRAM</strong></li>
+<li>增加时钟信号，使存储器与处理器保持同步：<strong>同步 DRAM（SDRAM）</strong></li>
+</ul>
+<h4 id="dramfpm">快页模式 DRAM（FPM）</h4>
+<figure>
+  <img alt="快页模式 DRAM" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165317998.png" width="70%" />
+</figure>
+<p>快页模式 DRAM 能从同一行连续访问读取后续数据。</p>
+<h4 id="dram-cdram">增强型 DRAM / CDRAM</h4>
+<p>通过在 DRAM 中增加一个小容量的 SRAM，暂时保存最近访问一行的数据。通过比较器判别下次访问是否还是该行，如果是则直接从 SRAM 中读出，无需再次访问 DRAM。且刷新该行和读 SRAM 可并行，即刷新和访问不冲突。</p>
+<details class="note" open="open">
+<summary>突发模式（Burst Mode）</summary>
+<p>连续变动列地址，会使 SRAM 中相应位组连续读出，被称为<strong>突发模式（Burst Mode）</strong>。</p>
+</details>
+<h4 id="dramsdram">同步 DRAM（SDRAM）</h4>
+<figure>
+  <img alt="SDRAM 概述1" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165323639.png" width="70%" />
+</figure>
+<figure>
+  <img alt="SDRAM 概述2" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165330487.png" width="70%" />
+</figure>
+<h5 id="_15">内存模块的封装</h5>
+<ul>
+<li><strong>DIMM（Dual In-line Memory Module，双边接触内存模块）</strong>：通过字扩展和位扩展的方式增加容量</li>
+</ul>
+<figure>
+  <img alt="DDR3 内存模块" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165343291.png" width="70%" />
+</figure>
+<details class="example" open="open">
+<summary>DDR3 内存参数计算</summary>
+<p>以 DDR3-1600 为例：</p>
+<ul>
+<li>后缀 1600 表示数据总线传输速率为 <span class="arithmatex">\(1600\text{MT/s}\)</span>（Mega Transfers per second）</li>
+<li>DDR3 在每个时钟周期内传输 2 次数据，所以对应的时钟频率是 <span class="arithmatex">\(800\text{MHz}\)</span></li>
+<li>DDR3 每个时钟周期预取 8 字节，对应的存储器核心频率为 <span class="arithmatex">\(1600\text{MT/s} \div 8 = 200\text{MHz}\)</span></li>
+<li>DDR3 对应的数据总线宽度为 64 位（8 字节），由此可计算内存带宽</li>
+</ul>
+</details>
+<h3 id="dram_4">DRAM 主存读/写正确性校验</h3>
+<p>实际场景中（尤其是服务器），为提高数据读写的正确性与可靠性，引入附加位作为纠错码。</p>
+<h2 id="_16">只读存储器和闪存</h2>
+<h3 id="_17">特点</h3>
+<ul>
+<li>只能读出，不能写入</li>
+<li>不易失</li>
+<li>只读存储器写入数据的过程称为对其<strong>编程</strong></li>
+</ul>
+<h3 id="_18">分类</h3>
+<dl>
+<dt>掩模式只读存储器 MASK ROM</dt>
+<dd>不能进行重写</dd>
+<dt>一次可编程只读存储器 PROM</dt>
+<dd>双极型 PROM 包括熔丝烧断型和 PN 结击穿型</dd>
+<dt>多次可编程只读存储器</dt>
+<dd>
+<p>包括以下几类：</p>
+<ul>
+<li><strong>光擦除 EPROM</strong>：利用雪崩注入，擦除是对<strong>所有</strong>存储单元进行，不能实现选择性擦除</li>
+<li><strong>电擦除 EEPROM / E²PROM</strong></li>
+<li><strong>电改写 EAROM</strong></li>
+</ul>
+</dd>
+<dt>闪存 Flash Memory</dt>
+<dd>
+<p>分为 NAND 闪存和 NOR 闪存两种类型</p>
+<dl>
+<dt>NAND 闪存</dt>
+<dd>
+<p>只允许顺序<strong>按页（Page）存取</strong>数据</p>
+<p><figure markdown="span">
+  <img alt="NAND 闪存" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165354003.png" width="70%" />
+</figure></p>
+<ul>
+<li>优点：按页写入和读出擦除，写入和擦除速度快</li>
+<li>缺点：随机访问困难，无法只写单字节</li>
+</ul>
+</dd>
+<dt>NOR 闪存</dt>
+<dd>
+<p>具有完整地址/数据结构，能快速随机地读取任一单元</p>
+<ul>
+<li>优点：随机访问，读出快；能只写单字节</li>
+<li>缺点：写入和擦除速度慢</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+<figure>
+  <img alt="NAND vs NOR" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165408213.png" width="70%" />
+</figure>
+<details class="important" open="open">
+<summary>为什么计算机必须有 ROM？</summary>
+<p>任何计算机必须有经过编程的 ROM（称为 <strong>BIOS</strong>，它保存着计算机最重要的基本输入输出的程序、开机后自检程序和系统自启动程序），用于计算机程序的初始装入。如果都是 RAM，那么计算机初始状态下根本不存在程序和数据。</p>
+</details>
+<h2 id="_19">并行存储器</h2>
+<h3 id="dpram">双端口存储器 DPRAM</h3>
+<h4 id="_20">基本结构</h4>
+<figure>
+  <img alt="双端口存储器基本结构" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165416606.png" width="70%" />
+</figure>
+<h4 id="idt7133">实例：IDT7133</h4>
+<figure>
+  <img alt="IDT7133 双端口存储器" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165423845.png" width="70%" />
+</figure>
+<details class="note" open="open">
+<summary>Busy Flag 仲裁机制</summary>
+<p>Busy Flag 用于控制能否访问，防止左右端口同时访问同一个地址造成冲突。Busy = 0 表示不能访问。</p>
+<p><figure markdown="span">
+  <img alt="Busy Flag 仲裁方式" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165433946.png" width="70%" />
+</figure></p>
+</details>
+<h3 id="_21">多模块交叉存储器</h3>
+<p>存储器按模块化组织，多个模块组成的主存储器线性编址，但各模块内的地址安排分为 2 种方式：</p>
+<h4 id="_22">顺序方式</h4>
+<figure>
+  <img alt="顺序方式编址" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165436168.png" width="70%" />
+</figure>
+<ul>
+<li>地址寄存器高 2 位用于选择模块，低 3 位用于选择模块中的字</li>
+<li>只能串行访问各模块，带宽受到限制</li>
+<li>一个模块故障不影响其他模块</li>
+</ul>
+<h4 id="_23">交叉方式</h4>
+<figure>
+  <img alt="交叉方式编址" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165441281.png" width="70%" />
+</figure>
+<ul>
+<li>与顺序方式的区别是，地址寄存器高 3 位用来选择字，低 2 位用来选择模块</li>
+<li>连续地址分布在相邻的不同模块内，同一个模块内的地址不连续</li>
+<li>对连续字的成块传送可以实现多模块流水式并行存取，提升带宽</li>
+</ul>
+<h4 id="_24">多模块交叉存储器的特点</h4>
+<figure>
+  <img alt="多模块交叉存取时序" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165446878.png" width="70%" />
+</figure>
+<ol>
+<li>
+<p>对单独一个模块来说，CPU 访存到读出信息的存取周期为 <span class="arithmatex">\(T\)</span>；但 CPU 可以连续访问多个模块，读写过程几乎重叠，只需要等待<strong>总线传送周期</strong> <span class="arithmatex">\(\tau\)</span></p>
+</li>
+<li>
+<p>若模块字长 = 数据总线宽度，存储器的交叉模块数为 <span class="arithmatex">\(m\)</span>，则：</p>
+<p><strong>交叉存取度</strong>：</p>
+<div class="arithmatex">\[m = \frac{T}{\tau}\]</div>
+<p>连续读出 <span class="arithmatex">\(m\)</span> 个字的用时：</p>
+<div class="arithmatex">\[t_1 = T + (m - 1)\tau\]</div>
+<p>而对于顺序方式存储器：</p>
+<div class="arithmatex">\[t_2 = mT\]</div>
+</li>
+</ol>
+<h4 id="_25">举例：二模块交叉存储器</h4>
+<figure>
+  <img alt="二模块交叉存储器实例" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165451023.png" width="70%" />
+</figure>
+<ul>
+<li>共有 8 个 2 MB 的存储体，地址寄存器高 3 位用于选择存储体</li>
+<li>1 个存储体由 2 个模块组成，每个容量为 1 MB（<span class="arithmatex">\(256\text{K} \times 32\)</span> 位），由 8 片 DRAM 芯片组成</li>
+<li>1 个模块内有 256K 个字，所以用 18 位（分为行列地址各 9 条）选择模块内字地址</li>
+<li>A2 用于模块选择，偶地址在模块 0，奇地址在模块 1</li>
+<li>低 4 位字节允许，用于确定读 8 位还是 16 位</li>
+<li>在存储器进行读操作时，读出数据后需要进行回写再生数据。对于单个模块需要等待刷新完成，但对于交叉方式，下一个连续地址可以从另一个模块直接读出，访问和刷新不存在冲突，只需等待总线传输时间</li>
+</ul>
+<h2 id="cache">Cache 存储器</h2>
+<h3 id="_26">局部性原理</h3>
+<p>程序倾向于一次又一次地访问相同或邻近的数据项集合。</p>
+<dl>
+<dt>时间局部性</dt>
+<dd>被引用过一次的内存位置在不久之后可能被多次引用</dd>
+<dt>空间局部性</dt>
+<dd>被引用过一次的内存位置在近期可能引用其附近的位置</dd>
+</dl>
+<h3 id="cache_1">Cache 概述</h3>
+<p>Cache 是一个小而快的存储器，作为大而慢的存储器的缓冲区域：</p>
+<ul>
+<li>由高速 <strong>SRAM</strong> 组成</li>
+<li>利用局部性原理，可以在 Cache 中完成大多数访问</li>
+<li>全部由<strong>硬件</strong>调度，对用户透明（不可见）</li>
+</ul>
+<details class="note" open="open">
+<summary>Cache 为什么不能用软件来调度？</summary>
+<p>Cache 如果用软件来做，软件本身还涉及从内存中取指和执行，速度更慢了，反而失去了 Cache 的意义。</p>
+</details>
+<h3 id="_27">三级存储系统</h3>
+<figure>
+  <img alt="三级存储系统1" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165504702.png" width="70%" />
+</figure>
+<figure>
+  <img alt="三级存储系统2" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165511484.png" width="70%" />
+</figure>
+<details class="note" open="open">
+<summary>多级 Cache</summary>
+<p>如果 CPU 和主存速度差距较大，常采用多级 Cache 系统，解决主存速度慢的问题。</p>
+</details>
+<h3 id="cache_2">Cache 基本工作原理</h3>
+<dl>
+<dt>Cache 命中（Cache Hit）</dt>
+<dd>程序直接在 Cache 中找到所需的块</dd>
+<dt>Cache 缺失（Cache Miss）</dt>
+<dd>程序在 Cache 中未找到所需的块，Cache 需要从下一层取该块</dd>
+</dl>
+<p>Cache 缺失分为以下几种类型：</p>
+<dl>
+<dt>冷启缺失 / 义务缺失 Cold Miss</dt>
+<dd>Cache 为空，开机时必然存在</dd>
+<dt>冲突缺失 Conflict Miss</dt>
+<dd>下层的多个数据块映射到该层 Cache 的同一位置</dd>
+<dt>容量缺失 Capacity Miss</dt>
+<dd>活动的 Cache 块数 &gt; Cache 容量</dd>
+</dl>
+<figure>
+  <img alt="Cache 工作原理" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165515208.png" width="70%" />
+</figure>
+<details class="info" open="open">
+<summary>CAM（内容可寻址存储器）</summary>
+<p>CAM（Content Addressable Memory），即输入一个数据项，硬件将其与所有存储项进行快速匹配，给出数据项的匹配信息（即地址）。同时也支持按地址进行读写操作。</p>
+</details>
+<p>Cache 的控制部件需要实现：</p>
+<ul>
+<li><strong>地址变换</strong>：主存与 Cache 地址间的映射</li>
+<li><strong>替换算法</strong>：Cache Miss 时替换 Cache 中的内容</li>
+<li><strong>更新算法</strong>：保持主存与 Cache 内容的一致性</li>
+</ul>
+<h3 id="cache_3">主存和 Cache 的分块</h3>
+<p>两者的块大小需要相同，但块数显然主存 &gt;&gt; Cache。例如：</p>
+<figure>
+  <img alt="主存和 Cache 分块" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165519108.png" width="70%" />
+</figure>
+<p>主存地址共 <span class="arithmatex">\(n\)</span> 位 = 块号（<span class="arithmatex">\(m\)</span> 位） + 块内地址（<span class="arithmatex">\(b\)</span> 位）</p>
+<p>Cache 地址共 <span class="arithmatex">\(l\)</span> 位 = 块号（<span class="arithmatex">\(c\)</span> 位） + 块内地址（<span class="arithmatex">\(b\)</span> 位）</p>
+<h3 id="cache_4">Cache 的结构</h3>
+<figure>
+  <img alt="Cache 结构" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165521949.png" width="70%" />
+</figure>
+<h3 id="cache_5">主存与 Cache 的地址映射</h3>
+<h4 id="_28">全相联映射</h4>
+<p>主存中的块能装入 Cache 中的任意位置，一个主存中的块和所有 Cache 中的块均构成映射。</p>
+<figure>
+  <img alt="全相联映射" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165526514.png" width="70%" />
+</figure>
+<p>主存地址格式：</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>+--------------------+--------------------+
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>|       Tag (高位)   |   Block Offset     |
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>+--------------------+--------------------+
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>      ↑                  ↑
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>  匹配标记区          定位块内字节
+</span></code></pre></div></td></tr></table></div>
+<p>匹配过程：</p>
+<ol>
+<li>从 CPU 中的某地址读出 1 个字</li>
+<li>将其拆分为 Tag 和 Block Offset 两部分</li>
+<li>将 Tag 与 Cache 中所有块的 Tag <strong>同时</strong>进行比较</li>
+<li>命中 → 返回块内偏移字节</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">全相联映射的特点</p>
+<ul>
+<li><strong>优点</strong>：冲突概率低，空间利用率高，命中率高</li>
+<li><strong>缺点</strong>：逐行比较速度慢；需要 CAM</li>
+</ul>
+</div>
+<h4 id="_29">直接映射</h4>
+<p>多个主存单元对应一个 Cache 块，一个主存块只能复制到 Cache 的一个特定行上。即 <span class="arithmatex">\(m\)</span> 行 Cache 的行号 <span class="arithmatex">\(i\)</span> 和主存的块号 <span class="arithmatex">\(j\)</span> 有如下函数关系：</p>
+<div class="arithmatex">\[j \% m = i\]</div>
+<p>显然，这种方式容易产生冲突缺失。</p>
+<p>主存地址结构分为 3 部分：</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span>
+<span class="normal"><a href="#__codelineno-1-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>+-----------+--------------+------------------+
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>|   Tag     |  Line Index  | Block Offset 偏移 |
+</span><span id="__span-1-3"><a id="__codelineno-1-3" name="__codelineno-1-3"></a>+-----------+--------------+------------------+
+</span></code></pre></div></td></tr></table></div>
+<ul>
+<li>Block Offset 部分不变，由块大小决定</li>
+<li>Line Index，即行号，如果有 <span class="arithmatex">\(R\)</span> 位，则分别对应 Cache 块内的 <span class="arithmatex">\(0 \sim 2^{R} - 1\)</span> 行</li>
+<li>Tag，同样作为标签进行匹配，位数 = 主存地址长度 - 前两者的位数</li>
+</ul>
+<div class="admonition abstract">
+<p class="admonition-title">直接映射的特点</p>
+<ul>
+<li><strong>优点</strong>：不需要 CAM（一对一映射），简单快速</li>
+<li><strong>缺点</strong>：块冲突概率最高，空间利用率最低</li>
+</ul>
+</div>
+<h4 id="v">v 路组相联映射</h4>
+<p>组相联可以说是前两种的组合。它将 Cache 分为 <span class="arithmatex">\(u\)</span> 组，每组 <span class="arithmatex">\(v\)</span> 行，主存块 <span class="arithmatex">\(j\)</span> 放到哪一组中是固定的，即组号 <span class="arithmatex">\(q\)</span> 满足 <span class="arithmatex">\(j \% u = q\)</span>；但主存块在组内的具体哪行并不固定，需要根据 Tag 逐个进行匹配（类似全相联映射），不过每组的行数并不多。</p>
+<p>主存地址格式：</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1">1</a></span>
+<span class="normal"><a href="#__codelineno-2-2">2</a></span>
+<span class="normal"><a href="#__codelineno-2-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>+-----------+--------------+------------------+
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>|   Tag     |   Set Index  | Block Offset 偏移 |
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>+-----------+--------------+------------------+
+</span></code></pre></div></td></tr></table></div>
+<p>计算地址位数时，先得到 Block Offset 的位数，然后根据块大小计算出需要多少块，再根据 Cache 容量计算出 Cache 的总行数。<span class="arithmatex">\(v\)</span> 路组相联即说明每组有 <span class="arithmatex">\(v\)</span> 行，由此算出组数，得到 Set Index 的位数，最后得到 Tag 的位数。</p>
+<p>匹配过程：</p>
+<ol>
+<li>根据 Set Index 选择组</li>
+<li>根据 Tag 匹配组内标签（需要 <span class="arithmatex">\(v\)</span> 个比较器）</li>
+<li>命中 → 返回块内偏移字节</li>
+</ol>
+<div class="admonition abstract">
+<p class="admonition-title">v 路组相联映射的特点</p>
+<ul>
+<li><strong>性能</strong>介于全相联映射和直接映射之间</li>
+<li>需要 CAM / <span class="arithmatex">\(v\)</span> 个比较器</li>
+</ul>
+</div>
+<h3 id="cache_6">Cache 块替换策略</h3>
+<dl>
+<dt>随机替换法 RAND</dt>
+<dd>随机选择一块替换</dd>
+<dt>先进先出 FIFO</dt>
+<dd>First-In First-Out，替换最早进入 Cache 的块</dd>
+<dt>最少使用 LFU</dt>
+<dd>Least Frequently Used，将最近一段时间内访问次数最少的块替换出。需要对每个 Cache 块设定访问计数器。</dd>
+<dt>最久未使用 LRU</dt>
+<dd>Least Recently Used，将近期内最长时间未被访问过的数据块换出。需要对每个 Cache 块设定计时器，一旦被访问，计时器清 0。</dd>
+</dl>
+<details class="note" open="open">
+<summary>符合局部性原理的替换策略</summary>
+<p>前两种（RAND、FIFO）并不符合局部性原理，而后两种（LFU、LRU）满足局部性原理，因此在实际中更常使用。</p>
+</details>
+<h3 id="cache_7">Cache 写操作</h3>
+<h4 id="write-hit">写命中（Write Hit）</h4>
+<dl>
+<dt>写穿透 Write Through</dt>
+<dd>写操作同时更新 Cache 和低一级存储器，保持一致性，但会占用总线带宽</dd>
+<dt>写回 Write Back</dt>
+<dd>只写入 Cache，当出现 Cache 缺失需要将该 Cache 块替换出时，才将 Cache 数据写回存储器。需额外维护一个修改标记位（Dirty，脏位）。</dd>
+</dl>
+<h4 id="write-miss">写缺失（Write Miss）</h4>
+<dl>
+<dt>写分配 Write-Allocate</dt>
+<dd>先加载低一层的块到 Cache 中，然后再更新 Cache</dd>
+<dt>非写分配 Non-Write-Allocate</dt>
+<dd>直接写入低一层，不加载到 Cache 中</dd>
+</dl>
+<details class="note" open="open">
+<summary>两种典型搭配</summary>
+<ul>
+<li><strong>Write-Through + Non-Write-Allocate</strong>：都是往下写，简单易实现，适用于不常写的数据</li>
+<li><strong>Write Back + Write-Allocate</strong>：只对当前层进行修改，性能高，适合频繁写操作</li>
+</ul>
+</details>
+<h3 id="cache_8">Cache 性能指标</h3>
+<dl>
+<dt>命中率 <span class="arithmatex">\(h\)</span></dt>
+<dd>
+<p>设 <span class="arithmatex">\(N_c\)</span> 为在 Cache 中完成存取的总次数，<span class="arithmatex">\(N_m\)</span> 为在主存中完成存取的总次数：</p>
+<div class="arithmatex">\[h = \frac{N_c}{N_c + N_m}\]</div>
+</dd>
+<dt>平均访问时间 <span class="arithmatex">\(t_a\)</span></dt>
+<dd>
+<p>设 <span class="arithmatex">\(t_c\)</span> 为命中 Cache 时的访问时间，<span class="arithmatex">\(t_m\)</span> 为未命中时在主存中的访问时间：</p>
+<div class="arithmatex">\[t_a = ht_c + (1 - h)t_m\]</div>
+</dd>
+</dl>
+<p>访问效率 <span class="arithmatex">\(e\)</span></p>
+<div class="arithmatex">\[e = \frac{t_c}{t_a} = \frac{t_c}{ht_c + (1-h)t_m} = \frac{1}{h + (1 - h)\frac{t_m}{t_c}}\]</div>
+<dl>
+<dt>缺失率</dt>
+<dd><span class="arithmatex">\(1 - h\)</span></dd>
+<dt>命中时间 Hit Time</dt>
+<dd>从 Cache 传送一个字到 CPU 的时间</dd>
+</dl>
+<h2 id="_30">虚拟存储器</h2>
+<h3 id="_31">概述</h3>
+<p>进程共享 CPU 和主存资源带来的问题是，程序所需的存储空间随进程的增加将远超过主存空间。为解决这一问题，在主存之上又"抽象"出一层内存空间——虚存，来更好地管理内存空间。</p>
+<p>虚拟存储器是一个容量非常大的存储器的逻辑模型，其为用户提供了一个比实际主存空间大得多的程序地址空间，并对用户是透明的（不可见的）。</p>
+<p>虚拟存储器被组织为一个存放在<strong>磁盘</strong>上的连续地址单元的数组：</p>
+<figure>
+  <img alt="虚拟存储器概念" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165530760.png" width="70%" />
+</figure>
+<h3 id="-">主存 - 外存层次</h3>
+<p>虚拟存储器事实上就是把主存和外存统一为抽象的虚拟内存，与 Cache - 主存层次类似，都需要进行地址变换，将虚拟地址和物理地址进行映射。</p>
+<details class="note" open="open">
+<summary>虚存 vs. Cache</summary>
+<ul>
+<li>虚存主要用来解决<strong>存储容量</strong>问题，而 Cache 主要解决的是<strong>存储速度</strong>问题</li>
+<li>均利用了程序的局部性原理</li>
+<li>Cache 管理由<strong>硬件</strong>完成，而虚存的管理由<strong>软件（操作系统）和硬件</strong>共同完成</li>
+</ul>
+</details>
+<h3 id="_32">存储管理方式</h3>
+<h4 id="_33">段式存储管理</h4>
+<p>利用程序的模块化特性，将一个程序划分为多个段进行存储。需要使用段表进行查询，段表包括段名称、段起点、段长度，以及是否装入内存的标记等。</p>
+<figure>
+  <img alt="段式存储管理" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165533197.png" width="70%" />
+</figure>
+<p>段式存储管理的地址变换过程：</p>
+<figure>
+  <img alt="段式地址变换" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165535525.png" width="70%" />
+</figure>
+<div class="admonition abstract">
+<p class="admonition-title">段式存储管理的优缺点</p>
+<ul>
+<li><strong>优点</strong>：有利于按段实现信息共享和内存保护</li>
+<li><strong>缺点</strong>：容易导致主存中的碎片问题，由于各段长度不等，出现不好用的碎块</li>
+</ul>
+</div>
+<h4 id="_34">页式存储管理</h4>
+<p>段式存储管理由于段的长度不同会产生碎片问题。页式存储管理通过将虚存和主存空间均分为大小相同的页，以页为单位进行信息交换。</p>
+<p>其中，虚拟地址分为虚拟页号 VPN 和页内地址 VPO，物理地址分为物理页号 PPN 和页内地址 PPO，其中页号不同，页内地址一致。</p>
+<figure>
+  <img alt="页式存储管理1" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165538390.png" width="70%" />
+</figure>
+<figure>
+  <img alt="页式存储管理2" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165541206.png" width="70%" />
+</figure>
+<figure>
+  <img alt="页式存储管理3" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165546539.png" width="70%" />
+</figure>
+<div class="admonition abstract">
+<p class="admonition-title">页式存储管理的优缺点</p>
+<ul>
+<li><strong>优点</strong>：页面大小固定，页表简单，调入方便</li>
+<li><strong>缺点</strong>：处理、保护、共享不如段式方便</li>
+</ul>
+</div>
+<h4 id="tlb">TLB 快表</h4>
+<p>普通的页式存储管理有一定问题：先要访问主存查询页表，然后还要访问一次主存取出页内容，需要 2 次访存。所以引入快表 TLB（Translation Lookaside Buffer），查表时同时访问快表和页表，如果命中快表，则直接根据对应的物理页号取出内容。</p>
+<figure>
+  <img alt="TLB 快表" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165553953.png" width="70%" />
+</figure>
+<h5 id="v-tlb">v 路组相联 TLB 访问</h5>
+<figure>
+  <img alt="v 路组相联 TLB" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165556190.png" width="70%" />
+</figure>
+<p>在页号字段继续划分出页标签 Tag 字段和组索引 Index 字段，和主存 - Cache 中的 v 路组相联类似。</p>
+<details class="question" open="open">
+<summary>为什么"TLB 命中 + 页表缺失"不可能？</summary>
+<ul>
+<li>TLB 是页表的<strong>缓存</strong></li>
+<li>TLB 中的信息<strong>必须来自页表</strong></li>
+<li>如果页表中都没有该项（或页不在内存），TLB 根本不可能提前装到该项</li>
+</ul>
+</details>
+<details class="question" open="open">
+<summary>为什么"Cache 命中 + 页表缺失"不可能？</summary>
+<ul>
+<li>Cache 使用的是<strong>物理地址访问</strong></li>
+<li>若页表都还没得到物理地址，<strong>根本没法查 Cache</strong></li>
+</ul>
+</details>
+<h4 id="_35">多级页表</h4>
+<p>对于页数很多的情况（e.g. 4 KB 页大小，48 位虚拟地址，每个页表项 8 Bytes 的系统），共有 <span class="arithmatex">\(2^{48} \div 2^{12} = 2^{36}\)</span> 个页，页表空间 = <span class="arithmatex">\(2^{39} = 512\text{GB}\)</span>，但页表需要放在主存中，显然不可能有这么大的主存，故需要引入多级页表。</p>
+<h5 id="_36">二级页表</h5>
+<figure>
+  <img alt="二级页表" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165558796.png" width="70%" />
+</figure>
+<ul>
+<li>一级页表：放在主存中，每个页表项指向二级页表</li>
+<li>二级页表：每个页表项指向一个页。如果二级页表指向的页均未被分配，则无需创建该二级页表，将其对应的一级页表设置为 NULL 即可</li>
+</ul>
+<h5 id="k">k 级页表的地址翻译</h5>
+<figure>
+  <img alt="k 级页表地址翻译" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165604293.png" width="70%" />
+</figure>
+<h4 id="_37">页面替换算法</h4>
+<p>当 CPU 所需的数据或指令不在主存时，即页并未被调入主存中，此时会产生<strong>缺页（Page Fault）</strong>异常（中断），需要通过对应的缺页处理程序从外存（磁盘）调入页面。如果主存的页面已经全部占满，则需要使用算法进行页面替换。</p>
+<details class="note" open="open">
+<summary>缺页 vs. Cache 缺失</summary>
+<ul>
+<li>缺页至少涉及一次磁盘的存取，损失比 Cache 未命中大得多</li>
+<li>页面替换是由操作系统<strong>软件</strong>实现的</li>
+</ul>
+</details>
+<p>常用的页面替换算法包括：LRU、LFU、FIFO</p>
+<p>写回操作：</p>
+<ul>
+<li>如果页被调入主存后被修改了，则需要重新写入外存，保持主存和外存的数据一致性</li>
+<li>在页表中设置 1 位<strong>修改位</strong>，用于标识该页是否被修改</li>
+</ul>
+<h4 id="_38">段页式虚拟存储器</h4>
+<p>段页式存储器是段式和页式的结合体：</p>
+<ul>
+<li>程序先按逻辑进行分段，然后把每段分成固定大小的页</li>
+<li>操作系统对主存的调入和调出是按页进行的，但又可以按段实现共享和保护</li>
+<li>需要多次查表（段表 + 页表），开销大</li>
+</ul>
+<figure>
+  <img alt="段页式存储管理" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101165606758.png" width="70%" />
+</figure>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../arithmetic-unit/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 运算方法与运算器">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                运算方法与运算器
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../instruction-system/" class="md-footer__link md-footer__link--next" aria-label="下一页: 指令系统">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                指令系统
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 - 2026 Yokumi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Yokumii" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://blog.yokumi.cn" target="_blank" rel="noopener" title="blog.yokumi.cn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M224 24c0-13.3 10.7-24 24-24 145.8 0 264 118.2 264 264 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-119.3-96.7-216-216-216-13.3 0-24-10.7-24-24M80 96c26.5 0 48 21.5 48 48v224c0 26.5 21.5 48 48 48s48-21.5 48-48-21.5-48-48-48c-8.8 0-16-7.2-16-16v-64c0-8.8 7.2-16 16-16 79.5 0 144 64.5 144 144s-64.5 144-144 144S32 447.5 32 368V144c0-26.5 21.5-48 48-48m168 0c92.8 0 168 75.2 168 168 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-66.3-53.7-120-120-120-13.3 0-24-10.7-24-24s10.7-24 24-24"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:yokumi0704@gmail.com" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M536.4-26.3c9.8-3.5 20.6-1 28 6.3s9.8 18.2 6.3 28l-178 496.9c-5 13.9-18.1 23.1-32.8 23.1-14.2 0-27-8.6-32.3-21.7l-64.2-158c-4.5-11-2.5-23.6 5.2-32.6l94.5-112.4c5.1-6.1 4.7-15-.9-20.6s-14.6-6-20.6-.9l-112.4 94.3c-9.1 7.6-21.6 9.6-32.6 5.2L38.1 216.8c-13.1-5.3-21.7-18.1-21.7-32.3 0-14.7 9.2-27.8 23.1-32.8z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest", "search.highlight", "search.share", "header.autohide", "navigation.footer", "content.footnote.tooltips", "content.code.copy", "content.code.select", "content.code.annotate", "content.action.edit", "content.action.view", "content.tooltips"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../../assets/javascripts/katex.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

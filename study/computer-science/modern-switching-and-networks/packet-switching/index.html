@@ -1,0 +1,2334 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Yokumi's Course Notes in Beijing University of Posts and Telecommunications">
+      
+      
+        <meta name="author" content="Yokumi">
+      
+      
+        <link rel="canonical" href="https://buptwiki.yokumi.cn/study/computer-science/modern-switching-and-networks/packet-switching/">
+      
+      
+        <link rel="prev" href="../switching-network/">
+      
+      
+        <link rel="next" href="../session-initiation-protocol/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>分组交换 - Yokumi's BUPT Course Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Serif SC";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../../.." title="Yokumi&#39;s BUPT Course Notes" class="md-header__button md-logo" aria-label="Yokumi's BUPT Course Notes" data-md-component="logo">
+      
+  <img src="https://webp-pic.yokumi.cn/2026/09/20260923163304050.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Yokumi's BUPT Course Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              分组交换
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="cyan"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Yokumii/BUPTnotes" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yokumii/BUPTnotes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Yokumi&#39;s BUPT Course Notes" class="md-nav__button md-logo" aria-label="Yokumi's BUPT Course Notes" data-md-component="logo">
+      
+  <img src="https://webp-pic.yokumi.cn/2026/09/20260923163304050.png" alt="logo">
+
+    </a>
+    Yokumi's BUPT Course Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Yokumii/BUPTnotes" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yokumii/BUPTnotes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../introduction-to-computing-and-programming/c-programming/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算导论与程序设计
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../discrete-math/dm-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    离散数学
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../data-structures/ds-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../digital-logic-and-digital-systems/verilog-programming/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数字逻辑与数字系统
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-organization/co-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机组成原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../csapp/csapp-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    深入理解计算机系统(CSAPP)
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-network/cn-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机网络
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../formal-languages-and-automata/fla-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    形式语言与自动机
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../compiler-principle-and-technology/compiler-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编译原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../operating-system/os-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    操作系统
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../database-system-concepts/db-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据库系统概念
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../design-and-analysis-of-algorithms/complexity-analysis/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    算法设计与分析
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    现代交换原理
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    现代交换原理
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    交换概论
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../switching-network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    交换网络
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分组交换
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分组交换
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        路由器的技术演进
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mpls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MPLS 基本概念及网络组成
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MPLS 基本概念及网络组成">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心特点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ler-lsr-fec-lib-lsp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心概念（LER, LSR, FEC, LIB, LSP）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mpls_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MPLS 交换原理
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sr-mpls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        段路由技术 SR-MPLS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="段路由技术 SR-MPLS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SR 基本概念与解决的问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sr-mpls_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SR-MPLS 原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sr_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SR 数据包转发流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srv6-ipv6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SRv6 原理与 IPv6 扩展报文头的关系
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srv6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SRv6 数据包转发流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网络切片技术
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apn6-ipv6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        APN6（应用感知的 IPv6 网络）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="APN6（应用感知的 IPv6 网络）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apn6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        APN6 基本概念
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        应用感知信息
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apn6_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        APN6 解决方案（主机侧、网络侧）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../session-initiation-protocol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SIP 信令
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mobile-switching-system/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    移动交换系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software-defined-networking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDN 软件定义网络
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../solution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    习题
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-architecture/basics/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机系统结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        路由器的技术演进
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mpls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MPLS 基本概念及网络组成
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="MPLS 基本概念及网络组成">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心特点
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ler-lsr-fec-lib-lsp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        核心概念（LER, LSR, FEC, LIB, LSP）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#mpls_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MPLS 交换原理
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#sr-mpls" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        段路由技术 SR-MPLS
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="段路由技术 SR-MPLS">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#sr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SR 基本概念与解决的问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sr-mpls_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SR-MPLS 原理
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sr_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SR 数据包转发流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srv6-ipv6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SRv6 原理与 IPv6 扩展报文头的关系
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#srv6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SRv6 数据包转发流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网络切片技术
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#apn6-ipv6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        APN6（应用感知的 IPv6 网络）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="APN6（应用感知的 IPv6 网络）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#apn6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        APN6 基本概念
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        应用感知信息
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#apn6_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        APN6 解决方案（主机侧、网络侧）
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../introduction/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    现代交换原理
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Yokumii/BUPTnotes/edit/main/docs/study/computer-science/modern-switching-and-networks/packet-switching.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Yokumii/BUPTnotes/raw/main/docs/study/computer-science/modern-switching-and-networks/packet-switching.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="_1">分组交换</h1>
+<h2 id="_2">路由器的技术演进</h2>
+<p>从早期的“集中处理、共享总线”（吞吐率受限），演进到现代高端路由器采用的“<strong>分布式处理、交换矩阵（如CLOS结构）</strong>”，实现了控制面与数据转发面的分离。</p>
+<h2 id="mpls">MPLS 基本概念及网络组成</h2>
+<h3 id="_3">核心特点</h3>
+<ul>
+<li><strong>面向连接（逻辑连接）</strong>：将传统IP逐跳选路的无连接模式，转变为先建立逻辑连接（标记交换路径LSP），再按指定路径转发</li>
+<li><strong>支持多协议</strong>：它不仅能支持多种上层网络协议（如IPv4、IPv6等），而且能运行于不同的底层网络之上（如以太网、ATM、FR、PPP等），实现了“<u><strong>边缘路由，核心交换</strong></u>（边缘路由保持与现有协议兼容，增强核心网络交换速度。）”</li>
+<li><strong>标记交换</strong>：使用固定长度的标记进行精确匹配转发，速度快<ul>
+<li>标记（Label）：一个用于标识一条逻辑连接（FEC）的短定长本地标识符，PDU（分组）允许变长，但标记长度固定。</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">传统 IP 交换 vs MPLS 标签交换</p>
+<ul>
+<li>传统 IP 交换：<ul>
+<li>寻址方式：采用<strong>最长前缀匹配（Longest Match）</strong>算法。</li>
+<li>处理层级：工作在第三层（网络层），每个路由器都要拆开 IP 包头、查找路由表、计算下一跳，判决过程复杂、速度慢。</li>
+<li>控制与转发：路由选择和数据转发同时进行（Hop-by-hop，逐跳执行）。</li>
+</ul>
+</li>
+<li>MPLS 交换（多协议标记交换）：<ul>
+<li>寻址方式：采用<strong>精确匹配（Exact Match）</strong>算法。</li>
+<li>处理层级：在核心网内工作在第二层和第三层之间。只看固定长度的标签（Label），速度极快，便于保障 QoS。  </li>
+<li>控制与转发：控制面（由 IP 路由软件和标签分发协议 LDP 负责算路/分发标签）与转发面（标签置换转发表 LFIB 硬件线速转发）彻底分离。</li>
+</ul>
+</li>
+</ul>
+<p>传统IP交换采用逐跳转发，路由选择与数据转发同时进行，其核心交换机制是<strong>无连接</strong>工作模式。</p>
+<p>MPLS将路由选择与数据转发分开进行，在信息传输之前需要建立虚连接，其核心交换机制是<strong>面向连接</strong>的工作模式。</p>
+</div>
+<h3 id="ler-lsr-fec-lib-lsp">核心概念（LER, LSR, FEC, LIB, LSP）</h3>
+<ul>
+<li><strong>LER (Label Edge Router)</strong>：边缘路由器，位于MPLS网络边缘。负责对进入的分组进行分类（划分FEC）、压入标记（Push），并在出网时弹出标记（Pop），执行传统IP路由功能。</li>
+<li><strong>LSR (Label Switch Router)</strong>：核心交换路由器。仅根据分组上的标记查表进行标记置换（Swap/Replace）和极速转发，不再进行第三层处理。</li>
+<li><strong>FEC (Forwarding Equivalence Class)</strong>：转发等价类。具有相同转发路径和处理方式的一组数据流，同一FEC分配相同的标记。</li>
+<li><strong>LIB (Label Information Base)</strong>：标记信息库。保存转发打标分组所需的映射表。<ul>
+<li>LFIB内部表项：转发表中具体包含NHLFE（下一跳标签转发表目）、ILM（输入标签映射，即入标签到NHLFE的映射）和FTN（FEC到NHLFE的映射）。</li>
+</ul>
+</li>
+<li><strong>LSP (Label Switched Path)</strong>：标记交换路径。数据在MPLS网络中经过的由多个LSR构成的逻辑传输通路。</li>
+</ul>
+<h2 id="mpls_1">MPLS 交换原理</h2>
+<p>三个阶段：</p>
+<ol>
+<li><strong>连接建立</strong>：通过LDP等协议，在节点间分发标记，形成与FEC对应的LSP路径。</li>
+<li><strong>信息交换</strong>（数据传输）：入口LER判定分组FEC并打上标记；核心LSR根据标记极速转发；出口LER去掉标记送达目的地。</li>
+<li><strong>连接拆除</strong>：取消标记绑定，释放LSP。</li>
+</ol>
+<p>标记操作：</p>
+<ul>
+<li><strong>压入（Push）</strong>：入口LER将IP分组加上外层标记。</li>
+<li><strong>置换（Swap/Replace）</strong>：中转LSR查表将入标记替换为下一跳的出标记。</li>
+<li><strong>弹出（Pop）</strong>：出口LER去掉标记，恢复成普通IP报文。</li>
+</ul>
+<p>标记分配方式：</p>
+<ul>
+<li>核心金律：标记（Label）是由下游分配给上游的！</li>
+<li><strong>下游主动标记分配（DU模式）</strong>：下游路由器发现新网段后，主动向邻居上游通告“去往某 FEC，请用我分配的标签 X”。</li>
+<li><strong>下游按需标记分配（DoD模式）</strong>：<ul>
+<li>上游先发送 <code>Label Request</code>（我有去往该 FEC 的需求，向你请求标签）</li>
+<li>下游收到后回复 <code>Label Mapping</code>（给你绑定好的标签）</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">LDP 的功能是什么？</p>
+<p>LDP（Label Distribution Protocol）标记分发协议是 MPLS 网络交换节点间交互的协议，用于<strong>创建、维护和删除标签交换路径（LSP）</strong>。</p>
+</div>
+<details class="info">
+<summary>例题 1</summary>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260626002708630.png" width="70%" /> </figure></p>
+</details>
+<details class="info">
+<summary>例题 2</summary>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260626002838147.png" width="70%" /> </figure></p>
+<p>解答：</p>
+<p>(3) Label Request(123.117)
+(4) Label Request(123.117)
+(5) Label Mapping(123.117, 300)
+(6) Label Mapping(123.117, 200)
+(1) 200
+(2) 300</p>
+</details>
+<div class="admonition note">
+<p class="admonition-title">LFIB 表项填写逻辑总结</p>
+<ul>
+<li>一条完整的 LSP 上，前一跳的“出接口（<code>Out Intf</code>）和出标签（<code>Out Label</code>）”必须完美等于后一跳的“入接口（<code>In Intf</code>）和入标签（<code>In Label</code>）”。</li>
+<li>入口边缘路由器（Ingress LER）：<ul>
+<li>因为包刚进来，所以其 <code>In Label</code> 为 NULL，它需要做 Push 操作填写 <code>Out Label</code>。</li>
+</ul>
+</li>
+<li>出口边缘路由器（Egress LER）：<ul>
+<li>因为是最后一站，其 <code>Out Label</code> 变为 NULL，它做 Pop 操作还原成普通 IP。</li>
+</ul>
+</li>
+<li>填写方法：<ol>
+<li>先看发出的消息是 Label Mapping（直接通告）还是有 Label Request（一问一答），锁定分配方法。</li>
+<li>锁定目的 IP（FEC），沿着数据的反方向（下游向上游），把 Label Mapping 消息里带的数字，当作前一跳路由器的 Out Label 填进去 。  </li>
+</ol>
+</li>
+</ul>
+</div>
+<h2 id="sr-mpls">段路由技术 SR-MPLS</h2>
+<h3 id="sr">SR 基本概念与解决的问题</h3>
+<ul>
+<li>什么是<strong>源路由</strong>：源节点（发件人）在报文头部直接规定好数据包在网络中必须经过的中间节点和路径（即一段有序的指令列表），中间节点只需按指令执行即可。</li>
+<li><strong>“段(Segment)”与“路由”的关系</strong>：Segment是网络指令（去哪里、走哪个接口），路由是动作。多个Segment组成有序的Segment List，串联起来就构成了完整的转发路由。</li>
+<li><strong>解决了传统网络什么问题</strong>：传统 MPLS LDP 需要中间节点维护庞大的状态信息，容易产生标签黑洞，协议复杂且与IGP难以同步。SR 消除了 LDP，实现“<strong>中间节点无状态</strong>”，极大简化了协议栈，且原生支持TE（流量工程）。</li>
+<li><strong>SID (Segment ID)</strong>：段标识，是SR域内唯一标识一个Segment的ID<ul>
+<li>Prefix SID（前缀段/全局有效）：相当于目的地址，引导流量沿着 <strong>IGP 最短路径（SPF 算法计算出的开销最小路径）</strong> 转发去往该目的前缀</li>
+<li>Node SID（特殊的Prefix SID，标识特定节点）：特殊的 Prefix SID，专门针对设备的 Loopback 接口地址进行映射，引导流量沿最短路径去往该节点</li>
+<li>Adjacency SID（邻接段/本地有效，指定具体的出接口）：相当于出接口，强制指定数据包必须从该特定的外发链路转发出去，不理会 IGP 最短路径如何算路</li>
+</ul>
+</li>
+</ul>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260626101042783.png" width="70%" /> </figure>
+<h3 id="sr-mpls_1">SR-MPLS 原理</h3>
+<p>复用现网 MPLS 数据面。将 SID 映射为 MPLS 标记（Label），将 Segment List 直接编码为 MPLS 的标签栈（Label Stack）。源节点压入多层标签，中间节点执行 MPLS 的 Swap 和 Pop 操作。</p>
+<h3 id="sr_1">SR 数据包转发流程</h3>
+<ol>
+<li>发包与中间结点解析转发：<ul>
+<li>源节点将SID列表编码在数据包头部，然后将数据包发送出去；</li>
+<li>中间节点收到数据包后，解析出栈顶的SID，如果是本节点的SID，则执行Pop操作，弹出栈顶SID，并根据剩余的SID列表继续转发；如果不是，则退回到传统路由；</li>
+</ul>
+</li>
+<li>转发过程：<ul>
+<li>基于 Prefix SID 的转发（全局有效）
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260626101709148.png" width="70%" /> </figure></li>
+<li>基于 Adjacency SID 的转发路径（本地有效）
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260626101800303.png" width="70%" /> </figure><ul>
+<li>Adjacency SID 相当于是对当前节点邻接链路的标识，因此严格指定了转发路径；</li>
+<li>以上图为例，R1 收到栈顶为 1012 的数据包后，执行 Pop 操作，弹出栈顶的 1012，并将数据包从指定的接口（R1-R2）转发出去，而不能走 IGP 算出的最短路径；（R1-R3）。后面的路由器同理。</li>
+</ul>
+</li>
+<li>基于 Adjacency SID + Node SID 的转发路径
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260626101945374.png" width="70%" /> </figure></li>
+</ul>
+</li>
+</ol>
+<details class="info">
+<summary>例题 1</summary>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260630211147855.png" width="70%" /> </figure></p>
+</details>
+<h3 id="srv6-ipv6">SRv6 原理与 IPv6 扩展报文头的关系</h3>
+<ul>
+<li>SRv6 原理：<strong>SRv6 = SR + Native IPv6</strong>。直接利用IPv6地址（128 bits）作为SID。抛弃了MPLS标签，完全基于原生IPv6标准实现源路由</li>
+<li>与 IPv6 扩展报文头的关系：SRv6引入了一种新的IPv6扩展头——<strong>SRH</strong> (Segment Routing Header)。当IPv6基础头的Next Header=43且Routing Type=4时，即标识为SRH。SRH中承载了Segment List（沿途的SID列表）和Segments Left（剩余处理节点数）来指导报文逐跳转发。</li>
+</ul>
+<h3 id="srv6">SRv6 数据包转发流程</h3>
+<p>以下图为例：</p>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260626104328703.png" width="70%" /> </figure>
+<p>源节点Device A接收到符合指定特征的报文后，需要通过SRv6路径转发该报文。SRv6路径中Device A为源节点，Device C和Device E为Endpoint节点，Device B和Device D为中转节点。报文通过SRv6路径转发的过程为：</p>
+<ol>
+<li><strong>源节点 Device A（进行报文引入和封装）</strong>：<ul>
+<li><strong>封装SRH头</strong>：由于报文必须依次经过 Device C 和 Device E 两个Endpoint节点，因此在 SRH（Segment Routing Header）中，剩余处理节点数 SL（Segments Left）的初始值设为 2-1 = 1，这里 - 1 的原因是其相当于代表一个数组索引，而数组索引是从 0 开始的，因此范围是 0 ～ n - 1，n 为需要经过的 Endpoint 节点数。</li>
+<li><strong>封装SID列表</strong>：<u><strong>倒序压入</strong></u> 途径节点的 SID 列表，因此 Segment List = [E, C]。</li>
+<li><strong>封装IPv6基本头</strong>：IPv6基本头的源地址设为 Device A，目的地址则被设置为当前SL指示的地址，即 Segment List[SL] = C。</li>
+<li><strong>转发</strong>：封装完成后，Device A 根据IPv6头中的目的地址查找路由表，将报文转发给下一跳 Device B。</li>
+</ul>
+</li>
+<li>中转节点 Device B 的处理（传统IPv6转发）：Device B 在此路径中是中转节点。根据SRv6的设计，中转节点不参与任何SRv6相关的处理，它甚至可以是不支持SRv6的普通设备。<ul>
+<li>Device B 收到报文后，仅根据IPv6头中的目的地址（此时为 Device C）查找IPv6路由表，将报文当作普通IPv6报文直接转发给 Device C。</li>
+<li>因此，SL 和 Segment List 在 Device B 中保持不变，仍然为 SL = 1 和 Segment List = [E, C]。</li>
+</ul>
+</li>
+<li><strong>Endpoint节点 Device C 的处理（SRv6指令处理与地址更新）</strong>：当它收到IPv6目的地址是自己SID的报文时，必须按SRv6的指令进行处理并更新SRH<ul>
+<li><strong>更新SRH与目的地址</strong>：Device C 检查报文的SRH头，发现 SL &gt; 0（当前SL=1），于是将SL值减 1（更新为0），接着，它将IPv6基本头中的目的地址更新为新SL指示的地址，即 Segment List[SL] = E。</li>
+<li><strong>转发</strong>：完成更新后，Device C 根据新的IPv6目的地址（Device E）查找路由表，将报文转发给下一跳 Device D</li>
+</ul>
+</li>
+<li>中转节点 Device D 的处理（传统IPv6转发）：与 Device B 同理，略。</li>
+<li><strong>Endpoint节点 Device E 的处理（解封装与原始转发）</strong>：Device E 既是 Endpoint 节点，也是该SRv6路径的尾节点。<ul>
+<li><strong>SRv6路径终结</strong>：Device E 收到报文后，检查SRH头，发现 SL = 0，这意味着SRv6显式路径的引导已经结束。</li>
+<li><strong>解封装与转发</strong>：Device E 会对报文进行解封装操作，删除外层封装的 IPv6基本头和 SRH扩展头。随后，<strong>提取出内部的原始报文</strong>，并根据原始报文的目的地址进行最终的业务转发。</li>
+</ul>
+</li>
+</ol>
+<h2 id="_4">网络切片技术</h2>
+<ul>
+<li><strong>什么是网络切片</strong>：在同一个物理的、共享的网络基础设施上，切分出多个虚拟的<strong>逻辑网络</strong>，每个逻辑网络服务于具有特定SLA（如带宽、时延）需求的<strong>特定业务或行业</strong>（如5G场景的eMBB、uRLLC、mMTC）。</li>
+<li><strong>为什么要引入网络切片技术</strong>：为了满足不同业务（自动驾驶要求低时延、大视频要求大带宽、物联网要求海量连接）的<strong>差异化需求</strong>，提供<strong>严格的资源隔离</strong>和<strong>确定性的SLA保障</strong>，这是传统VPN（仅隔离逻辑路由）无法实现的。</li>
+<li><strong>网络切片实现与 IPv6 扩展报文头的关系</strong>：业界主流采用基于<strong>Slice ID（切片ID）</strong>的网络切片方案。<ul>
+<li>Slice ID 在全局唯一标识一个切片网络。在数据面转发时，最常见的方式是封装在IPv6的HBH（Hop-by-Hop，逐跳选项扩展头）中，或者直接利用源地址的一部分来进行标识。路由器根据报文扩展头中的Slice ID将报文送入对应的物理或逻辑预留通道转发。</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">切片 vs. VPN</p>
+<ul>
+<li>VPN（Virtual Private Network，虚拟专用网络）：<ul>
+<li>逻辑隔离，安全可达，多租户复用网络</li>
+<li>适用于企业内部网络互联、远程办公等场景</li>
+</ul>
+</li>
+<li>网络切片（Network Slicing）：<ul>
+<li>提供端到端的资源隔离，SLA 确定性保障，独立拓扑</li>
+<li>适用于5G、工业互联网、智能交通等需要严格SLA的场景</li>
+</ul>
+</li>
+<li>关系：<ul>
+<li>切片是更高级的 VPN，VPN 是切片里的一种业务承载方式</li>
+<li>切片管管道，VPN 管业务</li>
+</ul>
+</li>
+</ul>
+</div>
+<h2 id="apn6-ipv6">APN6（应用感知的 IPv6 网络）</h2>
+<h3 id="apn6">APN6 基本概念</h3>
+<ul>
+<li><strong>什么是 APN6</strong>：APN6（Application-aware IPv6 Network，应用感知的 IPv6 网络）是一种新型网络架构，网络能够直接识别数据报文所属的应用类型，并为其分配相应的资源。</li>
+<li><strong>为什么引入</strong>：传统TCP/IP分层解耦导致网络成为“哑管道”，无法感知具体应用。为了满足运营商打造“智能管道”、保障行业关键业务网络质量以及满足自动驾驶等特殊业务明确的SLA需求，引入APN6让“应用驱动网络”。</li>
+</ul>
+<h3 id="_5">应用感知信息</h3>
+<ul>
+<li><strong>应用感知标识（APN ID）</strong>：包括APP-Group-ID（应用组标识）和User-Group-ID（用户组标识），用于精准识别流量身份</li>
+<li><strong>应用感知参数（APN-Para）</strong>：可选部分。包含应用对网络提出的Intent（意图需求）和具体的网络性能参数（如要求时延&lt;50ms）</li>
+</ul>
+<h3 id="apn6_1">APN6 解决方案（主机侧、网络侧）</h3>
+<ul>
+<li><strong>主机侧（终端/服务器）</strong>：如果应用终端或服务器具备能力，可以直接在发送的数据包的IPv6扩展头中写入APN信息</li>
+<li><strong>网络侧（网络设备协同）</strong>：<ul>
+<li><strong>APN-Edge（边缘节点）</strong>：对于不具备能力的主机，边缘路由器通过五元组等信息进行匹配，为报文打上APN ID标识（通常通过DOH目的选项扩展头封装）</li>
+<li><strong>APN-Head（头节点）</strong>：根据报文携带的应用信息，将流量引入到满足其SLA需求的隧道（如SRv6 TE Policy）中</li>
+<li><strong>APN-Midpoint / Endpoint</strong>：中间节点基于APN信息提供随流检测(iFIT)等增值服务；尾节点负责解封装，将报文还原</li>
+<li><strong>APN-Controller（控制器）</strong>：集中下发标记策略和转发策略
+<figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260626112148778.png" width="70%" /> </figure></li>
+</ul>
+</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../switching-network/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 交换网络">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                交换网络
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../session-initiation-protocol/" class="md-footer__link md-footer__link--next" aria-label="下一页: SIP 信令">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                SIP 信令
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 - 2026 Yokumi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Yokumii" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://blog.yokumi.cn" target="_blank" rel="noopener" title="blog.yokumi.cn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M224 24c0-13.3 10.7-24 24-24 145.8 0 264 118.2 264 264 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-119.3-96.7-216-216-216-13.3 0-24-10.7-24-24M80 96c26.5 0 48 21.5 48 48v224c0 26.5 21.5 48 48 48s48-21.5 48-48-21.5-48-48-48c-8.8 0-16-7.2-16-16v-64c0-8.8 7.2-16 16-16 79.5 0 144 64.5 144 144s-64.5 144-144 144S32 447.5 32 368V144c0-26.5 21.5-48 48-48m168 0c92.8 0 168 75.2 168 168 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-66.3-53.7-120-120-120-13.3 0-24-10.7-24-24s10.7-24 24-24"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:yokumi0704@gmail.com" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M536.4-26.3c9.8-3.5 20.6-1 28 6.3s9.8 18.2 6.3 28l-178 496.9c-5 13.9-18.1 23.1-32.8 23.1-14.2 0-27-8.6-32.3-21.7l-64.2-158c-4.5-11-2.5-23.6 5.2-32.6l94.5-112.4c5.1-6.1 4.7-15-.9-20.6s-14.6-6-20.6-.9l-112.4 94.3c-9.1 7.6-21.6 9.6-32.6 5.2L38.1 216.8c-13.1-5.3-21.7-18.1-21.7-32.3 0-14.7 9.2-27.8 23.1-32.8z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest", "search.highlight", "search.share", "header.autohide", "navigation.footer", "content.footnote.tooltips", "content.code.copy", "content.code.select", "content.code.annotate", "content.action.edit", "content.action.view", "content.tooltips"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../../assets/javascripts/katex.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

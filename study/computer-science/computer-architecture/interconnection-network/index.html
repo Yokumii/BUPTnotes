@@ -1,0 +1,2927 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Yokumi's Course Notes in Beijing University of Posts and Telecommunications">
+      
+      
+        <meta name="author" content="Yokumi">
+      
+      
+        <link rel="canonical" href="https://buptwiki.yokumi.cn/study/computer-science/computer-architecture/interconnection-network/">
+      
+      
+        <link rel="prev" href="../instruction-level-parallelism/">
+      
+      
+        <link rel="next" href="../multiprocessor/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>互连网络 - Yokumi's BUPT Course Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Serif SC";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../../.." title="Yokumi&#39;s BUPT Course Notes" class="md-header__button md-logo" aria-label="Yokumi's BUPT Course Notes" data-md-component="logo">
+      
+  <img src="https://webp-pic.yokumi.cn/2026/09/20260923163304050.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Yokumi's BUPT Course Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              互连网络
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="cyan"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Yokumii/BUPTnotes" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yokumii/BUPTnotes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Yokumi&#39;s BUPT Course Notes" class="md-nav__button md-logo" aria-label="Yokumi's BUPT Course Notes" data-md-component="logo">
+      
+  <img src="https://webp-pic.yokumi.cn/2026/09/20260923163304050.png" alt="logo">
+
+    </a>
+    Yokumi's BUPT Course Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Yokumii/BUPTnotes" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yokumii/BUPTnotes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../introduction-to-computing-and-programming/c-programming/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算导论与程序设计
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../discrete-math/dm-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    离散数学
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../data-structures/ds-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../digital-logic-and-digital-systems/verilog-programming/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数字逻辑与数字系统
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-organization/co-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机组成原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../csapp/csapp-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    深入理解计算机系统(CSAPP)
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-network/cn-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机网络
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../formal-languages-and-automata/fla-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    形式语言与自动机
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../compiler-principle-and-technology/compiler-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编译原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../operating-system/os-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    操作系统
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../database-system-concepts/db-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据库系统概念
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../design-and-analysis-of-algorithms/complexity-analysis/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    算法设计与分析
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../modern-switching-and-networks/introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    现代交换原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机系统结构
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    计算机系统结构
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    基础知识
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pipelining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    流水线技术
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vector-processor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    向量处理机
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../instruction-level-parallelism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    指令级并行及其开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    互连网络
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    互连网络
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本概念
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        互连函数
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="互连函数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        循环表示法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本互连函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        静态互连网络
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="静态互连网络">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        线性阵列
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        环和带弦环
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        循环移数网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        树形和星形
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        胖树形
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网格形和环网形
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="网格形和环网形">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网格形
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#illiac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Illiac 网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        环网形
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        超立方体
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        带环立方体
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        k元n立方体网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例题
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        动态互连网络
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="动态互连网络">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总线网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交叉开关网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多级互连网络 MIN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多级立方体网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#omega" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Omega 网络（多级混洗交换网络）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        动态互连网络的比较
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        消息传递机制
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="消息传递机制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        消息寻径方案
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        死锁与虚拟通道
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        流控制策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        选播和广播寻径算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例题
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multiprocessor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    多处理机
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../simd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    阵列处理机
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../solution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    习题
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本概念
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        互连函数
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="互连函数">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        循环表示法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本互连函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        静态互连网络
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="静态互连网络">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        线性阵列
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        环和带弦环
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        循环移数网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        树形和星形
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        胖树形
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网格形和环网形
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="网格形和环网形">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网格形
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#illiac" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Illiac 网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        环网形
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        超立方体
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        带环立方体
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#kn" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        k元n立方体网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例题
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        动态互连网络
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="动态互连网络">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        总线网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        交叉开关网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#min" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多级互连网络 MIN
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_21" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多级立方体网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#omega" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Omega 网络（多级混洗交换网络）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_22" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        动态互连网络的比较
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_23" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        消息传递机制
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="消息传递机制">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_24" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        消息寻径方案
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_25" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        死锁与虚拟通道
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_26" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        流控制策略
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_27" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        选播和广播寻径算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_28" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        例题
+      
+    </span>
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../basics/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    计算机系统结构
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Yokumii/BUPTnotes/edit/main/docs/study/computer-science/computer-architecture/interconnection-network.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Yokumii/BUPTnotes/raw/main/docs/study/computer-science/computer-architecture/interconnection-network.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="_1">互连网络</h1>
+<h2 id="_2">基本概念</h2>
+<ul>
+<li><strong>互连网络</strong>：由网络元件按照一定的拓扑结构和控制方式构成的网络，用来实现计算机系统中的部件之间的相互连接。</li>
+<li>设计目标：在最少传输延迟（成本、能耗等）的约束内，传输尽可能多的数据，避免成为系统的瓶颈。</li>
+<li><strong>三大要素</strong>：<strong>网络元件</strong> + <strong>互联结构</strong> + <strong>控制方式</strong><ul>
+<li>互连结构是<strong>静态</strong>连接拓扑；</li>
+<li>控制方式时基于静态拓扑结构的<strong>动态传输</strong>机制。</li>
+</ul>
+</li>
+<li>结构参数：<ul>
+<li>网络规模 <span class="arithmatex">\(N\)</span>：网路中结点的个数；</li>
+<li>结点度 <span class="arithmatex">\(d\)</span>：与结点相连的边（通道）的数量，包括<ul>
+<li>入度：进入结点的边数；</li>
+<li>出度：从结点出来的边数；</li>
+</ul>
+</li>
+<li>结点距离：从一个结点到另一个结点的最短路径长度；</li>
+<li>网络直径 <span class="arithmatex">\(D\)</span>：网络中任意两个结点之间的最大距离，<strong>应尽可能的小</strong>。</li>
+<li>等分宽度 <span class="arithmatex">\(b\)</span>：把由 <span class="arithmatex">\(N\)</span> 个结点构成的网络切成结点数近似相同（<span class="arithmatex">\(N/2\)</span>）的两半（<span class="arithmatex">\(N1 + N2\)</span>），在各种切法中，沿切口边数的最小值。<ul>
+<li>线等分宽度 <span class="arithmatex">\(B = b\times w\)</span>，其中 <span class="arithmatex">\(w\)</span> 是通道宽度，表示网络最大流量。</li>
+</ul>
+</li>
+<li>对称性：从任何结点看到的拓扑结构都是相同的网络称为<strong>对称网络</strong>。</li>
+</ul>
+</li>
+<li>性能指标：<ul>
+<li><strong>通信时延</strong>：从源结点到目的结点传送一条消息所需时间<ul>
+<li>通信时延 = 软件开销 + 通道时延 + 选路时延 + 竞争时延<ul>
+<li>软件开销：结点用于收发消息的软件所需的执行时间，主要取决于软件内核。</li>
+<li>通道时延 = 消息长度 / 通道带宽</li>
+<li>选路时延：消息在传送路径上所需的一系列选路决策所需的时间开销，与经过结点数成正比</li>
+<li>竞争时延：多个消息同时在网络中传送时，会发生争用网络资源的冲突。为避免或解决争用冲突所需的时间就是竞争时延。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>网络时延</strong>：网络时延 = <strong>通道时延 + 选路时延</strong><ul>
+<li>由网络硬件特征决定，与程序和网络传输状态无关；</li>
+</ul>
+</li>
+<li><strong>端口带宽</strong>：互连网络中任一端口到另一端口传输消息的最大速率。<ul>
+<li>对称网络的端口带宽与端口位置无关，网络的端口带宽与各端口的端口带宽相同。</li>
+<li>非对称网络的端口带宽则是指所有端口带宽的<strong>最小值</strong>。</li>
+</ul>
+</li>
+<li><strong>聚集带宽</strong>：互连网络中从一半节点到另外一半节点传输消息的最大速率。<ul>
+<li>对于对称网络，聚集带宽 = 端口带宽 <span class="arithmatex">\(\times\)</span> 结点数 / 2</li>
+</ul>
+</li>
+<li><strong>等分带宽</strong>：与等分宽度对应的切平面中，所有边合起来传输信息的最大速率。</li>
+</ul>
+</li>
+</ul>
+<details class="info">
+<summary>多选题</summary>
+<p>关于互连网络以下说法正确的是：</p>
+<ul>
+<li>A. 互连网络是SIMD计算机和MIMD计算机的关键组成部分。</li>
+<li>B. 对于采用相同互连网络结构的并行计算系统，改进网络物理器件性能是提升系统性能唯一途径。</li>
+<li>C. 为了实现不同结点间的信息交换、传递和共享，互连网络需要支持置换、广播和选播功能。</li>
+<li>D. 互连网络与处理单元的连接模式有：处理单元和处理单元的连接，处理单元和存储单元的连接。</li>
+</ul>
+<p>解答：A、C、D。</p>
+</details>
+<h2 id="_3">互连函数</h2>
+<h3 id="_4">循环表示法</h3>
+<div class="arithmatex">\[
+f(x) = (x_0, x_1, \ldots, x_{j-1})
+\]</div>
+<p>表示 <span class="arithmatex">\(f(x_0) = x_1, f(x_1) = x_2, \ldots, f(x_{j-1}) = x_0\)</span>，其中 <span class="arithmatex">\(j\)</span> 为循环的长度。</p>
+<h3 id="_5">基本互连函数</h3>
+<ol>
+<li><strong>恒等函数</strong>：<span class="arithmatex">\(I(x) = x\)</span>，表示结点 <span class="arithmatex">\(x\)</span> 与自身相连。</li>
+<li><strong>交换函数 / Cube 函数</strong>：实现二进制地址编码中第 <span class="arithmatex">\(k\)</span> 位互反的输入端与输出端之间的连接：
+    $$
+    E(b_{n-1}b_{n-2}\ldots b_{k+1}b_kb_{k-1}\ldots b_1b_0) = b_{n-1}b_{n-2}\ldots b_{k+1}\bar{b_k}b_{k-1}\ldots b_1b_0
+    $$<ul>
+<li>用于构造立方体和超立方体互连网络</li>
+<li>共有 <span class="arithmatex">\(n = \log_2 N\)</span> 种互连函数（<span class="arithmatex">\(N\)</span> 为结点个数，需 <span class="arithmatex">\(n\)</span> 位二进制编码，选择一位取反共 <span class="arithmatex">\(n\)</span> 种）
+<figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619185133257.png" width="70%" /> </figure></li>
+</ul>
+</li>
+<li><strong>均匀洗牌函数 / 混洗函数 / 置换函数 <span class="arithmatex">\(\sigma\)</span></strong>：将输入端分为数目相等的两半，前一半和后一半按类似均匀混洗扑克牌的方式交叉地连接到输出端。<ul>
+<li><strong>全混洗</strong>：
+    $$
+    \sigma(b_{n-1}b_{n-2}\ldots b_1b_0) = b_{n-2}b_{n-3}\ldots b_0b_{n-1}
+    $$
+    即把输入端的二进制编号循环左移一位得到输出端的二进制编号。</li>
+<li><strong>子混洗</strong>：互连函数 <span class="arithmatex">\(s\)</span> 的第 <span class="arithmatex">\(k\)</span> 个子函数，即把 <span class="arithmatex">\(s\)</span> 作用于输入端的二进制编号的低 <span class="arithmatex">\(k\)</span> 位
+    $$
+    \sigma_{(k)}(b_{n-1}\ldots b_{k}b_{k-1}b_{k-2}\ldots b_0) = b_{n-1}\ldots b_{k}b_{k-2}\ldots b_0b_{k-1}
+    $$
+    即把输入端的二进制编号的低 <span class="arithmatex">\(k\)</span> 位循环左移一位得到输出端的二进制编号。</li>
+<li><strong>超混洗</strong>：互连函数 <span class="arithmatex">\(s\)</span> 的第 <span class="arithmatex">\(k\)</span> 个超函数，即把 <span class="arithmatex">\(s\)</span> 作用于输入端的二进制编号的高 <span class="arithmatex">\(k\)</span> 位
+    $$
+    \sigma^{(k)}(b_{n-1}b_{n-2}\ldots b_{n-k}b_{n-k-1}\ldots b_0) = b_{n-2}\ldots b_{n-k}b_{n-1}\ldots b_0
+    $$
+    即把输入端的二进制编号的高 <span class="arithmatex">\(k\)</span> 位循环左移一位得到输出端的二进制编号。</li>
+<li><strong>逆混洗</strong>：互连函数 <span class="arithmatex">\(\sigma^{-1}\)</span>，即把输入端的二进制编号循环右移一位得到输出端的二进制编号。
+    $$
+    \sigma^{-1}(b_{n-1}b_{n-2}\ldots b_1b_0) = b_0b_{n-1}b_{n-2}\ldots b_1
+    $$
+<figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619190827322.png" width="70%" /> </figure></li>
+</ul>
+</li>
+<li><strong>蝶式函数 <span class="arithmatex">\(\beta\)</span></strong>：<ul>
+<li><strong>全蝶式</strong>：
+    $$
+    \beta(b_{n-1}b_{n-2}\ldots b_1b_0) = b_0b_{n-2}\ldots b_1b_{n-1}
+    $$
+    把输入端的二进制编号的最高位和最低位互换得到输出端的二进制编号。</li>
+<li><strong>子蝶式</strong>：
+    $$
+    \beta_{(k)}(b_{n-1}\ldots b_{k}b_{k-1}b_{k-2}\ldots b_0) = b_{n-1}\ldots b_{k}b_0b_{k-2}\ldots b_1b_{k-1}
+    $$
+    即把输入端的二进制编号的低 <span class="arithmatex">\(k\)</span> 位的最高位和最低位互换得到输出端的二进制编号。</li>
+<li><strong>超蝶式</strong>：
+    $$
+    \beta^{(k)}(b_{n-1}b_{n-2}\ldots b_{n-k+1}b_{n-k}b_{n-k-1}\ldots b_0) = b_{n-k}b_{n-2}\ldots b_{n-k+1}b_{n-1}b_{n-k-1}\ldots b_0
+    $$
+    即把输入端的二进制编号的高 <span class="arithmatex">\(k\)</span> 位的最高位和最低位互换得到输出端的二进制编号。</li>
+</ul>
+</li>
+<li><strong>反位序函数 <span class="arithmatex">\(\rho\)</span></strong>：<ul>
+<li><strong>全反位序</strong>：
+    $$
+    \rho(b_{n-1}b_{n-2}\ldots b_1b_0) = b_0b_1\ldots b_{n-2}b_{n-1}
+    $$
+    即把输入端的二进制编号的位序完全颠倒得到输出端的二进制编号。</li>
+<li><strong>子反位序</strong>：
+    $$
+    \rho_{(k)}(b_{n-1}\ldots b_{k}b_{k-1}b_{k-2}\ldots b_0) = b_{n-1}\ldots b_{k}b_0b_1\ldots b_{k-2}b_{k-1}
+    $$
+    即把输入端的二进制编号的低 <span class="arithmatex">\(k\)</span> 位的位序完全颠倒得到输出端的二进制编号。</li>
+<li><strong>超反位序</strong>：
+    $$
+    \rho^{(k)}(b_{n-1}b_{n-2}\ldots b_{n-k+1}b_{n-k}b_{n-k-1}\ldots b_0) = b_{n-k}b_{n-k+1}\ldots b_{n-2}b_{n-1}b_{n-k-1}\ldots b_0
+    $$
+    即把输入端的二进制编号的高 <span class="arithmatex">\(k\)</span> 位的位序完全颠倒得到输出端的二进制编号。</li>
+</ul>
+</li>
+<li><strong>移数函数 <span class="arithmatex">\(\alpha\)</span></strong>：把各输入端都错开一定位置模 N 后连到输入端<ul>
+<li><span class="arithmatex">\(\alpha(x) = (x \pm d) \mod N\)</span></li>
+</ul>
+</li>
+<li><strong>PM2I 函数</strong>：移数函数的一种<ul>
+<li><span class="arithmatex">\(PM2_{+i} = (x + 2^i) \mod N\)</span></li>
+<li><span class="arithmatex">\(PM2_{-i} = (x - 2^i) \mod N\)</span></li>
+<li>共有 <span class="arithmatex">\(2n\)</span> 种 PM2I 函数</li>
+</ul>
+</li>
+</ol>
+<details class="info">
+<summary>例题1</summary>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619195443843.png" width="70%" /> </figure></p>
+</details>
+<h2 id="_6">静态互连网络</h2>
+<ul>
+<li><strong>静态互连网络</strong>：各结点之间有固定的连接通路、且在运行中不能改变的网络。</li>
+<li><strong>动态互连网络</strong>：由交换开关组成，可按运行程序的要求动态地改变连接状态的网络。</li>
+</ul>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619195717486.png" width="70%" /> </figure>
+<h3 id="_7">线性阵列</h3>
+<div class="admonition info">
+<p class="admonition-title">线性阵列 vs. 总线</p>
+<ul>
+<li><strong>总线</strong>：总线是通过切换与其连接的许多结点来实现时分特性的；</li>
+<li><strong>线性阵列</strong>：线性阵列允许不同的源结点和目的结点对并行地使用其不同的部分。</li>
+</ul>
+</div>
+<h3 id="_8">环和带弦环</h3>
+<h3 id="_9">循环移数网络</h3>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619200421121.png" width="70%" /> </figure>
+<ul>
+<li>相当于每个结点都和相差 <span class="arithmatex">\(2^i\)</span> 的结点相连（<span class="arithmatex">\(i = 0, 1, \ldots, n-1\)</span>），其中，<span class="arithmatex">\((x + 2^{n-1}) \mod 2^n = (x - 2^{n-1}) \mod 2^n\)</span>，因此结点度应该是 <span class="arithmatex">\(d = 2n - 1\)</span>。</li>
+<li>网络直径 <span class="arithmatex">\(D=\left\lceil\frac{n}{2}\right\rceil\)</span>。</li>
+</ul>
+<h3 id="_10">树形和星形</h3>
+<h3 id="_11">胖树形</h3>
+<h3 id="_12">网格形和环网形</h3>
+<h4 id="_13">网格形</h4>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619201328485.png" width="70%" /> </figure>
+<h4 id="illiac">Illiac 网络</h4>
+<ul>
+<li>把 2 维网格形网络的每一列的两个端结点连接；</li>
+<li>把每一行的尾结点和下一行的头结点连接；</li>
+<li>把最后一行的尾结点和第一行的头结点连接。</li>
+</ul>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619201608354.png" width="70%" /> </figure>
+<h4 id="_14">环网形</h4>
+<ul>
+<li>把 2 维网格形网络的每一行的两个端结点连接；</li>
+<li>把每一列的两个端结点连接；</li>
+</ul>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619201820258.png" width="70%" /> </figure>
+<h3 id="_15">超立方体</h3>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619202814257.png" width="70%" /> </figure>
+<ul>
+<li>n 立方体：<ul>
+<li>结点数：<span class="arithmatex">\(N = 2^n\)</span>；</li>
+<li>结点度：<span class="arithmatex">\(d = n\)</span>；</li>
+<li>网络直径：<span class="arithmatex">\(D = n\)</span>；</li>
+<li>等分宽度：<span class="arithmatex">\(b = N / 2 = 2^{n-1}\)</span>；</li>
+<li>对称</li>
+</ul>
+</li>
+</ul>
+<h3 id="_16">带环立方体</h3>
+<ul>
+<li><strong>带环 3-立方体</strong>：把 3-立方体的每个结点换成由 3 个结点构成的环
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619202929551.png" width="70%" /> </figure></li>
+<li><strong>带环 k-立方体</strong>：把 k-立方体的每个结点换成由 k 个结点构成的环
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619203019293.png" width="70%" /> </figure></li>
+</ul>
+<h3 id="kn">k元n立方体网络</h3>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619203101831.png" width="70%" /> </figure>
+<h2 id="_17">例题</h2>
+<details class="info">
+<summary>多选题</summary>
+<p>结构对称的静态互连网络是：
+- A. 2D环网
+- B. 2D网格
+- C. Illiac网
+- D. 超立方体</p>
+<p>解答：A、C、D</p>
+<p>其中，环网和 Illiac 网比网格多了回绕边，消除了边缘结点的特殊性，是点对称的。</p>
+</details>
+<details class="info">
+<summary>多选题</summary>
+<p>结构不对称的静态互连网络是：</p>
+<ul>
+<li>A. 线性阵列</li>
+<li>B. 环网</li>
+<li>C. 全连接网络</li>
+<li>D. 二叉胖树</li>
+</ul>
+<p>解答：A、D</p>
+</details>
+<details class="info">
+<summary>多选题</summary>
+<p>以下说法哪些是正确的？</p>
+<ul>
+<li>A. I1liac网络是一种带弦环，其直径小于同网络规模的双向环，但成本高于双向环。</li>
+<li>B. 线性阵列在不冲突的情况下，可以有多对结点并行同时传送数据。</li>
+<li>C. PM2I互连网络是一种循环移数网络。</li>
+<li>D. 星形网络可靠性较差。</li>
+</ul>
+<p>解答：A、B、C、D</p>
+</details>
+<h2 id="_18">动态互连网络</h2>
+<h3 id="_19">总线网络</h3>
+<ul>
+<li>每一次总线只能用于一个源（主部件）到一个或多个目的（从部件）之间的数据传送。</li>
+<li>多个请求时，仲裁逻辑决定哪个请求被允许使用总线，并按分时原则轮流为多个请求服务。</li>
+<li>特点：<strong>结构简单</strong>、<strong>实现成本低</strong>、<strong>带宽较窄</strong></li>
+</ul>
+<h3 id="_20">交叉开关网络</h3>
+<ul>
+<li>一个 <span class="arithmatex">\(n\times n\)</span> 的交叉开关网络可以无阻塞地实现 <span class="arithmatex">\(n!\)</span> 种置换。</li>
+</ul>
+<details class="info">
+<summary>例题</summary>
+<p><span class="arithmatex">\(8\times 8\)</span> 的交叉开关网络，可以无阻塞地实现几种置换？需要多少个交叉点开关？</p>
+<p>解答：<span class="arithmatex">\(8! = 40320\)</span> 种置换，需要 <span class="arithmatex">\(8\times 8 = 64\)</span> 个交叉点开关。</p>
+</details>
+<h3 id="min">多级互连网络 MIN</h3>
+<ul>
+<li>MIMD 和 SIMD 计算机都采用了多级互联网络 MIN</li>
+<li>通常在 <span class="arithmatex">\(N\)</span> 个结点的多级互连网络中，多级 ICN 由 <span class="arithmatex">\(n = \log_2 N\)</span> 级构成
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619204950328.png" width="70%" /> </figure></li>
+</ul>
+<details class="info">
+<summary>例题</summary>
+<p>32个结点的多级互连网络由几级构成？</p>
+<p>解答：<span class="arithmatex">\(n = \log_2 32 = 5\)</span> 级。</p>
+</details>
+<ul>
+<li>交换开关：<ul>
+<li><span class="arithmatex">\(2\times 2\)</span> 开关
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619204622408.png" width="70%" /> </figure></li>
+</ul>
+</li>
+<li>相邻的各级开关之间都有固定的级间连接函数。</li>
+<li>开关模块允许一对一和一对多映射，不允许多对一映射。</li>
+<li>区别：<strong>所用开关模块</strong> + <strong>控制方式</strong> + <strong>级间互连模式</strong><ul>
+<li><strong>控制方式</strong>：对各个开关模块进行控制的方式<ul>
+<li><strong>级控制</strong>：每级的所有开关只用一个控制信号控制，只能同时处于同一种状态；</li>
+<li><strong>单元控制</strong>：每个开关单元都有独立的控制信号；</li>
+<li><strong>部分级控制</strong>：第 <span class="arithmatex">\(i\)</span> 级的开关分别用 <span class="arithmatex">\(i + 1\)</span> 个信号控制，几个开关会合用一个信号</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="_21">多级立方体网络</h3>
+<ul>
+<li>包括 STARAN 网络和间接二进制 n 方体网络<ul>
+<li>相同：都采用 <span class="arithmatex">\(2\times 2\)</span> 开关。当第 <span class="arithmatex">\(i\)</span> 级交换开关处于交换状态时，实现的是 <span class="arithmatex">\(Cube_i\)</span> 互连函数</li>
+<li>仅在控制方式上不同：<ul>
+<li>STARAN 网络采用的是 <strong>级控制（用于实现交换功能） + 部分级控制（用于实现移数功能）</strong>。</li>
+<li>间接二进制 n 方体网络采用的是<strong>单元控制</strong>，更灵活。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>一个 <span class="arithmatex">\(N\)</span> 输入的多级立方体网络有 <span class="arithmatex">\(\log_2 N\)</span> 级，每级有 <span class="arithmatex">\(N/2\)</span> 个 <span class="arithmatex">\(2\times 2\)</span> 开关，共需要 <span class="arithmatex">\(\log_2 N\times N/2\)</span> 个 <span class="arithmatex">\(2\times 2\)</span> 开关。
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619210216112.png" width="70%" /> </figure></li>
+</ul>
+<h3 id="omega">Omega 网络（多级混洗交换网络）</h3>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619210838935.png" width="70%" /> </figure>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619210853171.png" width="70%" /> </figure>
+<details class="info">
+<summary>例题</summary>
+<p>Omega 网络中，每一级包含一个无条件___拓扑线路和一列可控的二元交换开关，前后重复，便于制造。</p>
+<p>解答：<strong>全混洗拓扑线路（ISC）</strong></p>
+</details>
+<h3 id="_22">动态互连网络的比较</h3>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619211015163.png" width="70%" /> </figure>
+<h2 id="_23">消息传递机制</h2>
+<h3 id="_24">消息寻径方案</h3>
+<ul>
+<li><strong>消息</strong>：结点之间进行通信的逻辑单位<ul>
+<li>由若干“<strong>包（Packet）</strong>”组成</li>
+<li>包长度固定</li>
+<li>一条消息包含的包数量可变，因此消息长度不定</li>
+</ul>
+</li>
+<li><strong>包</strong>：包含寻径所需目的地址的基本单位。<ul>
+<li>一条消息中的各个包都依次被分配一个序号以便能重新组装</li>
+<li>包可以被进一步分为一些更小的固定长度的单位，称为“<strong>片（Flit）</strong>”</li>
+<li>寻径信息和包序列号形成头片，其余是数据片</li>
+</ul>
+</li>
+</ul>
+<p>包含 4 种寻径方式 / 2 类交换：</p>
+<ul>
+<li><strong>线路交换/电路交换（Circuit Switching）</strong>：<ul>
+<li>先建立一条从源结点到目的结点的物理通路才能传递消息</li>
+<li>以<strong>消息粒度</strong>运行</li>
+<li>传输时延 <span class="arithmatex">\(T = \frac{L + L_t\times(D + 1)}{B}\)</span>，其中<ul>
+<li><span class="arithmatex">\(L\)</span>：信息包长度（bit）；</li>
+<li><span class="arithmatex">\(L_t\)</span>：建立路径所需的最小包长度（bit）；</li>
+<li><span class="arithmatex">\(D\)</span>：经过中间结点数</li>
+<li><span class="arithmatex">\(B\)</span>：通道带宽（bit/s）</li>
+</ul>
+</li>
+<li>优点：传输带宽较大、平均传输时延较小、使用缓冲区小<ul>
+<li>适用于动态、突发性的大规模并行处理数据的传送</li>
+</ul>
+</li>
+<li>缺点：需要频繁建立和拆除连接，开销大；</li>
+</ul>
+</li>
+<li><strong>包交换/分组交换（Packet Switching）</strong>：<ol>
+<li><strong>存储转发</strong>：以<strong>包粒度</strong>运行，包从源结点经过一系列中间结点到达目的结点，所经过的每一个中间结点都需要设置一个包缓冲器。<ul>
+<li><span class="arithmatex">\(T_{SF} = \frac{L}{B}(D+1)\)</span></li>
+<li>优点：简单</li>
+<li>缺点：包缓冲区大，时延大</li>
+</ul>
+</li>
+<li><strong>虚拟直通</strong>：没有必要等到信息包全部放入缓冲器后再作路由选择，只要接收到用作寻径的包头，就可作出判断。<ul>
+<li>通信时延：<span class="arithmatex">\(T = \frac{L + L_h\times(D+1)}{B}\approx \frac{L}{B}\)</span>，其中：<ul>
+<li><span class="arithmatex">\(L_h\)</span>：信息包寻径头部长度</li>
+<li>一般来说 <span class="arithmatex">\(L &gt;&gt; L_h\times(D+1)\)</span></li>
+</ul>
+</li>
+<li>缺点：中间结点仍需要缓冲区，当出现寻径阻塞时，依然需要缓存整个包。</li>
+</ul>
+</li>
+<li><strong>虫蚀方式</strong>：把信息包切割成更小的单位 —— “片”，以<strong>片粒度</strong>分撇，各片传送按流水进行。<ul>
+<li>能减少缓冲器容量，缩短传送延迟；</li>
+<li>不同包的片不能混合在一起传送</li>
+<li>通信时延：<span class="arithmatex">\(T_{WH} = T_f\times D + \frac{L}{B} = \frac{L + L_f\times D}{B} \approx \frac{L}{B}\)</span>，其中：<ul>
+<li><span class="arithmatex">\(T_f\)</span>：片经过一个结点所需的时间，<span class="arithmatex">\(L&gt;&gt;L_f\times D\)</span></li>
+<li><span class="arithmatex">\(L_f\)</span>：片长度</li>
+</ul>
+</li>
+<li>优点：<ul>
+<li>每个结点的缓冲器容量小；易于 VLSI 实现</li>
+<li>有较小的网络传输延迟</li>
+<li>通道共享性好，利用率高</li>
+<li>易于实现选播/广播</li>
+</ul>
+</li>
+<li>缺点：<ul>
+<li>链路利用率低，当包的一片被阻塞时，整个包的片都将被阻塞在所在结点，占用资源；</li>
+</ul>
+</li>
+</ul>
+</li>
+</ol>
+</li>
+</ul>
+<h3 id="_25">死锁与虚拟通道</h3>
+<ul>
+<li><strong>虚拟通道</strong>：两个结点间的逻辑链接，它由源结点的片缓冲区、结点间的物理通道以及接收结点的片缓冲区组成。</li>
+<li><strong>死锁</strong>：缓冲区或通道上的循环等待引起<ul>
+<li>解决方法：增加虚拟通道</li>
+</ul>
+</li>
+</ul>
+<h3 id="_26">流控制策略</h3>
+<ol>
+<li><strong>包冲突解决方案</strong>：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619220256293.png" width="70%" /> </figure></li>
+<li><strong>确定性寻径和自适应寻径</strong><ul>
+<li><strong>确定性寻径</strong>：通信路径完全由源结点地址和目的地址来决定，也就是说，寻径路径是预先唯一地确定好了的，而与网络的状况无关<ul>
+<li>二维网格网络：X-Y寻径</li>
+<li>超立方体网络：E-Cube 寻径</li>
+</ul>
+</li>
+<li><strong>自适应寻径</strong>：通信的通路每一次都要根据资源或者网络的情况来选择。</li>
+</ul>
+</li>
+</ol>
+<h3 id="_27">选播和广播寻径算法</h3>
+<ul>
+<li>单播：一对一</li>
+<li>选播：一对多</li>
+<li>广播：一对全体</li>
+<li>会议：多对多</li>
+</ul>
+<h2 id="_28">例题</h2>
+<details class="info">
+<summary>例题 1</summary>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619224144667.png" width="70%" /> </figure></p>
+<ol>
+<li>略</li>
+<li>对于混洗交换网，共 <span class="arithmatex">\(N\)</span> 个输入端，<span class="arithmatex">\(n = \log_2 N\)</span> 级，网络直径为 <span class="arithmatex">\(2n-1\)</span>。</li>
+<li>结点度 = <span class="arithmatex">\(2n - 1 = 9\)</span>，网络直径 = <span class="arithmatex">\(\left\lceil\frac{n}{2}\right\rceil = 3\)</span></li>
+</ol>
+</details>
+<details class="info">
+<summary>例题 2</summary>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260620103829856.png" width="70%" /> </figure></p>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260620103901262.png" width="70%" /> </figure></p>
+</details>
+<details class="info">
+<summary>例题 3</summary>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260620104933600.png" width="70%" /> </figure></p>
+</details>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../instruction-level-parallelism/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 指令级并行及其开发">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                指令级并行及其开发
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../multiprocessor/" class="md-footer__link md-footer__link--next" aria-label="下一页: 多处理机">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                多处理机
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 - 2026 Yokumi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Yokumii" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://blog.yokumi.cn" target="_blank" rel="noopener" title="blog.yokumi.cn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M224 24c0-13.3 10.7-24 24-24 145.8 0 264 118.2 264 264 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-119.3-96.7-216-216-216-13.3 0-24-10.7-24-24M80 96c26.5 0 48 21.5 48 48v224c0 26.5 21.5 48 48 48s48-21.5 48-48-21.5-48-48-48c-8.8 0-16-7.2-16-16v-64c0-8.8 7.2-16 16-16 79.5 0 144 64.5 144 144s-64.5 144-144 144S32 447.5 32 368V144c0-26.5 21.5-48 48-48m168 0c92.8 0 168 75.2 168 168 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-66.3-53.7-120-120-120-13.3 0-24-10.7-24-24s10.7-24 24-24"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:yokumi0704@gmail.com" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M536.4-26.3c9.8-3.5 20.6-1 28 6.3s9.8 18.2 6.3 28l-178 496.9c-5 13.9-18.1 23.1-32.8 23.1-14.2 0-27-8.6-32.3-21.7l-64.2-158c-4.5-11-2.5-23.6 5.2-32.6l94.5-112.4c5.1-6.1 4.7-15-.9-20.6s-14.6-6-20.6-.9l-112.4 94.3c-9.1 7.6-21.6 9.6-32.6 5.2L38.1 216.8c-13.1-5.3-21.7-18.1-21.7-32.3 0-14.7 9.2-27.8 23.1-32.8z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest", "search.highlight", "search.share", "header.autohide", "navigation.footer", "content.footnote.tooltips", "content.code.copy", "content.code.select", "content.code.annotate", "content.action.edit", "content.action.view", "content.tooltips"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../../assets/javascripts/katex.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

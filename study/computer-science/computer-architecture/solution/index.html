@@ -1,0 +1,3487 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Yokumi's Course Notes in Beijing University of Posts and Telecommunications">
+      
+      
+        <meta name="author" content="Yokumi">
+      
+      
+        <link rel="canonical" href="https://buptwiki.yokumi.cn/study/computer-science/computer-architecture/solution/">
+      
+      
+        <link rel="prev" href="../simd/">
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>习题 - Yokumi's BUPT Course Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Serif SC";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../../.." title="Yokumi&#39;s BUPT Course Notes" class="md-header__button md-logo" aria-label="Yokumi's BUPT Course Notes" data-md-component="logo">
+      
+  <img src="https://webp-pic.yokumi.cn/2026/09/20260923163304050.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Yokumi's BUPT Course Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              习题
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="cyan"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Yokumii/BUPTnotes" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yokumii/BUPTnotes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Yokumi&#39;s BUPT Course Notes" class="md-nav__button md-logo" aria-label="Yokumi's BUPT Course Notes" data-md-component="logo">
+      
+  <img src="https://webp-pic.yokumi.cn/2026/09/20260923163304050.png" alt="logo">
+
+    </a>
+    Yokumi's BUPT Course Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Yokumii/BUPTnotes" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yokumii/BUPTnotes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../introduction-to-computing-and-programming/c-programming/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算导论与程序设计
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../discrete-math/dm-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    离散数学
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../data-structures/ds-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../digital-logic-and-digital-systems/verilog-programming/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数字逻辑与数字系统
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-organization/co-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机组成原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../csapp/csapp-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    深入理解计算机系统(CSAPP)
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-network/cn-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机网络
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../formal-languages-and-automata/fla-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    形式语言与自动机
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../compiler-principle-and-technology/compiler-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编译原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../operating-system/os-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    操作系统
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../database-system-concepts/db-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据库系统概念
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../design-and-analysis-of-algorithms/complexity-analysis/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    算法设计与分析
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../modern-switching-and-networks/introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    现代交换原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_15" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_15" id="__nav_15_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机系统结构
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_15_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_15">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    计算机系统结构
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../basics/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    基础知识
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../pipelining/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    流水线技术
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../vector-processor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    向量处理机
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../instruction-level-parallelism/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    指令级并行及其开发
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../interconnection-network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    互连网络
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../multiprocessor/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    多处理机
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../simd/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    阵列处理机
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    习题
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    习题
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        填空题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="填空题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        系统结构基础知识相关概念
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        时间并行技术（流水线）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        指令级并行技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        向量流水处理机
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        互连网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阵列处理机 SIMD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mimd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多处理机 MIMD
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        简答题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="简答题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        系统结构基础知识相关概念
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        时间并行技术（流水线）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        指令级并行技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        向量流水处理机
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        互连网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simd_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阵列处理机 SIMD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mimd_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多处理机 MIMD
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        计算 / 解答题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="计算 / 解答题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cpi-mips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPI / MIPS 计算
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amdahl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amdahl定律
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        流水线时空图和性能指标计算
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tomasulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        记分牌算法 / Tomasulo 算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        链接技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        分段开采技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四大基本互连函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        互连网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阵列处理机 / 多处理机上的计算问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        填空题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="填空题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        系统结构基础知识相关概念
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        时间并行技术（流水线）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        指令级并行技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        向量流水处理机
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        互连网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阵列处理机 SIMD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mimd" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多处理机 MIMD
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        简答题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="简答题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        系统结构基础知识相关概念
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        时间并行技术（流水线）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        指令级并行技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        向量流水处理机
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        互连网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#simd_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阵列处理机 SIMD
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mimd_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        多处理机 MIMD
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        计算 / 解答题
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="计算 / 解答题">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#cpi-mips" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        CPI / MIPS 计算
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#amdahl" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Amdahl定律
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        流水线时空图和性能指标计算
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#tomasulo" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        记分牌算法 / Tomasulo 算法
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        链接技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        分段开采技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        四大基本互连函数
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        互连网络
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        阵列处理机 / 多处理机上的计算问题
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../basics/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    计算机系统结构
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Yokumii/BUPTnotes/edit/main/docs/study/computer-science/computer-architecture/solution.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Yokumii/BUPTnotes/raw/main/docs/study/computer-science/computer-architecture/solution.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="_1">题解</h1>
+<h2 id="_2">填空题</h2>
+<h3 id="_3">系统结构基础知识相关概念</h3>
+<div class="admonition note">
+<p class="admonition-title">计算机系统结构发展的因素</p>
+<p><u><strong>软件</strong></u> 是促使计算机系统结构发展最重要的因素，<u><strong>应用</strong></u> 是促使计算机系统结构发展最根本的动力，<u><strong>器件</strong></u> 是促使计算机系统结构发展最活跃的因素。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">物理机 vs. 虚拟机</p>
+<p>计算机系统可以按功能划分成多级层次结构，底层由硬件实现的机器称为 <u><strong>物理机</strong></u>，上层由软件实现的机器称为 <u><strong>虚拟机</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Flynn 分类法</p>
+<p>Flynn分类法按照 <u><strong>指令流</strong></u> 和 <u><strong>数据流</strong></u> 的多倍性，把计算机系统的结构分为单指令流单数据流（SISD）、单指令流多数据流（SIMD）、多指令流单数据流（MISD）和多指令流多数据流（MIMD）四类。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">局部性原理</p>
+<p>程序的局部性原理指出，程序执行时所访问的存储器地址分布是相对簇聚的，主要包括 <u><strong>时间局部性</strong></u> 和 <u><strong>空间局部性</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">计算机系统设计的定量原理</p>
+<p>计算机系统设计的定量原理中，应以 <u><strong>经常性事件</strong></u> 为重点。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">软件兼容性</p>
+<p>一个软件可以不经修改或者只需少量修改就可以由一台机器移植到另一台机器上正确地运行，得到的 <u><strong>结果相同</strong></u>，差别只是 <u><strong>执行时间</strong></u> 的不同。我们称这两台机器是 <u><strong>软件兼容（Software Compatible）</strong></u> 的。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">向后兼容</p>
+<p>软件兼容中的系列机的根本特征是实现 <u><strong>向后兼容</strong></u>，即按某个时期投入市场的机型编制的程序，不加修改就能运行于在它之后投入市场的机器上。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">提高并行性的技术途径</p>
+<p>提高计算机并行性的三种基本技术途径是 <u><strong>时间重叠</strong></u>、<u><strong>资源重复</strong></u> 和 <u><strong>资源共享</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">计算机系统结构的重大转折</p>
+<p>系统结构的重大转折是从单纯依靠指令级并行转向开发 <u><strong>线程级并行</strong></u> 和 <u><strong>数据级并行</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">计算机系统结构的经典定义</p>
+<p>经典定义（Amdahl定义）：传统机器程序员所看到的计算机属性，即 <u><strong>概念性结构</strong></u> 与 <u><strong>功能特性</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">广义的计算机系统结构定义</p>
+<p>广义的计算机系统结构设计包括：<u><strong>指令系统结构</strong></u>、<u><strong>组成</strong></u> 和 <u><strong>硬件/实现</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">多倍性</p>
+<p>系统最受限部件上同时执行的指令/数据最大数目称为 <u><strong>多倍性 (Multiplicity)</strong></u>。</p>
+</div>
+<h3 id="_4">时间并行技术（流水线）</h3>
+<div class="admonition note">
+<p class="admonition-title">流水线的级/段</p>
+<p>流水线中每个子过程及其功能部件被称为流水线的 <u><strong>级或段（Stage）</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">流水线的分类</p>
+<ul>
+<li>按照流水技术用于计算机系统的等级不同，流水线可分为 <u><strong>部件级流水线</strong></u>、<u><strong>处理机级流水线</strong></u> 和 <u><strong>系统级流水线</strong></u>。</li>
+<li>按照流水线所完成的功能来分类，可分为 <u><strong>单功能流水线</strong></u> 和 <u><strong>多功能流水线</strong></u>。</li>
+<li>按照同一时间内各段之间的连接方式，多功能流水线可分为 <u><strong>静态流水线</strong></u> 和 <u><strong>动态流水线</strong></u>。（注意是多功能流水线的划分！！！）</li>
+<li>按照流水线中是否有反馈回路进行分类，可分为 <u><strong>线性流水线</strong></u> 和 <u><strong>非线性流水线</strong></u>。</li>
+<li>根据任务流入和流出的顺序是否相同，流水线可分为 <u><strong>顺序流水线</strong></u> 和 <u><strong>乱序流水线</strong></u>。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">解决流水线瓶颈的方法</p>
+<p>在各段时间不完全相等的流水线中，解决流水线瓶颈问题的常用方法有 <u><strong>细分瓶颈段</strong></u> 和 <u><strong>重复设置瓶颈段</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">相关</p>
+<p>两条指令之间存在某种依赖关系称为相关，相关主要有3种类型：<u><strong>数据相关（真数据相关）</strong></u>、<u><strong>名相关</strong></u> 和 <u><strong>控制相关</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">流水线冲突</p>
+<p>流水线冲突（Pipeline Hazard）主要有3种类型：<u><strong>结构冲突</strong></u>、<u><strong>数据冲突</strong></u> 和 <u><strong>控制冲突</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">定向技术 &amp; 指令调度 &amp; 流水线互锁</p>
+<ul>
+<li>减少数据冲突引起的停顿的常用硬件技术是 <u><strong>定向技术（旁路或短路）</strong></u>；</li>
+<li>而依靠编译器重新组织指令顺序来消除冲突的技术称为 <u><strong>指令调度（或流水线调度）</strong></u>；</li>
+<li>需要停顿的数据冲突必须依靠 <u><strong>流水线互锁机制</strong></u>来解决，检测发现数据冲突，并使流水线停顿（插入“暂停”或“气泡”），直至冲突消失。</li>
+</ul>
+</div>
+<h3 id="_5">指令级并行技术</h3>
+<div class="admonition note">
+<p class="admonition-title">细粒度并行性</p>
+<p>在一个过程中进行 <u><strong>指令一级或操作一级</strong></u> 的并行处理，称为 <u><strong>细粒度</strong></u> 并行性。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">指令级并行</p>
+<p><u><strong>指令级并行 ILP（Instruction Level Parallelism）</strong></u>是指在同一时间内，计算机系统中有多条指令同时处于执行状态。</p>
+<p>一个 <u><strong>时钟周期</strong></u> 内流水线流出的 <u><strong>指令数</strong></u> 被称为 <u><strong>指令级并行度</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">开发指令级并行（ILP）的两种主要途径</p>
+<p>开发指令级并行（ILP）的两种主要途径是 <u><strong>资源重复</strong></u> 和 <u><strong>采用流水线技术</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">开发循环级并行的最基本技术</p>
+<p>开发循环级并行的最基本技术是 <u><strong>循环展开（loop unrolling）</strong></u>、<u><strong>向量指令和向量数据表示</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">相关 vs. 冲突</p>
+<p>相关是 <u><strong>程序</strong></u> 固有的一种属性，而冲突是 <u><strong>流水线</strong></u> 的属性。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">正确执行程序的必要条件</p>
+<p>对于正确地执行程序来说，必须保持的最关键的两个属性是 <u><strong>数据流</strong></u> 和 <u><strong>异常行为</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Tomasulo算法寄存器换名</p>
+<p>Tomasulo算法中，寄存器换名是通过 <u><strong>保留站（Reservation Station）</strong></u> 和 <u><strong>流出逻辑</strong></u>来共同完成的。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Tomasulo算法 CDB</p>
+<p>在Tomasulo算法中，所有功能部件的计算结果都是送到 <u><strong>公共数据总线（CDB）</strong></u> 上，由它把结果直接播送到各个需要该结果的地方。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">动态分支预测技术包括</p>
+<p>动态分支预测技术包括 <u><strong>分支历史表（BHT）</strong></u>、<u><strong>分支目标缓冲器（BTB）</strong></u> 和 <u><strong>基于硬件的前瞻执行</strong></u> 等。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">基于硬件的前瞻执行</p>
+<p>支持硬件前瞻执行（Speculation）的关键思想是允许指令乱序执行，但必须 <u><strong>顺序确认（Commit）</strong></u>，其核心硬件结构是 <u><strong>再定序缓冲器（ROB）</strong></u>。</p>
+</div>
+<h3 id="_6">向量流水处理机</h3>
+<div class="admonition note">
+<p class="admonition-title">向量的处理方式</p>
+<p>向量的处理方式主要有三种：<u><strong>横向（水平）处理方式</strong></u>、<u><strong>纵向（垂直）处理方式</strong></u> 和 <u><strong>纵横（分组）处理方式</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">向量处理机的典型结构</p>
+<p>向量处理机的典型结构由其采用的处理方式决定，主要分为 <u><strong>存储器-存储器型结构（对应纵向处理方式）</strong></u> 和 <u><strong>寄存器-寄存器型结构（对应分组处理方式）</strong></u> 两类</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">存储器-存储器结构</p>
+<p>在“存储器-存储器”结构中，为满足极高的存储器带宽需求，一般通过采用 <u><strong>多体交叉并行存储器</strong></u> 和 <u><strong>缓冲器技术</strong></u> 来解决。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">存储器-存储器结构</p>
+<p>为了消除存储器争用冲突，存储器-存储器结构的向量机采用 <u><strong>多模块</strong></u> 存储器，并在运算器输入和输出端增加 <u><strong>延迟缓冲器</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">寄存器-寄存器结构</p>
+<p>在“寄存器-寄存器”结构中，运算部件的输入和输出直接与 <u><strong>向量寄存器</strong></u> 相连。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">提高向量处理机性能的技术</p>
+<p>提高向量处理机性能的四种常用技术 include：<u><strong>设置多个功能部件</strong></u>、<u><strong>链接技术</strong></u>、<u><strong>循环开采技术</strong></u> 和 <u><strong>采用多处理机系统</strong></u>。</p>
+</div>
+<h3 id="_7">互连网络</h3>
+<div class="admonition note">
+<p class="admonition-title">互连网络三大要素</p>
+<p>互连网络是由网络元件按照一定的拓扑结构和控制方式构成的网络，其三大要素是 <u><strong>网络元件</strong></u>、<u><strong>互连结构</strong></u> 和 <u><strong>控制方式</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">静态互连网络 vs. 动态互连网络</p>
+<p>互连网络通常分为两大类：各结点之间有固定连接通路且在运行中不能改变的称为静态互连网络；由 <u><strong>交换开关</strong></u> 构成、可按运行程序的要求动态改变连接状态的称为动态互连网络。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">互连网络通信中常用的四种消息传递寻径方式</p>
+<p>互连网络通信中常用的四种消息传递寻径方式主要有 <u><strong>线路交换</strong></u>、<u><strong>存储转发</strong></u>、<u><strong>虚拟直通</strong></u> 和 <u><strong>虫蚀方式</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">等分宽度的定义</p>
+<p>等分宽度是把由 <span class="arithmatex">\(N\)</span> 个结点构成的网络切成结点数近似相同（<span class="arithmatex">\(N/2\)</span>）的两半（<span class="arithmatex">\(N1 + N2\)</span>），在各种切法中，<u><strong>沿切口边数的最小值</strong></u>。该参数主要反映了 <u><strong>网络最大流量</strong></u>。</p>
+</div>
+<h3 id="simd">阵列处理机 SIMD</h3>
+<div class="admonition note">
+<p class="admonition-title">什么是阵列处理机？</p>
+<p>阵列处理机的核心是由 <u><strong>多个处理单元</strong></u> 构成的阵列，它采用 <u><strong>资源重复</strong></u> 的方法提高并行性，又称为 <u><strong>SIMD（单指令流多数据流）</strong></u> 计算机</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">阵列处理机的操作模型</p>
+<p>阵列处理机的操作模型可用五元组（N，C，I，M，R）表示，其中 N 代表 <u><strong>处理单元（PE）数</strong></u>，C 代表 <u><strong>控制部件 CU 直接执行的指令集</strong></u>，I代表 <u><strong>由 CU 广播至 PE 进行并行执行的指令集</strong></u>，M代表 <u><strong>屏蔽方案集</strong></u>，R代表 <u><strong>数据寻径功能集</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">阵列机系统的构成</p>
+<p>实际的阵列机系统通常是由三部分构成的一个异构型多处理机系统，包括：<u><strong>PE（处理单元）</strong></u>、<u><strong>控制器</strong></u> 和 <u><strong>前端机</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">阵列处理机的分类</p>
+<p>根据存储器的组织结构，阵列处理机主要分为 <u><strong>分布式存储器的阵列机</strong></u> 和 <u><strong>共享存储器的阵列机</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">共享存储器阵列机结构</p>
+<p>在共享存储器的阵列机中，共享的多体并行存储器通过 <u><strong>对准网络</strong></u> 与各处理单元相连。</p>
+</div>
+<h3 id="mimd">多处理机 MIMD</h3>
+<div class="admonition note">
+<p class="admonition-title">并行处理机 vs. 多处理机</p>
+<p>多处理机与并行处理机的本质差别在于并行性级别的不同：多处理机实现 <u><strong>任务一级</strong></u> 的并行，并行性存在于 <u><strong>指令外部</strong></u>。而并行处理机则实现同一指令多数据流的 <u><strong>操作一级</strong></u> 的并行。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">多处理机的并行性</p>
+<p>多处理机实现 <u><strong>粗粒度</strong></u> 的并行性。一般来说，在同一时刻，不同的处理机执行着不同的 <u><strong>指令</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">MIMD 计算机的特点</p>
+<p>MIMD，多处理机，具有 <u><strong>多个 CPU</strong></u> 的计算机系统。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">MIMD 计算机的分类</p>
+<p>根据存储器的组织结构，MIMD机器可分为 <u><strong>集中式共享存储器结构</strong></u>（各处理器共享一个集中式的物理存储器） 和 <u><strong>分布式存储器结构</strong></u>（各处理器拥有各自的局部存储器） 两类。</p>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260620111600590.png" width="70%" /> </figure></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">SMP（物理共享 + 逻辑共享）</p>
+<p>集中式共享存储器多处理机常被称为 <u><strong>SMP机器</strong></u>，其所有处理器访问存储器所花时间相同，属于 <u><strong>UMA（均匀存储器访问）</strong></u> 结构。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">DSM（物理分离 + 逻辑共享）</p>
+<p>分布式共享存储器系统（DSM）也称为 <u><strong>NUMA（非统一内存访问）</strong></u> 机器，其特点是物理分离的所有存储器作为一个 <u><strong>统一的共享逻辑空间</strong></u> 进行编址。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">分布式存储器多处理机的通信方式</p>
+<p>两种主要的多处理机通信机制是：通过 load/store 指令操作的 <u><strong>共享存储器通信机制（适用于逻辑共享）</strong></u>，以及通过显式传递消息完成的 <u><strong>消息传递通信机制（适用于逻辑分离）</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">目录协议分类</p>
+<p>在基于目录的协议中，目录的三种常见结构为：全映象目录、有限映象目录和链式目录。</p>
+</div>
+<h2 id="_8">简答题</h2>
+<h3 id="_9">系统结构基础知识相关概念</h3>
+<div class="admonition note">
+<p class="admonition-title">计算机系统的层次结构</p>
+<table>
+<thead>
+<tr>
+<th>层数</th>
+<th>语言</th>
+<th>实现</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>0</td>
+<td>布尔语言（硬件）</td>
+<td></td>
+</tr>
+<tr>
+<td>1</td>
+<td>微程序指令</td>
+<td>用微指令集编写微程序，固件、硬件来解释</td>
+</tr>
+<tr>
+<td>2</td>
+<td>传统机器语言</td>
+<td>传统机器语言程序有 L1 级微程序或 L0 级硬联逻辑进行解释</td>
+</tr>
+<tr>
+<td>3</td>
+<td>操作系统</td>
+<td>包括传统机器及操作系统级指令，由微程序解释</td>
+</tr>
+<tr>
+<td>4</td>
+<td>汇编语言</td>
+<td>翻译成 L3 和 L2 级语言执行</td>
+</tr>
+<tr>
+<td>5</td>
+<td>高级语言</td>
+<td>通过编译程序翻译到 L4 或 L3 级，或通过解释方法实现</td>
+</tr>
+<tr>
+<td>6</td>
+<td>应用语言</td>
+<td>由应用程序包翻译到 L5</td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">简述计算机系统结构、计算机组成与计算机实现的概念及其相互关系。</p>
+<ul>
+<li><strong>计算机系统结构</strong>：是指机器语言程序员所看到的 <u><strong>传统机器级</strong></u> 所具有的属性，即 <u><strong>概念性结构与功能特性</strong></u>。其实质是确定计算机系统中软硬件的界面。<ul>
+<li>e.g. 指令系统是否有乘法指令、主存容量与编址方式</li>
+</ul>
+</li>
+<li><strong>计算机组成</strong>：是指计算机系统结构的 <u><strong>逻辑实现</strong></u>，包含物理机器级中的数据流和控制流的组成以及逻辑设计等。<ul>
+<li>e.g. 专门的乘法器、加法器多步操作、主存速度、逻辑结构是否采用多体交叉</li>
+</ul>
+</li>
+<li><strong>计算机实现</strong>：是指计算机组成的 <u><strong>物理实现</strong></u>，包括部件的物理结构、器件技术和微组装技术等。<ul>
+<li>e.g. 乘法器、加法器的物理实现、器件选定以及微组装技术、主存系统的物理实现</li>
+</ul>
+</li>
+<li><strong>相互关系</strong>：具有相同系统结构的计算机可以采用不同的计算机组成；同一种计算机组成又可以采用多种不同的计算机实现</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">术语解释：翻译和解释</p>
+<ul>
+<li>翻译 (Translation)：先用转换程序把高一级机器上的程序转换为低一级机器上等效的程序，然后再运行该程序。</li>
+<li>解释 (Interpretation)：对于高一级机器上的每条指令，执行低一级机器上的一段等效程序，如此反复直至完成。</li>
+</ul>
+</div>
+<div class="admonition info">
+<p class="admonition-title">翻译 vs. 解释 例题</p>
+<p>汇编语⾔源程序变换成机器语⾔⽬标程序是经（   ）来实现的。</p>
+<p>A．编译程序解释 B．汇编程序解释 C．编译程序翻译 D．汇编程序翻译</p>
+<p>解答：D．汇编程序翻译，源程序 <span class="arithmatex">\(\rightarrow\)</span> 目标程序，因此是翻译，由汇编程序实现，编译程序负责的是高级语言 <span class="arithmatex">\(\rightarrow\)</span> 机器语言的翻译。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">简述模拟（Simulation）与仿真（Emulation）的异同。</p>
+<p>两者都是为了实现软件的可移植性，使软件能在具有不同系统结构的机器之间运行的方法。</p>
+<ul>
+<li><strong>模拟</strong>：用 <u><strong>机器语言</strong></u> 解释执行，解释程序通常存放在 <u><strong>主存</strong></u> 中。它是用软件的方法在现有机器（宿主机）上实现另一台机器（虚拟机）的指令集，运行速度较慢。</li>
+<li><strong>仿真</strong>：用 <u><strong>微程序</strong></u> 解释执行，解释程序放在 <u><strong>控制存储器</strong></u> 中。它是用宿主机上的微程序去解释实现目标机的指令集，运行速度比模拟方法快，但通常只能在系统结构差距不大的机器之间使用。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">实现软件移植的途径有哪些？各受什么限制？</p>
+<p>实现软件移植的途径有：<u><strong>统⼀⾼级语⾔</strong></u>，<u><strong>系列机⽅法</strong></u>，<u><strong>模拟</strong></u>和<u><strong>仿真</strong></u>。</p>
+<ul>
+<li><strong>统⼀⾼级语⾔存在问题</strong>：存在⼀定的困难，争取汇编语⾔或机器语⾔的统⼀。</li>
+<li><strong>系列机⽅法存在问题</strong>：在汇编语⾔兼容的前提下，系统结构的发展很有限，有时连突破性的组成技术都⽆法采⽤。</li>
+<li><strong>模拟存在问题</strong>：结构差异很⼤时，效率、速度会急剧下降。</li>
+<li><strong>仿真存在问题</strong>：实现不灵活，当两种机器结构差别很⼤时，效率低甚⾄难以仿真。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">术语解释：基准测试程序</p>
+<p>为了更真实、全面地反映计算机在各个方面的处理性能，现代通常采用基准测试程序套件。它是由 <u><strong>各种不同的真实应用程序构成的集合</strong></u>。用于测试和比较性能的基准测试程序的最佳选择是真实应用程序。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">简述传统冯·诺依曼结构的主要特点。</p>
+<ul>
+<li>计算机以运算器为中心。</li>
+<li>在存储器中，指令和数据同等对待。</li>
+<li>存储器是按地址访问、按顺序线性编址的一维结构，每个单元的位数是固定的。</li>
+<li>指令的执行是 <u><strong>顺序的</strong></u>。</li>
+<li>指令由操作码和地址码组成。</li>
+<li>指令和数据均以二进制编码表示，采用二进制运算。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">简述三大分类法（Flynn、冯氏、Handler）</p>
+<ul>
+<li><strong>Flynn分类法</strong>：按照指令流和数据流的多倍性，把计算机系统的结构分为单指令流单数据流（SISD）、单指令流多数据流（SIMD）、多指令流单数据流（MISD）和多指令流多数据流（MIMD）四类。</li>
+<li><strong>冯氏分类法</strong>：用 <u><strong>最大并行度</strong></u>（<span class="arithmatex">\(P_m\)</span>，计算机系统在单位时间内能处理的最大的二进制位数）来分类<ul>
+<li>字串位串 WSBS：<span class="arithmatex">\(n=1,m=1\)</span>，纯串行计算机</li>
+<li>字串位并 WSBP：<span class="arithmatex">\(n&gt;1,m=1\)</span>，单处理机，同时处理单个字的多个位</li>
+<li>字并位串 WPBS：<span class="arithmatex">\(n=1,m&gt;1\)</span>，单处理机，同时处理多个字的同一位</li>
+<li>字并位并 WPBP：<span class="arithmatex">\(n&gt;1,m&gt;1\)</span>，多处理机，同时处理多个字的多个位</li>
+</ul>
+</li>
+<li><strong>Handler 分类法</strong>：根据 <u><strong>并行度</strong></u> 和 <u><strong>流水线</strong></u> 对计算机进行分类。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">什么是并行性？它包含哪两个方面的含义？</p>
+<ul>
+<li><strong>并行性</strong>：是指计算机系统在同一时刻或者同一时间间隔内进行多种运算或操作。只要在时间上相互重叠，就存在并行性。</li>
+<li>它包含两个方面的含义：<ul>
+<li><strong>同时性</strong>：指两个或两个以上的事件在同一时刻发生。</li>
+<li><strong>并发性</strong>：指两个或两个以上的事件在同一时间间隔内发生。</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">简叙 Amdahl 定律主要内容。</p>
+<p>Amdahl 定律的核心内容是：加快系统某部件执行速度所能获得的系统总体性能加速比，受限于 <u><strong>该部件执行时间占系统总执行时间的百分比</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">简述目前流行的5类高性能并行计算机系统。</p>
+<ul>
+<li><strong>PVP（Parallel Vector Processor），并行向量处理机</strong>；</li>
+<li><strong>SMP（Symmetric Multiprocessor），对称式共享存储多处理机</strong>；</li>
+<li><strong>MPP（Massively Parallel Processor），大规模并行处理机</strong>；</li>
+<li><strong>DSM（Distributed Shared Memory），分布式共享存储多处理机</strong>；</li>
+<li><strong>COW（Cluster of Workstations），工作站集群</strong>；</li>
+</ul>
+</div>
+<h3 id="_10">时间并行技术（流水线）</h3>
+<div class="admonition note">
+<p class="admonition-title">简述 MIPS 指令集</p>
+<p>MIPS 指令集在设计上采用了 <u><strong>固定字段译码技术</strong></u>，即 <u><strong>操作码（Opcode）字段以及寄存器操作数字段（rs、rt）都位于指令中固定的位置</strong></u>，这种设计使得指令的译码操作和读寄存器操作能够并行进行。包含 3 类指令：</p>
+<ol>
+<li><strong>I类指令（立即数指令）</strong>：该类指令包含四个主要字段<ul>
+<li>操作码（Opcode）</li>
+<li>rs（源寄存器）</li>
+<li>rt（目标或源寄存器）</li>
+<li>立即数（Immediate）</li>
+</ul>
+</li>
+<li><strong>R类指令（寄存器指令）</strong>：该类指令包含六个主要字段<ul>
+<li>操作码（Opcode）</li>
+<li>rs（源寄存器）</li>
+<li>rt（源寄存器）</li>
+<li>rd（目标寄存器）</li>
+<li>sham（位移量）</li>
+<li>funct（功能码）</li>
+</ul>
+</li>
+<li><strong>J类指令（跳转指令）</strong>：该类指令包含两个主要字段<ul>
+<li>操作码（Opcode）</li>
+<li>与 PC 相加的偏移量</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="admonition note">
+<p class="admonition-title">什么是指令流水线？</p>
+<p>指令流水线属于 <u><strong>处理机级流水线</strong></u>，它是指把指令的执行过程按照流水方式处理的技术。它的核心原理是把一条指令的解释或执行过程分解为 <u><strong>若干个子过程</strong></u>，并让这些子过程分别由 <u><strong>独立的专门功能部件</strong></u> 来实现。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">什么是流水线的通过时间？什么是排空时间？</p>
+<ul>
+<li><strong>通过时间</strong>是指 <u><strong>第一个任务</strong></u> 从进入流水线到流出结果的时间段。</li>
+<li><strong>排空时间</strong>是指 <u><strong>最后一个任务</strong></u> 从进入流水线到流出结果的时间段。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">简述降低流⽔线分⽀损失的延迟分⽀⽅法及3种不同调度策略。</p>
+<ul>
+<li><strong>延迟分支方法</strong>：从逻辑上“延⻓”分⽀指令的执⾏时间。所有顺序后继指令都处于<u><strong>“分⽀延迟槽”</strong></u>中，⽆论分⽀成功与否，流⽔线都会执⾏这些指令。</li>
+<li><strong>3种不同调度策略</strong>：<ol>
+<li><strong>从前调度</strong>：分支不依赖于被调度的指令。<u><strong>总是</strong></u>可以有效提⾼流⽔线性能。</li>
+<li><strong>从目标处调度</strong>：如果分⽀转移失败，必须保证被调度的指令对程序的执⾏没有影响，可能需要复制被调度指令。<u><strong>分⽀转移成功时，可以提⾼流⽔线性能</strong></u>。但由于复制指令，可能加⼤程序空间。</li>
+<li><strong>从失败处调度</strong>：如果分⽀转移成功，必须保证被调度的指令对程序的执⾏没有影响。<u><strong>分⽀转移失败时，可以提⾼流⽔线性能</strong></u>。</li>
+</ol>
+</li>
+</ul>
+</div>
+<h3 id="_11">指令级并行技术</h3>
+<div class="admonition note">
+<p class="admonition-title">术语解释：保持异常行为 (Exception Behavior)</p>
+<p>指无论如何改变指令执行顺序，都不能改变程序中异常的发生情况。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">简述静态调度与动态调度的区别。</p>
+<ul>
+<li><strong>静态调度</strong>：依靠编译器对代码进行静态调度，以减少相关和冲突。它在编译期间进行代码调度和优化，通过把相关的指令拉开距离来减少可能产生的停顿。</li>
+<li><strong>动态调度</strong>：在程序的执行过程中，依靠专门硬件对代码进行调度，减少数据相关导致的停顿。其优点是能处理编译时情况不明的相关，并使面向某一流水线优化的代码在其他流水线也能高效执行，缺点是增加了硬件复杂性。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">术语解释：乱序流水线</p>
+<p>经典的流水线存在“按序流出”和“按序执行”的局限性，一旦某条指令因相关性受阻，其后的指令都将停顿。乱序流水线（通过指令的动态调度实现），允许指令</p>
+<ul>
+<li><strong>乱序执行</strong>：指指令的实际执行顺序与原本的程序顺序不相同；</li>
+<li><strong>乱序完成</strong>：指指令的完成顺序同样与程序顺序不相同；</li>
+</ul>
+<p>系统将经典5段流水线的译码阶段（ID）进一步细分为两个阶段：</p>
+<ul>
+<li>流出（Issue, IS）：负责指令译码，并检查是否存在结构冲突。在这个阶段，指令仍然是按序流出的；</li>
+<li>读操作数（Read Operands, RO）：等待数据冲突消失，然后读取操作数。在这个阶段，流出后的指令只要其操作数就绪，就可以立即开始乱序执行，而不需要等待前面的指令执行完毕；</li>
+</ul>
+<p>在传统按序执行的5段流水线中，不会发生 <strong>WAR（反相关）</strong> 和 <strong>WAW（输出相关）</strong> 冲突，但乱序执行使得这两种冲突可能发生，并且可能导致 <strong>不精确异常</strong>。两种典型硬件算法是 <strong>记分牌（Scoreboard）</strong> 算法（CDC 6600最早采用）和 <strong>Tomasulo算法</strong>（IBM 360/91首先采用）。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">简述精确异常和不精确异常的区别。</p>
+<ul>
+<li><strong>精确异常</strong>：如果发生异常时，处理机的现场跟严格按程序顺序执行时指令的现场相同。</li>
+<li><strong>不精确异常</strong>：当执行某条指令导致发生异常时，处理机的现场与严格按程序顺序执行时指令的现场不同。发生的原因通常是流水线可能已经执行完了按程序顺序位于该指令之后的指令，或者还没完成该指令之前的指令。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">什么是Tomasulo算法？它具有哪些主要优点？</p>
+<ul>
+<li>Tomasulo算法是一种基于硬件的动态调度算法。其核心思想是记录和检测指令相关，<u><strong>操作数一旦就绪就立即执行</strong></u>（减小RAW冲突）；并通过保留站进行寄存器换名来消除WAR冲突和WAW冲突。</li>
+<li><strong>主要优点</strong>：<ul>
+<li><strong>冲突检测逻辑是分布的</strong>：通过 <u><strong>保留站</strong></u> 和 <u><strong>CDB</strong></u> 实现，结果一产生就能通过 CDB 播送给所有需要的指令同时执行。</li>
+<li><strong>消除了WAW冲突和WAR冲突导致的停顿</strong>：使用保留站进行寄存器换名，且操作数一旦就绪就放入保留站。</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">简述前瞻执行（Speculation）的基本思想及ROB的作用。</p>
+<ul>
+<li><strong>基本思想</strong>：对分支指令的结果进行猜测，并假设猜测总是对的，然后按猜测结果继续取、流出和执行后续指令。</li>
+<li><strong>ROB（再定序缓冲器）的作用</strong>：前瞻执行指令的结果不直接写回寄存器或存储器，而是写入ROB中。等到相应的指令得到“确认”（即确实是应该执行的）之后，才将结果从ROB写入寄存器或存储器；如果猜测错误，则清空ROB并从另一条路径重新执行，从而保证了 <u><strong>精确异常</strong></u> 和正确的指令顺序。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">简述超标量（Superscalar）、超长指令字（VLIW）处理机和超流水线（Superpipeline）处理机的主要区别。</p>
+<ul>
+<li><strong>超标量（Superscalar）</strong>：每个时钟周期流出的指令条数 <u><strong>不定</strong></u>（有上限），由硬件或编译器完成调度。其优点是<u><strong>对程序员透明</strong></u>，能够<u><strong>兼容旧代码</strong></u>，代码量较小。<ul>
+<li>发射/流出策略：<ul>
+<li>每个时钟周期流出的指令条数是不固定的，但受限于硬件设计的 <u><strong>最大流出上限</strong></u>（即n-流出）。</li>
+<li>指令通常是 <u><strong>按序流出的</strong></u>，在流出阶段由硬件实时检测指令包内以及与正在执行的指令之间是否存在结构冲突或数据冲突</li>
+</ul>
+</li>
+<li>调度策略： 超标量处理机主要分为静态调度（编译器）和动态调度（专门的硬件，例如扩展的 Tomasulo 算法）两类；</li>
+</ul>
+</li>
+<li><strong>超长指令字（VLIW）</strong>：每个时钟周期流出的指令条数是 <u><strong>固定的</strong></u>，由多个单操作指令构成一个超长指令包。指令间的并行性由 <u><strong>编译器</strong></u> 显式表示和调度，流出时 <u><strong>无需复杂的冲突检测，硬件设计较简单</strong></u>。但缺点是 <u><strong>目标代码兼容性差</strong></u>，且可能因操作槽填不满导致 <u><strong>编码效率低和代码膨胀</strong></u>。</li>
+<li><strong>超流水线（Superpipeline）</strong>：将每个流水段进一步细分，这样在一个时钟周期内能够分时流出多条指令。</li>
+</ul>
+</div>
+<h3 id="_12">向量流水处理机</h3>
+<div class="admonition note">
+<p class="admonition-title">简述向量的三种处理方式，并指出哪种方式不适用于向量处理机的并行处理。</p>
+<ul>
+<li><strong>横向（水平）处理方式</strong>：向量计算按 <u><strong>行</strong></u> 的方式从左到右横向进行。<u><strong>不适用于向量处理机的并行处理</strong></u>。</li>
+<li><strong>纵向（垂直）处理方式</strong>：向量计算按 <u><strong>列</strong></u> 的方式从上到下纵向进行，整个向量仅需1次数据相关和1次功能切换，适用于 <u><strong>存储器-存储器型</strong></u> 向量处理机。</li>
+<li><strong>纵横（分组）处理方式</strong>：把向量分成若干组，组内按纵向方式处理，依次处理各组。对向量长度无限制，适用于 <u><strong>寄存器-寄存器型</strong></u> 向量处理机。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">什么是向量流水线链接技术（Chaining）？能够成功进行向量链接的必要条件是什么？</p>
+<ul>
+<li><strong>链接技术</strong>：具有 <u><strong>先写后读相关</strong></u> 的两条指令，在前一个向量功能部件产生第一个结果并送到结果寄存器入口时，立即将该结果送往下一个功能部件的入口，开始后续的向量操作，从而把功能部件链接起来进行流水处理，无需等待整个向量结果全部产生。其实质是把流水线定向的思想引入到向量执行过程。</li>
+<li><strong>链接的必要条件</strong>：<ul>
+<li>无向量寄存器使用冲突和无功能部件使用冲突。</li>
+<li>只有在前一条指令的第一个结果元素送入结果向量寄存器的那一个时钟周期才可以进行链接。</li>
+<li>当一条向量指令的两个源操作数来自两条先行指令时，这 <u><strong>两条先行指令产生运算结果的时间（有关功能部件的通过时间）必须相等</strong></u>。</li>
+<li>进行链接执行的向量指令的向量长度必须相等。</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">什么是分段开采技术（Strip Mining）？为什么需要这种技术？</p>
+<ul>
+<li>概念：当 <u><strong>待处理的向量长度大于向量处理机内部向量寄存器的长度（MVL）</strong></u> 时，必须把长向量分成长度固定的段，然后循环分段处理，每一次循环只处理一个向量段。</li>
+<li>原因：在寄存器-寄存器型结构的向量机（如CRAY-1）中，每个向量寄存器能容纳的元素个数是固定的（如64个），对于超过此上限的任意长度向量，硬件无法一次性容纳，因此依赖分段开采技术将长向量切分为硬件能处理的小段进行循环计算。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title"> 什么是“编队”技术？它的执行时间由什么决定？同一个编队中的向量指令之间需要满足什么条件？</p>
+<ul>
+<li><strong>编队</strong>：是指把能在同一个时钟周期内一起开始执行的几条向量指令组合在一起的集合。</li>
+<li><strong>执行时间特征</strong>：当一个编队由若干条指令组成时，该编队的执行时间由该编队中 <u><strong>各指令启动时间的最大值</strong></u> 来确定。整个指令序列的总执行时间等于 <u><strong>各个编队执行时间的总和</strong></u>。</li>
+<li>同一个编队中的向量指令之间一定不存在流水向量 <u><strong>功能部件的冲突</strong></u>、<u><strong>Vi冲突</strong></u> 或 <u><strong>数据的相关性</strong></u></li>
+</ul>
+</div>
+<h3 id="_13">互连网络</h3>
+<div class="admonition note">
+<p class="admonition-title">互连网络的主要特性参数，分别解释它们的概念及其意义</p>
+<p>互连网络的主要特性参数有 <u><strong>网络规模N</strong></u>、<u><strong>结点度d（包括入度和出度）</strong></u>、<u><strong>结点距离</strong></u>、<u><strong>网络直径D</strong></u>、<u><strong>等分宽度b</strong></u> 和 <u><strong>对称性</strong></u> 等。</p>
+<ul>
+<li><strong>网络规模 N</strong>：网络中结点的个数，表示该网络所能连接的部件数量。</li>
+<li><strong>结点度 d</strong>：与结点相连接的边数（通道数），包括入度和出度。</li>
+<li><strong>结点距离</strong>：网络中任意两个结点间跨越边数的 <u><strong>最小值</strong></u>。</li>
+<li><strong>网络直径 D</strong>：网络中任意两个结点间的 <u><strong>最大结点距离</strong></u>。</li>
+<li><strong>等分宽度 b</strong>：指把由N个结点构成的网络切成结点数近似相同的两半，在各种切法中，沿切口边数的最小值。</li>
+<li><strong>对称性</strong>：从任何结点看到的拓扑结构都是相同的网络称为对称网络。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">静态互连网络及确定性寻径</p>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619195717486.png" width="70%" /> </figure></p>
+<p>核心概念包括：</p>
+<ul>
+<li><strong>循环移数网络</strong>：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621111440535.png" width="70%" /> </figure></li>
+<li><strong>Illiac 网络</strong>（网格形的升级，满足对称性）：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619201608354.png" width="70%" /> </figure></li>
+<li><strong>环网形</strong>：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619201820258.png" width="70%" /> </figure></li>
+<li><strong>超立方体网络</strong>：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619202814257.png" width="70%" /> </figure>
+    对于 n 立方体：<ul>
+<li>结点数：<span class="arithmatex">\(N = 2^n\)</span>；</li>
+<li>结点度：<span class="arithmatex">\(d = n\)</span>；</li>
+<li>网络直径：<span class="arithmatex">\(D = n\)</span>；</li>
+<li>等分宽度：<span class="arithmatex">\(b = N / 2 = 2^{n-1}\)</span>；</li>
+<li>对称</li>
+</ul>
+</li>
+<li><strong>带环 k 维立方体</strong>：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619203101831.png" width="70%" /> </figure></li>
+</ul>
+<p>在<strong>确定性寻径算法</strong>中：</p>
+<ul>
+<li>二维网格网络通常采用 <u><strong>X-Y寻径</strong></u>（先沿X维方向再沿Y维方向）；</li>
+<li>超立方体网络通常采用 <u><strong>E-cube寻径</strong></u>。</li>
+</ul>
+</div>
+<div class="admonition info">
+<p class="admonition-title">超立方体网络例题</p>
+<p>32个节点的立方体网络中，3号到6号节点的距离是( )。 </p>
+<p>解答：网络中节点的距离定义为其二进制编码之间的<strong>海明距离（Hamming Distance）</strong>。因此，3号节点的二进制编码为 00011，6号节点的二进制编码为 00110。它们在第 2 位和第 0 位上不同，因此距离为 2。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">动态互连网络</p>
+<p>应该只需记忆几类典型：</p>
+<ul>
+<li><strong>总线网络</strong><ul>
+<li>每一次总线只能用于 <u><strong>一个源（主部件）到一个或多个目的（从部件）</strong></u> 之间的数据传送。</li>
+<li>多个请求时，<u><strong>仲裁逻辑</strong></u> 决定哪个请求被允许使用总线，并按分时原则轮流为多个请求服务。</li>
+<li>特点：结构简单、实现成本低、带宽较窄</li>
+</ul>
+</li>
+<li><strong>交叉开关网络</strong>：一个 <span class="arithmatex">\(n\times n\)</span> 的交叉开关网络可以无阻塞地实现 <span class="arithmatex">\(n!\)</span> 种置换。</li>
+<li><strong>多级互连网络 MIN</strong>：通常在 <span class="arithmatex">\(N\)</span> 个结点的多级互连网络中，多级 ICN 由 <span class="arithmatex">\(n = \log_2 N\)</span> 级构成；<ul>
+<li>对于通用的 <span class="arithmatex">\(\times\)</span> 开关模块：共有 <u><strong><span class="arithmatex">\(n^n\)</span> 种合法状态</strong></u>，以及 <u><strong><span class="arithmatex">\(n!\)</span> 种置换连接</strong></u>。<ul>
+<li>开关模块允许“一对一”和“一对多”（广播）映射，但不允许“多对一”映射，因此对于 n 个输出端口，每个输出端口都可以独立地从 n 个输入端口中选择一个进行连接。因此，总组合数是
+    $$
+    n\times n \times \cdots \times n = n^n
+    $$</li>
+<li>对于置换连接：要求严格的“一对一”无阻塞连接，因此当每个输出端口必须与一个且仅一个输入端口连接时，第一个输出端有 <span class="arithmatex">\(n\)</span> 个输入选择，第二个输出端剩下 <span class="arithmatex">\(n−1\)</span> 个选择，依此类推
+    $$
+    n\times(n−1)\times\cdots\times1=n!
+    $$</li>
+</ul>
+</li>
+<li>对于最简单的 2×2 开关模块：共有 4 种合法状态（直连、交换、上播、下播），其中用于数据置换的连接有 2 种（直连和交换）。</li>
+</ul>
+</li>
+<li><strong>多级立方体网络（STARAN 网络 &amp; 间接二进制 n 方体网络）</strong>：、<ul>
+<li>当第 i 级的交叉开关处于交换状态时，实现的是 <span class="arithmatex">\(Cube_{(i)}\)</span> 互连函数</li>
+<li>STARAN 网络采用的是 <u><strong>级控制（用于实现交换功能）+ 部分级控制（用于实现移数功能）</strong></u>。间接二进制 n 方体网络采用的是 <u><strong>单元控制</strong></u>，更灵活。
+<figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619210216112.png" width="70%" /> </figure></li>
+</ul>
+</li>
+<li><strong>Omega 网络（多级混洗交换网络）</strong>：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260619210853171.png" width="70%" /> </figure></li>
+</ul>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Omega 网络例题 1</p>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621132511001.png" width="70%" /> </figure></p>
+</div>
+<div class="admonition info">
+<p class="admonition-title">Omega 网络例题 2</p>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621132635133.png" width="70%" /> </figure></p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">比较消息传递机制中“存储转发（Store and Forward）”、“虚拟直通（Virtual Cut-Through）”和“虫蚀方式（Wormhole）”的区别。</p>
+<ul>
+<li><strong>存储转发</strong>：包到达中间结点时，<u><strong>必须全部存储在结点的缓冲器中</strong></u>，待出口链路和下个结点的缓冲器可用时再传递。缺点是要求包缓冲区大，网络时延大（与结点距离跳数成正比）。</li>
+<li><strong>虚拟直通</strong>：虚拟直通：不必等信息包全部接收完毕，<u><strong>只要接收到包头就可作路由判断</strong></u>。若输出链路空闲，包可立即传向下一结点；若输出忙，则仍需将整个包存入缓冲器。当寻径阻塞时要求结点有足够大的缓冲区。</li>
+<li><strong>虫蚀方式</strong>：将包切割成更小的 <u><strong>“片”（Flit）</strong></u>，各片按流水方式传送。一旦头片开始传送，后续数据片紧跟其后。若输出忙，只需将一片或几片存入缓冲器。其优点是极大地减小了缓冲器的容量需求，缩短了传送延迟时间，易于用 <u><strong>VLSI</strong></u> 实现。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">在消息传递机制中，什么是死锁？如何避免路由死锁？</p>
+<ul>
+<li><strong>死锁（Routing Deadlock）</strong>：在消息寻径过程中，当多个数据包在缓冲区或通道上发生 <u><strong>循环等待</strong></u> 时，就会引起死锁，导致数据无法继续传输。</li>
+<li>避免方法：通常利用 <u><strong>增加虚拟通道</strong></u> 的方法来避免死锁。虚拟通道是两个结点间的逻辑链接，多条虚拟通道可以通过分时共享一条物理通道。通过引入额外的虚拟通道，可以打破通道间的循环依赖关系，从而有效避免死锁的发生.</li>
+</ul>
+</div>
+<h3 id="simd_1">阵列处理机 SIMD</h3>
+<div class="admonition note">
+<p class="admonition-title">简述阵列处理机的主要特点。</p>
+<ul>
+<li>以 <u><strong>单指令流多数据流（SIMD）</strong></u> 方式工作。</li>
+<li>通过设置多个相同的处理单元来开发并行性，利用的是并行性中的 <u><strong>同时性</strong></u>（而非并发性，并没有用到流水线）。</li>
+<li>是以某一类算法为背景的专用计算机，必须 <u><strong>与并行算法密切结合</strong></u>。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">简述共享存储器阵列机中“对准网络”的概念及其作用。</p>
+<ul>
+<li><strong>概念</strong>：它是实现 <u><strong>处理单元（PE）</strong></u> 和所需访问的 <u><strong>存储模块（SM）</strong></u> 对准连接的互连网络。</li>
+<li><strong>作用</strong>：在读或写并行存储器时，使存储器中为保证无冲突访问而错开存放的操作数顺序，能够与算术单元并行处理所要求的正常顺序协调一致。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">什么是屏蔽方案集（M）？在阵列处理机中起什么作用？</p>
+<ul>
+<li>屏蔽方案集是阵列机操作模型五元组之一。每种屏蔽可以将所有处理单元（PE）划分成 <u><strong>允许操作</strong></u> 和 <u><strong>禁止操作</strong></u> 两种工作模式。</li>
+<li>它主要用于在同一时钟周期内，通过屏蔽逻辑 <u><strong>动态控制某些PE是否参与当前广播指令的执行</strong></u>，以处理边界条件或数据相关的特殊操作。</li>
+</ul>
+</div>
+<h3 id="mimd_1">多处理机 MIMD</h3>
+<div class="admonition note">
+<p class="admonition-title">何谓机群系统？它的主要特点是什么？</p>
+<p>机群系统（Cluster）是一类广泛被采用的 <u><strong>MIMD（多指令流多数据流）</strong></u> 机器。采用 <u><strong>超级结点（簇）结构</strong></u>：在分布式系统中，它常以“簇”的形式存在。每个结点内部包含少量处理器（例如2～8个），这些处理器通过另外的互连技术（如总线）连接成一个整体。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">简述共享存储器通信机制与消息传递通信机制的特点。</p>
+<ul>
+<li><strong>共享存储器通信</strong>：处理器通过 load 和 store 指令对相同地址进行读写。优点是 <u><strong>与集中式多处理机兼容</strong></u>，<u><strong>易于编程</strong></u>，<u><strong>小数据量时通信开销低</strong></u>，<u><strong>可通过Cache技术减少通信频度</strong></u>。</li>
+<li><strong>消息传递通信</strong>：在多个独立地址空间之间通过 <u><strong>显式发送消息</strong></u> 来请求操作或传送数据。优点是 <u><strong>硬件较简单</strong></u>，<u><strong>显式的通信让编程者能更清楚地控制和优化通信开销</strong></u>。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">什么是缓存一致性？</p>
+<p>缓存一致性问题是指，在多处理机系统中允许共享数据进入Cache时，<u><strong>多个处理器的Cache中可能会存在同一存储块的副本</strong></u>。如果某个处理器修改了自己Cache中的数据，就会导致 <u><strong>它的数据与其他Cache（或主存）中的数据不一致</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">导致 Cache不一致的主要原因有哪些？</p>
+<p><u><strong>可写数据的共享</strong></u>、<u><strong>I/O活动</strong></u>、<u><strong>进程迁移</strong></u>。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Cache一致性协议的两大类</p>
+<ul>
+<li><strong>目录式协议</strong>：通过设置一个称为 <u><strong>“目录”的集中数据结构</strong></u>，记录每个数据块的状态以及哪些Cache中有副本。它不需要在总线上广播，可扩展性更好，适合分布式共享存储器系统。</li>
+<li><strong>监听式协议</strong>：每个Cache除了包含物理存储器中块的数据副本之外，也 <u><strong>保存着各个块的共享状态信息</strong></u>。各个Cache控制器通过连接在共享存储器的总线上，一直 <u><strong>监听总线上的请求</strong></u>。当发现自己拥有总线请求的数据块副本时，就进行相应操作，适合较小规模的系统。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">比较解决Cache一致性的“写作废”和“写更新”协议。</p>
+<ul>
+<li><strong>写作废协议</strong>：在处理器写入数据前，必须向其他拥有该数据副本的Cache发送信号，作废这些副本以保证唯一的访问权。其带宽占用较少，应用更广泛。</li>
+<li><strong>写更新协议</strong>：在处理器写入数据时，通过广播把新的数据发送给其他Cache，让它们更新对应的副本。虽然读取延迟小，但连续多次写操作会引发大量广播操作，浪费总线带宽。</li>
+</ul>
+</div>
+<div class="admonition note">
+<p class="admonition-title">比较 Cache 更新后对存储器写策略。</p>
+<ul>
+<li><strong>写直达（Write Through）</strong>：在处理器写入数据时，<u><strong>同时将数据写入Cache和主存</strong></u>。优点是保证了主存中数据的最新性，缺点是写操作频繁时会占用大量总线带宽。</li>
+<li><strong>写回（Write Back）</strong>：在处理器写入数据时，<u><strong>只更新Cache中的数据，而不立即更新主存</strong></u>。只有当该数据块被替换出Cache时，才将其写回主存。优点是减少了对总线的占用，提高了系统性能，但需要额外的机制来跟踪哪些数据块是“脏”的。</li>
+</ul>
+</div>
+<h2 id="_14">计算 / 解答题</h2>
+<h3 id="cpi-mips">CPI / MIPS 计算</h3>
+<ul>
+<li>有效 CPI = 执行程序所需的时钟周期数 / 所执行的指令条数</li>
+<li>MIPS = 时钟频率 / CPI（一般时钟频率单位为 MHz，这边就不用 <span class="arithmatex">\(10^6\)</span> 了）</li>
+</ul>
+<h3 id="amdahl">Amdahl定律</h3>
+<ul>
+<li>加速比 <span class="arithmatex">\(S_n = \frac{1}{(1 - Fe) + \frac{Fe}{S_e}}\)</span>，其中 <span class="arithmatex">\(Fe\)</span> 是可改进部分占总执行时间的比例，<span class="arithmatex">\(Se\)</span> 是可改进部分加速比。</li>
+<li>多部件改进情况下的加速比 <span class="arithmatex">\(S_n = \frac{1}{(1 - \sum_{i=1}^{n} Fe_i) + \sum_{i=1}^{n} \frac{Fe_i}{Se_i}}\)</span>，其中 <span class="arithmatex">\(Fe_i\)</span> 是第 <span class="arithmatex">\(i\)</span> 个改进部分占总执行时间的比例，<span class="arithmatex">\(Se_i\)</span> 是第 <span class="arithmatex">\(i\)</span> 个改进部分的加速比。</li>
+</ul>
+<h3 id="_15">流水线时空图和性能指标计算</h3>
+<div class="admonition note">
+<p class="admonition-title">流水线的三个重要性能指标（吞吐率、加速比、效率）的概念及公式</p>
+<ul>
+<li><strong>吞吐率（Throughput）</strong>：是指在<u><strong>单位时间内流水线所完成的任务数量或输出结果的数量</strong></u>。其公式为（各段时间相等时）：
+    $$
+    TP = \frac{n}{T_k} = \frac{n}{(k + n - 1)\Delta t}
+    $$</li>
+<li><strong>加速比（Speedup）</strong>：是指完成同样一批任务，<u><strong>不使用流水线（即顺序执行）所用的时间与使用流水线所用的时间之比</strong></u>。其公式为（各段时间相等时）：
+    $$
+    S = \frac{T_s}{T_k} = \frac{n k \Delta t}{(k + n - 1)\Delta t} = \frac{n k}{k + n - 1}
+    $$<ul>
+<li>最大加速比为 <span class="arithmatex">\(S_max = k\)</span></li>
+</ul>
+</li>
+<li><strong>效率（Efficiency）</strong>：是指流水线中的 <u><strong>设备实际使用时间与整个运行时间的比值</strong></u>，即流水线设备的利用率。从时空图上看，效率就是n个任务占用的时空面积和k个段总的时空面积之比。其公式为：
+    $$
+    E = TP\cdot \Delta t = \frac{S}{k}
+    $$
+    即实际加速比与最大加速比 k 的比值。</li>
+</ul>
+</div>
+<div class="admonition info">
+<p class="admonition-title">例题 1 流水线 + 预测分支成功（个人解答）</p>
+<p>在一项单流水线处理机上执行下面的程序。每条指令都要经过“取指”，“译码”，“执行”和“写结果”4 个流水段。每个流水段的延迟时间都是 5ns。在“执行”流水段，LS 部件完成 LOAD 或 STORE 操作，其它操作都在 ALU 部件中完成，两个操作部件的输出端有直接数据通路与任一操作部件的输入端相连，ALU 部件产生的条件码也能够直接送入控制器。</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span>
+<span class="normal"><a href="#__codelineno-0-4">4</a></span>
+<span class="normal"><a href="#__codelineno-0-5">5</a></span>
+<span class="normal"><a href="#__codelineno-0-6">6</a></span>
+<span class="normal"><a href="#__codelineno-0-7">7</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>1:        SUB   R0, R0       ; R0 ← 0
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>2:        LOAD  R1, #8       ; 向量长度 8
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>3: LOOP:  LOAD  R2, A        ; R2 ← A 向量的一个元素
+</span><span id="__span-0-4"><a id="__codelineno-0-4" name="__codelineno-0-4"></a>4:        MUL   R2, R1       ; R2 ← (R2)*(R1)
+</span><span id="__span-0-5"><a id="__codelineno-0-5" name="__codelineno-0-5"></a>5:        ADD   R0, R2       ; R0 ← (R0)+(R2)
+</span><span id="__span-0-6"><a id="__codelineno-0-6" name="__codelineno-0-6"></a>6:        DJNE  R1, LOOP     ; R1 ← (R1)-1 若(R1)≠0 则转
+</span><span id="__span-0-7"><a id="__codelineno-0-7" name="__codelineno-0-7"></a>7:        STORE R0, S        ; 保存结果
+</span></code></pre></div></td></tr></table></div>
+<p>采用静态分支预测技术，每次都预测转移成功。画出指令流水线的时空图，并计算流水线的吞吐率和加速比。</p>
+<p>解答：</p>
+<p>上述程序中，指令 3、4、5、6 是循环体，循环体执行 8 次，时空图如下，中间省略。</p>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621200428609.png" width="70%" /> </figure></p>
+<p>注：第 i 次循环在第 2 + 4(i-1) = 4i - 2 个时钟周期开始执行，因此第 9 次错误的转移的循环在 34 个时钟周期开始执行，在第 36 个周期末发现错误后被排空。</p>
+<ul>
+<li>共执行了 2 + 4 * 8 + 1 = 35 条指令（错误的转移被排空，没执行完，并不算），花了 40 个时钟周期。</li>
+<li>吞吐率 <span class="arithmatex">\(TP = \frac{35}{40\times 5ns} = 1.75\times 10^9\)</span> 指令/秒；</li>
+<li>加速比 <span class="arithmatex">\(S = \frac{T_s}{T_k} = \frac{35 \times 4 \times 5ns}{40 \times 5ns} = 3.5\)</span>。</li>
+</ul>
+</div>
+<h3 id="tomasulo">记分牌算法 / Tomasulo 算法</h3>
+<div class="admonition info">
+<p class="admonition-title">例题 1</p>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260620190217360.png" width="70%" /> </figure></p>
+<ul>
+<li>记分牌算法：<ul>
+<li>指令状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260620190323769.png" width="70%" /> </figure><ul>
+<li>第一条指令已经执行并写入了结果，第二条指令已完成正等待写结果，这两个的状态勾选毫无疑问；</li>
+<li>按照记分牌算法的流出条件，由于前 4 条指令的目的寄存器都不同，且功能部件也不同，因此它们都可以在第 1 个时钟周期流出；第 5 条指令的目的寄存器与第 2 条指令相同，且与第 3 条指令的功能部件相同，因此还无法流出。</li>
+<li>对于第 3 条和第 4 条指令，由于它的源操作数需要等待第 2 条指令的结果，因此还无法进入 RO。</li>
+</ul>
+</li>
+<li>功能部件状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260620190359061.png" width="70%" /> </figure><ul>
+<li>INTEGER 功能部件被第 2 条指令占用，MULT 空闲（第 1 条指令已完成），ADD 被第 3 条指令占用，DIV 被第 4 条指令占用。</li>
+<li>目的寄存器和源寄存器不用说了，<span class="arithmatex">\(34(R2)\)</span> 这种，源寄存器标为 <span class="arithmatex">\(R2\)</span>。</li>
+<li>对于第 3 条指令的 Qj 第 4 条指令的 Qk 分别标为 INTEGER，因为它们的源操作数需要等待第 2 条指令的结果，对应的 R 均为 no，表示未就绪（第 2 条指令结果未写入）；剩下一个操作数的 R 标为 yes，表示就绪，但未读取；</li>
+<li>INTEGER 的 Rj 标为 no，因为它已经执行，说明源操作数已经被读取过了。</li>
+</ul>
+</li>
+<li>结果寄存器状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260620190443481.png" width="70%" /> </figure><ul>
+<li>注意 F0 为空，因为第 1 条指令已经执行并写入了结果，需要释放 F0。</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Tomasulo 算法：<ul>
+<li>指令状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260620191654875.png" width="70%" /> </figure><ul>
+<li>与记分牌的区别是，只要功能部件的保留站空闲就能流入，因此第 3 条指令和第 4 条指令也能在第 1 个时钟周期流入，不过第 5 条指令仍然因为结构冲突无法流入。</li>
+<li>第 3 条和第 4 条指令的源操作数仍然需要等待第 2 条指令的结果，因此它们的状态仍然是 IS。</li>
+</ul>
+</li>
+<li>保留站状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260620191717312.png" width="70%" /> </figure><ul>
+<li>Busy 状态和 Op 无需多言；</li>
+<li>Vi 和 Vj 分别表示源操作数的值，Qi 和 Qj 分别表示产生源操作数的保留站，两者互斥。</li>
+<li>因此，对于第 3 条指令的 Vj 和第 4 条指令的 Vk，它们的源操作数需要等待第 2 条指令的结果，因此它们的 Qj 和 Qk 分别标为 LOAD 保留站。剩下一个操作数已就绪，分别为 Reg[F2] 和 Reg[F0]。</li>
+<li>A 字段仅对于 LOAD 和 STORE 指令有意义，此时 LOAD 指令已经执行完成，因此地址已经计算出来，为 <span class="arithmatex">\(34 + Reg[R2]\)</span>。</li>
+</ul>
+</li>
+<li>结果寄存器状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260620191733442.png" width="70%" /> </figure></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition info">
+<p class="admonition-title">例题 2</p>
+<p>补起以下状态表，假设此时第一条 LD 指令已经完全执行完，其结果已经写入了 F6；第二条 LD 指令也已经执行完，但是结果还没有写入目的寄存器 F2；</p>
+<ul>
+<li>指令状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621233009185.png" width="70%" /> </figure><ul>
+<li>和上题类似，这里我不作过多说明；</li>
+</ul>
+</li>
+<li>功能部件状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621233231042.png" width="70%" /> </figure><ul>
+<li>Busy 状态和 Op、源寄存器、目的寄存器无需多言；</li>
+<li>MULTD 的 Qj 等待 INTEGER 功能部件的结果，因此标为 INTEGER，SUB 和 DIVD 同理；</li>
+<li>LOAD 由于已经执行完，说明源操作数已经被读取过了，因此 Rj 被标为 no</li>
+<li>MULTD 的 Rj 标为 no，因为其需要等待 INTEGER 功能部件的结果，因此源操作数未就绪，Rk 来源于 F4 已就绪但未读取，因此标为 yes。SUB 和 DIVD 同理。</li>
+</ul>
+</li>
+<li>结果寄存器状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621233635690.png" width="70%" /> </figure></li>
+</ul>
+<p>进一步假设：</p>
+<ul>
+<li>加法需2个时钟周期；</li>
+<li>乘法需10个时钟周期；</li>
+<li>除法需40个时钟周期。</li>
+</ul>
+<p>代码段和记分牌信息的起始点状态如上。分别给出 MULT.D 和 DIV.D 准备写结果之前的记分牌状态。</p>
+<ul>
+<li>执行到 MULT.D 准备写结果之前的记分牌状态：<ul>
+<li>指令状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621234519714.png" width="70%" /> </figure><ul>
+<li>这里解释几个要点，首先，由于 MULT.D 已经准备写结果了，说明它的源操作数早就就绪，因此 LD 指令说明已完成，F2 已写入。</li>
+<li>F2 写入后，MULT.D 和 SUB.D 的源操作数都已就绪，因此它们同时开始执行，但是由于 SUB.D 的执行时间更短，因此到 MULT.D 准备写结果之前，SUB.D 早就已经执行完了。</li>
+<li>SUB.D 执行完后，ADD.D 的结果部件就空闲了，因此 ADD.D 也可以流入，且源操作数也都已就绪，因此可执行，不过因为前面一条 DIV.D 还因为 MULT.D 的结果，而 DIV.D 和 ADD.D 间存在 WAR 冲突，因此 ADD.D 无法进行写结果。</li>
+</ul>
+</li>
+<li>功能部件状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621235356930.png" width="70%" /> </figure><ul>
+<li>没啥好说，主要需要注意的是，因为部分指令已经完成，Qj 和 Qk 可能已经被清空。</li>
+</ul>
+</li>
+<li>结果寄存器状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621235410102.png" width="70%" /> </figure></li>
+</ul>
+</li>
+<li>执行到 DIV.D 准备写结果之前的记分牌状态：<ul>
+<li>指令状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621235721485.png" width="70%" /> </figure></li>
+<li>功能部件状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621235739126.png" width="70%" /> </figure></li>
+<li>结果寄存器状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621235748040.png" width="70%" /> </figure></li>
+</ul>
+</li>
+</ul>
+<p>对同样的指令序列，假如采用 Tomasulo 算法，给出当第一条指令完成并写入结果时，Tomasulo 算法所处的状态：</p>
+<ul>
+<li>指令状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260622000534402.png" width="70%" /> </figure><ul>
+<li>第一条指令已经全部完成，第二条指令由于慢一个时钟周期流入，因此还在执行阶段。后面的指令无结构冲突，但除 DIVD 外，与第二条指令均存在 RAW 相关，而 DIVD 通过 CDB 接收到第一条指令的结果，不过另一个源操作数还未就绪，因此都无法执行。</li>
+</ul>
+</li>
+<li>保留站状态表：<br />
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260622001321600.png" width="70%" /> </figure><ul>
+<li>主要的注意点是此时第一条指令写入的数据已经被 CDB 广播，因此 SUB.D 和 DIV.D 的对应 V 已经是实际值，Q 已经被清空，说明源操作数已就绪。</li>
+</ul>
+</li>
+<li>寄存器状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260622001751459.png" width="70%" /> </figure><ul>
+<li>注意是保留站名称，而不是功能部件名称。</li>
+</ul>
+</li>
+</ul>
+<p>进一步假设各种操作的延迟如下：</p>
+<ul>
+<li>load:1个时钟周期；</li>
+<li>加法：2个时钟周期；</li>
+<li>乘法：10个时钟周期；</li>
+<li>除法：40个时钟周期。</li>
+</ul>
+<p>给出 MUL.D 指令准备写结果时各状态表的内容：</p>
+<ul>
+<li>指令状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260622002105630.png" width="70%" /> </figure><ul>
+<li>显然，如果 MULT.D 指令准备写结果了，说明它的源操作数早就就绪，因此 LD 指令说明已完成。</li>
+<li>因此，SUB.D 和 DIV.D 的源操作数都已就绪，因此它们同时开始执行，但是由于操作延迟，到 MULT.D 准备写结果之前，SUB.D 早就已经执行完了，DIV.D 还在执行中。</li>
+<li>在 SUB.D 执行完后，ADD.D 的源操作数也都已就绪，由于保留站 + 流出逻辑，ADD.D 可以开始执行，不会发生 WAR 冲突，根据操作延迟，ADD.D 也会在 MULT.D 准备写结果之前执行完毕。</li>
+</ul>
+</li>
+<li>保留站状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260622002427712.png" width="70%" /> </figure></li>
+<li>寄存器状态表：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260622002542099.png" width="70%" /> </figure></li>
+</ul>
+</div>
+<h3 id="_16">链接技术</h3>
+<ul>
+<li>
+<p>链接方式的总执行时间：</p>
+<div class="arithmatex">\[
+\text{总执行时间}
+=
+\underbrace{\text{前写指令的通过时间}+\text{后读指令的通过时间}}_{\text{得到第一个结果所需时间}}
++
+\underbrace{\text{向量长度}-1}_{\text{得到其余 }n-1\text{ 个结果所需时间}}
+\]</div>
+</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">例题 1</p>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260618112434492.png" width="70%" /> </figure></p>
+<p>解答：</p>
+<ul>
+<li>
+<p>链接图：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260618112451822.png" width="70%" /> </figure></p>
+</li>
+<li>
+<p>如果全部串行执行，执行时间为 <span class="arithmatex">\((1 + 6 + 1 + N - 1) + (1 + 6 + 1 + N - 1) + (1 + 7 + 1 + N - 1) = 3N + 22\)</span> 拍；</p>
+</li>
+<li>如果前 2 条并行，第 3 条串行执行，执行时间为 <span class="arithmatex">\(\max(1 + 6 + 1 + N - 1, 1 + 6 + 1 + N - 1) + (1 + 7 + 1 + N - 1) = 2N + 15\)</span> 拍；</li>
+<li>如果前 2 条并行，并与第 3 条链接执行，执行时间为 <span class="arithmatex">\((1 + 6 + 1) + (1 + 7 + 1) + N - 1 = N + 16\)</span> 拍。</li>
+</ul>
+</div>
+<div class="admonition info">
+<p class="admonition-title">例题 2</p>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260618143106691.png" width="70%" /> </figure></p>
+<p>解：</p>
+<p>考虑链接技术，分为以下编队：</p>
+<ul>
+<li>编队 1：<span class="arithmatex">\(LDV V3, M(A)\)</span> 和 <span class="arithmatex">\(ADDV V2, V4, V5\)</span></li>
+<li>编队 2：<span class="arithmatex">\(MULV V6, V3, V2\)</span></li>
+</ul>
+<p>其中，第一个编队中，2 条指令可并行执行，且均需 <span class="arithmatex">\(2 + 8 + 2 = 12\)</span> 拍得到结果，因此可以和第二个编队中的指令链接执行，因此：
+$$
+\text{通过时间} = \text{编队 1 通过时间} + \text{编队 2 通过时间} = 12 + (2 + 12 + 2) = 28 \text{拍}
+$$</p>
+<p>总时间 = 通过时间 + 向量长度 - 1 = <span class="arithmatex">\(28 + 20 - 1 = 47\)</span> 拍。</p>
+<p>如果编队 1 中的 2 条指令的通过时间不相等，例如 <span class="arithmatex">\(LDV\)</span> 指令的通过时间为 9 拍，<span class="arithmatex">\(ADDV\)</span> 指令的通过时间为 8 拍，则无法链接执行，只能串行执行，因此</p>
+<ul>
+<li>编队 1 的通过时间 = <span class="arithmatex">\(\max{(2 + 8 + 2), (2 + 9 + 2)} = 13\)</span> 拍</li>
+<li>编队 2 的通过时间 = <span class="arithmatex">\(2 + 12 + 2 = 16\)</span> 拍</li>
+<li>串行总时间 = $13 + (20 - 1) + 16 + (20 - 1) = 67 $ 拍。</li>
+</ul>
+</div>
+<div class="admonition tip">
+<p class="admonition-title">Tip</p>
+<ul>
+<li>上题中，第 3 条的源操作数来自前 2 条指令的结果，并且前 2 条指令产生运算结果的时间（有关功能部件的通过时间）相等，因此可以进行链接执行。</li>
+<li>注意链接执行只是允许产生第一个结果就可以进行后续的向量操作，而不是等到整个向量结果全部产生。</li>
+</ul>
+</div>
+<div class="admonition info">
+<p class="admonition-title">例题 3（个人解答）</p>
+<p>在 CRAY-1 型向量处机上，V 为向量寄存器，长度为 64；S 为标量寄存器。所用浮点功能部件的执行时间分别为：加法需6拍，乘法需7拍，从存储器读数需6拍，求倒数近似值需14拍，打入寄存器需1拍，启动功能部件（包括存储器）需1拍。问下列各指令组中的哪组指令可以链接？哪组可以并行执行？说明原因并分别计算各指令组全部完成所需的拍数。</p>
+<ol>
+<li><span class="arithmatex">\(V0\leftarrow\text{存储器}, V1\leftarrow V2+V3, V4\leftarrow V5\times V6\)</span></li>
+<li><span class="arithmatex">\(V3\leftarrow\text{存储器}, V2\leftarrow V0\times V1, V4\leftarrow V2+V3\)</span></li>
+</ol>
+<p>解答：</p>
+<ul>
+<li>第一组可以并行执行，这三条指令（访存、向量加、向量乘）使用了不同的功能部件，且彼此之间没有使用相同的源寄存器或目的寄存器，不存在数据相关，因此它们完全可以分在一个编队中并行执行。<ul>
+<li>全部完成所需的拍数 = <span class="arithmatex">\(\max{(1 + 6 + 1, 1 + 6 + 1, 1 + 7 + 1)} + (64 - 1) = \max{(8, 8, 9)} + 63 = 9 + 63 = 72\)</span> 拍。</li>
+</ul>
+</li>
+<li>第二组中，前两条指令之间可以并行，但第三条指令的源操作数来自前两条指令的结果，并且前两条指令产生运算结果的时间（有关功能部件的通过时间）不相等，因此无法链接执行，因此前两条指令与第三条指令之间只能串行执行。<ul>
+<li>全部完成所需的拍数 = <span class="arithmatex">\(\max{(1 + 6 + 1, 1 + 7 + 1)} + (64 - 1) + (1 + 6 + 1) + (64 - 1) = \max{(8, 9)} + 63 + 8 + 63 = 9 + 63 + 8 + 63 = 143\)</span> 拍。</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition info">
+<p class="admonition-title">例题 4</p>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260618104637660.png" width="70%" /> </figure></p>
+<p>解：
+<figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260618105727373.png" width="70%" /> </figure>
+如图所示：</p>
+<ul>
+<li>a. 存储字到“读功能部件”的传送时间，对应存储器到存储器读取流水线，1 拍；</li>
+<li>b. 存储字经过“读功能部件”的通过时间，共 7 拍；</li>
+<li>c. 存储字从“读功能部件”到 <span class="arithmatex">\(V0\)</span> 的传送时间，1 拍；</li>
+<li>d. 存储字从 <span class="arithmatex">\(V0\)</span> 和 <span class="arithmatex">\(V1\)</span> 到“加法功能部件”的传送时间，1 拍；</li>
+<li>e. 存储字经过“加法功能部件”的通过时间，共 3 拍；</li>
+<li>f. 存储字从“加法功能部件”到 <span class="arithmatex">\(V2\)</span> 的传送时间，1 拍；</li>
+<li>g. 存储字从 <span class="arithmatex">\(V2\)</span> 到“移位功能部件”的传送时间，1 拍；</li>
+<li>h. 存储字经过“移位功能部件”的通过时间，共 4 拍；</li>
+<li>i. 存储字从“移位功能部件”到 <span class="arithmatex">\(V3\)</span> 的传送时间，1 拍；</li>
+<li>j. 存储字从 <span class="arithmatex">\(V3\)</span> 和 <span class="arithmatex">\(V4\)</span> 到“与功能部件”的传送时间，1 拍;</li>
+<li>k. 存储字经过“与功能部件”的通过时间，共 2 拍；</li>
+<li>l. 存储字从“与功能部件”到 <span class="arithmatex">\(V5\)</span> 的传送时间，1 拍；</li>
+</ul>
+<p>因此，链接流水线的通过时间 $= a + b + c + d + e + f + g + h + i + j + k + l = 24 $ 拍。</p>
+<p>即经过 24 拍后，得到一个元素的结果。由于向量长度为 64，因此总的执行时间 <span class="arithmatex">\(= 24 + 64 - 1 = 87\)</span> 拍。</p>
+</div>
+<h3 id="_17">分段开采技术</h3>
+<ul>
+<li>单条指令执行：需 <span class="arithmatex">\(T_{vp} = (T_{start} + n)\)</span> 个时钟周期；其中 <span class="arithmatex">\(T_{start}\)</span> 是该指令启动时间。</li>
+<li>一组指令执行：<ul>
+<li>不分段开采：需 <span class="arithmatex">\(T_{all} = T_{start} + m \cdot n\)</span> 个时钟周期；<ul>
+<li><span class="arithmatex">\(m\)</span> 是指令编队数；</li>
+<li><span class="arithmatex">\(T_{start}\)</span> 是各编队的启动时间之和，编队的启动时间一般取编队内指令启动时间的最大值。</li>
+<li>需要注意的是，如果编队内指令采用了链接技术，那么启动时间一般取链接指令的启动时间之和。</li>
+</ul>
+</li>
+<li>分段开采：需 <span class="arithmatex">\(T_{all} = \left\lceil \frac{n}{MVL} \right\rceil \cdot (T_{start} + T_{loop}) + m \cdot n\)</span> 个时钟周期。</li>
+</ul>
+</li>
+</ul>
+<div class="admonition info">
+<p class="admonition-title">例题 1</p>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260618132905644.png" width="70%" /> </figure>
+<figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260618132916250.png" width="70%" /> </figure></p>
+<p>解：</p>
+<p>当不采用向量链接时，分编队如下：</p>
+<ul>
+<li>编队 1：<span class="arithmatex">\(LV V1, Rx\)</span></li>
+<li>编队 2：<span class="arithmatex">\(MULTFV V2, F0, V1\)</span> 和 <span class="arithmatex">\(LV V3, Ry\)</span></li>
+<li>编队 3：<span class="arithmatex">\(ADDV V4, V2, V3\)</span></li>
+<li>编队 4：<span class="arithmatex">\(SV V4, Ry\)</span></li>
+</ul>
+<p>因此，<span class="arithmatex">\(T_{start} = 12 + \max{(12,7)} + 6 + 12 = 42\)</span>，<span class="arithmatex">\(m = 4\)</span>，因此对 <span class="arithmatex">\(n\)</span> 个向量元素计算所需的总时间周期数为：
+$$
+T_{all} = \left\lceil \frac{n}{MVL} \right\rceil \cdot (T_{start} + T_{loop}) + m \cdot n = \left\lceil \frac{n}{64} \right\rceil \cdot (42 + 15) + 4n = \left\lceil \frac{n}{64} \right\rceil \cdot 57 + 4n
+$$</p>
+<p>采用向量链接时，分编队如下：</p>
+<ul>
+<li>编队 1：<span class="arithmatex">\(LV V1, Rx\)</span> 和 <span class="arithmatex">\(MULTFV V2, F0, V1\)</span></li>
+<li>编队 2：<span class="arithmatex">\(LV V3, Ry\)</span> 和 <span class="arithmatex">\(ADDV V4, V2, V3\)</span></li>
+<li>编队 3：<span class="arithmatex">\(SV V4, Ry\)</span></li>
+</ul>
+<p>由于前 2 个编队都采用了链接技术，因此各编队的启动时间分别为：</p>
+<ul>
+<li>编队 1：<span class="arithmatex">\(T^{(1)}_{start} = 12 + 7 = 19\)</span>；</li>
+<li>编队 2：<span class="arithmatex">\(T^{(2)}_{start} = 12 + 6 = 18\)</span>；</li>
+<li>编队 3：<span class="arithmatex">\(T^{(3)}_{start} = 12\)</span>；</li>
+</ul>
+<p>因此对 <span class="arithmatex">\(n\)</span> 个向量元素计算所需的总时间周期数为：
+$$
+T_{all} = \left\lceil \frac{n}{MVL} \right\rceil \cdot (T_{start} + T_{loop}) + m \cdot n = \left\lceil \frac{n}{64} \right\rceil \cdot (19 + 18 + 12 + 15) + 3n = \left\lceil \frac{n}{64} \right\rceil \cdot 64 + 3n
+$$</p>
+<p>注意：<strong>在链接的时候，编队的含义就不是并行了，而是编队内的指令可以连接，因此是相加而不是取最值</strong>。</p>
+</div>
+<h3 id="_18">四大基本互连函数</h3>
+<div class="admonition note">
+<p class="admonition-title">交换函数</p>
+<p>二进制地址编码中 <u><strong>第 k 位互反</strong></u>：
+$$
+Cube_{(k)} = E(x_{n-1}x_{n-2}...x_{k+1}x_kx_{k-1}...x_0) = x_{n-1}x_{n-2}...x_{k+1}\overline{x_k}x_{k-1}...x_0
+$$
+又称立方体（Cube）置换，用于构造 <u><strong>立方体和超立方体</strong></u> 互连网络。</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">均匀洗牌函数</p>
+<p>把输入端的二进制编号 <u><strong>循环左移一位</strong></u>：
+$$
+\sigma(x_{n-1}x_{n-2}...x_1x_0) = x_{n-2}x_{n-3}...x_0x_{n-1}
+$$</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">蝶式互连函数</p>
+<p>把输入端的二进制编号的 <u><strong>最高位与最低位互换位置</strong></u>：
+$$
+\beta(x_{n-1}x_{n-2}...x_1x_0) = x_0x_{n-2}...x_1x_{n-1}
+$$</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">PM2I互连函数（一种特殊移数函数）</p>
+<div class="arithmatex">\[
+\begin{aligned}
+PM2_{+i} &amp;= (x + 2^i) \mod N \\
+PM2_{-i} &amp;= (x - 2^i) \mod N
+\end{aligned}
+\]</div>
+</div>
+<h3 id="_19">互连网络</h3>
+<div class="admonition info">
+<p class="admonition-title">例题 1 多级立方体 / STARAN 网络</p>
+<p><span class="arithmatex">\(N=8\)</span> 个结点的三级立方体网络如下图所示。试分析说明在下述五种情况下，分别实现何种函数或变换？请写出详细步骤。当所有开关都直通时；当 A、B、C、D 四个开关交换，其余都直通时；当 E、F、G、H 四个开关交换，其余都直通时；当 I、J、K、L 四个开关交换，其余都直通时。当所有开关都交换时；</p>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621202054060.png" width="70%" /> </figure></p>
+<p>解答：套用结论即可</p>
+<ul>
+<li>当所有开关都直通时，<span class="arithmatex">\(Cube_{(0)}\)</span>、<span class="arithmatex">\(Cube_{(1)}\)</span>、<span class="arithmatex">\(Cube_{(2)}\)</span> 都是直通状态，因此实现的是恒等函数；</li>
+<li>当 A、B、C、D 四个开关交换，其余都直通时，<span class="arithmatex">\(Cube_{(0)}\)</span> 处于交换状态，<span class="arithmatex">\(Cube_{(1)}\)</span>、<span class="arithmatex">\(Cube_{(2)}\)</span> 处于直通状态，因此实现的是 <span class="arithmatex">\(Cube_{(0)}\)</span> 互连函数；</li>
+<li>当 E、F、G、H 四个开关交换，其余都直通时，<span class="arithmatex">\(Cube_{(1)}\)</span> 处于交换状态，<span class="arithmatex">\(Cube_{(0)}\)</span>、<span class="arithmatex">\(Cube_{(2)}\)</span> 处于直通状态，因此实现的是 <span class="arithmatex">\(Cube_{(1)}\)</span> 互连函数；</li>
+<li>当 I、J、K、L 四个开关交换，其余都直通时，<span class="arithmatex">\(Cube_{(2)}\)</span> 处于交换状态，<span class="arithmatex">\(Cube_{(0)}\)</span>、<span class="arithmatex">\(Cube_{(1)}\)</span> 处于直通状态，因此实现的是 <span class="arithmatex">\(Cube_{(2)}\)</span> 互连函数；</li>
+<li>当所有开关都交换时，三个立方体网络都是交换状态，因此实现的是 <span class="arithmatex">\(Cube_{(0)} +  Cube_{(1)} + Cube_{(2)} = \overline{x_2}\overline{x_1}\overline{x_0}\)</span>。</li>
+</ul>
+</div>
+<h3 id="_20">阵列处理机 / 多处理机上的计算问题</h3>
+<div class="admonition info">
+<p class="admonition-title">例题 1 SIMD</p>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260620191850230.png" width="70%" /> </figure></p>
+<p>解答：</p>
+<ul>
+<li>一个 PE 的 SISD 机需串行计算 32 次乘法操作和 31 次加法操作，总时间 = <span class="arithmatex">\(32\times 4\Delta t + 31\times 2\Delta t = 190\Delta t\)</span>；</li>
+<li>一个 16 个 PE 连接成超立方体的阵列处理机：<ul>
+<li>源操作数被分为 16 组分别位于 16 个 PE；</li>
+<li>每个 PE 先进行 2 次乘法操作和 1 次加法操作，总时间 = <span class="arithmatex">\(2\times 4\Delta t + 1\times 2\Delta t = 10\Delta t\)</span>；</li>
+<li>在超立方体上，每次 PE 按照维度进行通信并减维，例如原本是 4 维超立方体，构成的 2 个 3 维超立方体之间直接连接的 PE 进行通信和加法操作，通信时间为 <span class="arithmatex">\(1\Delta t\)</span>，加法操作时间为 <span class="arithmatex">\(2\Delta t\)</span>，总时间 = <span class="arithmatex">\(3\Delta t\)</span>；4 维 减到 0 维需要 4 次。</li>
+<li>因此总时间 = <span class="arithmatex">\(10\Delta t + 4\times (1\Delta t + 2\Delta t) = 22\Delta t\)</span>；</li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="admonition info">
+<p class="admonition-title">例题 2 SIMD</p>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621134414383.png" width="70%" /> </figure></p>
+<ol>
+<li>
+<p>解答：
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260621140708409.png" width="70%" /> </figure></p>
+<p>如图，<span class="arithmatex">\(Cube_{(0)}\)</span> 要求三级交叉开关状态为 001，即第 0 级交换机为交换状态，第 1、2 级交换机为直通状态；<span class="arithmatex">\(Cube_{(1)}\)</span> 和 <span class="arithmatex">\(Cube_{(2)}\)</span> 同理。</p>
+</li>
+<li>
+<p>解答：</p>
+<ul>
+<li>32 对数据，8 个 PE；</li>
+<li>因此，每个 PE 需要处理 <span class="arithmatex">\(\frac{32}{8} = 4\)</span> 对数据，即 4 次乘法和 3 次加法，内部计算时间 = <span class="arithmatex">\(4\times 4\Delta t + 3\times 2\Delta t = 22\Delta t\)</span>。</li>
+<li>PE 内部计算完成后，PE 之间需要进行通信和加法操作，PE 间两两间通信并求和，共需 8 / 2 + 4 / 2  + 2 / 2 = 7 次通信和加法操作，不过每次配队的不同队列之间的通信和加法操作可以并行进行，因此事实上只有 3 次通信和加法操作的时间；</li>
+<li>因此总时间 = <span class="arithmatex">\(22\Delta t + 3\times (1\Delta t + 2\Delta t) = 31\Delta t\)</span>。</li>
+</ul>
+</li>
+</ol>
+</div>
+<div class="admonition info">
+<p class="admonition-title">例题 3 SIMD</p>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260622013559380.png" width="70%" /> </figure></p>
+<p>解答：</p>
+<ul>
+<li>控存中读 a + 广播 a = 10 + 5 = 15 ns，用于获取 a。</li>
+<li>PE 各自读 X 需 10 ns，已经被获取 a 的时间掩盖了。</li>
+<li>PE 内执行加法需 15 ns。</li>
+<li>各 PE 得到加法结果共需 30 ns。</li>
+<li>8 个 PE 用 PM2I 移数网连接，因此，让 PE0 和 PE4 进行乘法，PE1 和 PE5 进行乘法，PE2 和 PE6 进行乘法，PE3 和 PE7 进行乘法，通信时间为 5 ns，乘法操作时间为 20 ns。</li>
+<li>再让 PE0 和 PE2 进行乘法，PE1 和 PE3 进行乘法，通信时间为 5 ns，乘法操作时间为 20 ns。</li>
+<li>再让 PE0 和 PE1 进行乘法，通信时间为 5 ns，乘法操作时间为 20 ns。</li>
+<li>因此总时间 = 30 + 25 + 25 + 25 = 105 ns。</li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../simd/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 阵列处理机">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                阵列处理机
+              </div>
+            </div>
+          </a>
+        
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 - 2026 Yokumi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Yokumii" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://blog.yokumi.cn" target="_blank" rel="noopener" title="blog.yokumi.cn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M224 24c0-13.3 10.7-24 24-24 145.8 0 264 118.2 264 264 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-119.3-96.7-216-216-216-13.3 0-24-10.7-24-24M80 96c26.5 0 48 21.5 48 48v224c0 26.5 21.5 48 48 48s48-21.5 48-48-21.5-48-48-48c-8.8 0-16-7.2-16-16v-64c0-8.8 7.2-16 16-16 79.5 0 144 64.5 144 144s-64.5 144-144 144S32 447.5 32 368V144c0-26.5 21.5-48 48-48m168 0c92.8 0 168 75.2 168 168 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-66.3-53.7-120-120-120-13.3 0-24-10.7-24-24s10.7-24 24-24"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:yokumi0704@gmail.com" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M536.4-26.3c9.8-3.5 20.6-1 28 6.3s9.8 18.2 6.3 28l-178 496.9c-5 13.9-18.1 23.1-32.8 23.1-14.2 0-27-8.6-32.3-21.7l-64.2-158c-4.5-11-2.5-23.6 5.2-32.6l94.5-112.4c5.1-6.1 4.7-15-.9-20.6s-14.6-6-20.6-.9l-112.4 94.3c-9.1 7.6-21.6 9.6-32.6 5.2L38.1 216.8c-13.1-5.3-21.7-18.1-21.7-32.3 0-14.7 9.2-27.8 23.1-32.8z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest", "search.highlight", "search.share", "header.autohide", "navigation.footer", "content.footnote.tooltips", "content.code.copy", "content.code.select", "content.code.annotate", "content.action.edit", "content.action.view", "content.tooltips"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../../assets/javascripts/katex.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

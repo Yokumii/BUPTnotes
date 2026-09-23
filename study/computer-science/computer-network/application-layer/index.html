@@ -1,0 +1,3465 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Yokumi's Course Notes in Beijing University of Posts and Telecommunications">
+      
+      
+        <meta name="author" content="Yokumi">
+      
+      
+        <link rel="canonical" href="https://buptwiki.yokumi.cn/study/computer-science/computer-network/application-layer/">
+      
+      
+        <link rel="prev" href="../transport-layer/">
+      
+      
+        <link rel="next" href="../cn-review/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>应用层 - Yokumi's BUPT Course Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Serif SC";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../../.." title="Yokumi&#39;s BUPT Course Notes" class="md-header__button md-logo" aria-label="Yokumi's BUPT Course Notes" data-md-component="logo">
+      
+  <img src="https://webp-pic.yokumi.cn/2026/09/20260923163304050.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Yokumi's BUPT Course Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              应用层
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="cyan"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Yokumii/BUPTnotes" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yokumii/BUPTnotes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Yokumi&#39;s BUPT Course Notes" class="md-nav__button md-logo" aria-label="Yokumi's BUPT Course Notes" data-md-component="logo">
+      
+  <img src="https://webp-pic.yokumi.cn/2026/09/20260923163304050.png" alt="logo">
+
+    </a>
+    Yokumi's BUPT Course Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Yokumii/BUPTnotes" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yokumii/BUPTnotes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../introduction-to-computing-and-programming/c-programming/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算导论与程序设计
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../discrete-math/dm-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    离散数学
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../data-structures/ds-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../digital-logic-and-digital-systems/verilog-programming/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数字逻辑与数字系统
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-organization/co-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机组成原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../csapp/csapp-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    深入理解计算机系统(CSAPP)
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_8" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机网络
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    计算机网络
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cn-introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机网络概述
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../physical-layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    物理层
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../data-link-layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据链路层
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../mac-sublayer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    介质访问控制子层
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../network-layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    网络层
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../transport-layer/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    传输层
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    应用层
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    应用层
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS 域名系统
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DNS 域名系统">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        分层命名空间
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        资源记录
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS 功能架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS 客户端
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS 服务器层级
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        域名解析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="域名解析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解析过程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        递归查询 vs. 迭代查询
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS 缓存
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS 报文格式
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DNS 报文格式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#header-section-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Header Section Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#question-section-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Question Section Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-record-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resource Record Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        电子邮件系统与协议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="电子邮件系统与协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        电子邮件系统的组成
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        邮件格式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MIME 多用途互联网邮件扩展
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SMTP 协议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SMTP 协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本传输过程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pop3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POP3 协议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="POP3 协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本传输过程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pop3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POP3 的缺陷
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#imap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IMAP 协议
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-mail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web Mail
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#www" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        万维网（WWW）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="万维网（WWW）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-client-browser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web Client: Browser
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网页分类
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        URL 统一资源定位符
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTP 超文本传输协议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTP 超文本传输协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工作流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        请求方式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        消息头
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        状态码
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http11-vs-http10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTP/1.1 vs. HTTP/1.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../cn-review/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机网络复习
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../formal-languages-and-automata/fla-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    形式语言与自动机
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../compiler-principle-and-technology/compiler-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编译原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../operating-system/os-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    操作系统
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../database-system-concepts/db-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据库系统概念
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../design-and-analysis-of-algorithms/complexity-analysis/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    算法设计与分析
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../modern-switching-and-networks/introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    现代交换原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-architecture/basics/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机系统结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#dns" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS 域名系统
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DNS 域名系统">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        分层命名空间
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        资源记录
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS 功能架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS 客户端
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS 服务器层级
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        域名解析
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="域名解析">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_6" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        解析过程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vs" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        递归查询 vs. 迭代查询
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS 缓存
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#dns_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        DNS 报文格式
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="DNS 报文格式">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#header-section-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Header Section Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#question-section-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Question Section Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#resource-record-format" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Resource Record Format
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#_7" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        电子邮件系统与协议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="电子邮件系统与协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_8" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        电子邮件系统的组成
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_9" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        邮件格式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#mime" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        MIME 多用途互联网邮件扩展
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#smtp" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SMTP 协议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="SMTP 协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_11" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本传输过程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pop3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POP3 协议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="POP3 协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_12" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本模型
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_13" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基本传输过程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pop3_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        POP3 的缺陷
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#imap" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IMAP 协议
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-mail" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web Mail
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#www" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        万维网（WWW）
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="万维网（WWW）">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_14" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-client-browser" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web Client: Browser
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#web-server" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        Web Server
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_15" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        网页分类
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#url" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        URL 统一资源定位符
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#http" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTP 超文本传输协议
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTP 超文本传输协议">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#_16" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        概述
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_17" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        工作流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_18" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        请求方式
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_19" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        消息头
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_20" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        状态码
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#http11-vs-http10" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        HTTP/1.1 vs. HTTP/1.0
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../cn-introduction/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    计算机网络
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Yokumii/BUPTnotes/edit/main/docs/study/computer-science/computer-network/application-layer.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Yokumii/BUPTnotes/raw/main/docs/study/computer-science/computer-network/application-layer.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="_1">应用层</h1>
+<p>在传输层往上，特别是应用层，协议由二进制协议变成了文本型协议，即协议数据往往是面向人类的具有可读性的文本，直接进行字符串解析即可。</p>
+<div class="admonition abstract">
+<p class="admonition-title">应用层的特点</p>
+<ul>
+<li>为用户提供多种应用服务</li>
+<li>协议繁多、复杂，但没有统一的协议，基本是一个应用服务对应一个协议</li>
+</ul>
+</div>
+<h2 id="dns">DNS 域名系统</h2>
+<h3 id="_2">概述</h3>
+<dl>
+<dt>DNS（Domain Name System，域名系统）</dt>
+<dd>
+<p>用于将域名解析为 IP 地址的分布式数据库系统</p>
+<ul>
+<li>C/S 模式</li>
+<li>使用 UDP 53 端口</li>
+<li>域名命名空间采用分层命名方式</li>
+<li>分布式数据库</li>
+</ul>
+</dd>
+</dl>
+<h3 id="_3">分层命名空间</h3>
+<p>Hierarchical Namespace，即分层命名空间，如下图所示：</p>
+<figure>
+  <img alt="DNS 分层命名空间" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170655992.png" width="70%" />
+</figure>
+<p>这种结构类似于一棵倒挂的树（Root 在顶部），每个节点有自己的子节点，但也受上层的唯一性约束。</p>
+<h3 id="_4">资源记录</h3>
+<dl>
+<dt>Resource Records（资源记录，简称 RR）</dt>
+<dd>
+<p>DNS 系统中最基本的数据单元，记录了某个域名所对应的信息。每个域名都有一个或多个同类型或不同类型的资源记录</p>
+</dd>
+</dl>
+<p>每个 RR 包括以下字段：</p>
+<ul>
+<li><strong>Name</strong>：域名，e.g. <code>www.bupt.edu.cn</code></li>
+<li><strong>Type</strong>：类型，包括：<ul>
+<li><strong>A</strong>：IPv4 地址记录，将域名映射到 IPv4 地址</li>
+<li><strong>AAAA</strong>：IPv6 地址记录</li>
+<li><strong>MX</strong>：邮件交换记录，指明接收邮件服务器</li>
+<li><strong>CNAME</strong>：Canonical Name，即域名别名</li>
+<li><strong>HINFO</strong>：Host Information</li>
+</ul>
+</li>
+<li><strong>Class</strong>：通常是 <code>IN</code>，表示 Internet</li>
+<li><strong>TTL</strong>：生存时间（Time to Live），指示此记录可被缓存多长时间（以秒为单位）</li>
+</ul>
+<details class="tip" open="open">
+<summary>TTL 与缓存</summary>
+<p>一次询问 DNS 后，得到了该域名对应的 IP 地址，本机可以缓存该资源记录 TTL 秒；在 TTL 时间内（有效期），再次访问该域名，不需要再进行询问。</p>
+</details>
+<p>多个 A 记录对应多个 IP 地址，DNS 轮询返回不同的 IP，实现简单的负载分担：</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-0-1">1</a></span>
+<span class="normal"><a href="#__codelineno-0-2">2</a></span>
+<span class="normal"><a href="#__codelineno-0-3">3</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><a id="__codelineno-0-1" name="__codelineno-0-1"></a>www.example.com. IN A 192.0.2.1
+</span><span id="__span-0-2"><a id="__codelineno-0-2" name="__codelineno-0-2"></a>www.example.com. IN A 192.0.2.2
+</span><span id="__span-0-3"><a id="__codelineno-0-3" name="__codelineno-0-3"></a>www.example.com. IN A 192.0.2.3
+</span></code></pre></div></td></tr></table></div>
+<p>对于邮件服务，多个 MX 记录提供多个邮件服务器备份，优先级数字越小，优先级越高：</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-1-1">1</a></span>
+<span class="normal"><a href="#__codelineno-1-2">2</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><a id="__codelineno-1-1" name="__codelineno-1-1"></a>example.com. IN MX 10 mail1.example.com.
+</span><span id="__span-1-2"><a id="__codelineno-1-2" name="__codelineno-1-2"></a>example.com. IN MX 20 mail2.example.com.
+</span></code></pre></div></td></tr></table></div>
+<p>优先访问 mail1，如果它不可达，才访问 mail2。</p>
+<h3 id="dns_1">DNS 功能架构</h3>
+<figure>
+  <img alt="DNS 功能架构" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170700100.png" width="70%" />
+</figure>
+<h3 id="dns_2">DNS 客户端</h3>
+<p>DNS 客户端运行在用户电脑上，用于解析域名为 IP 地址，工作流程如下：</p>
+<ol>
+<li>在浏览器中输入网址，DNS 客户端获得该域名</li>
+<li>DNS 客户端先在本地缓存中查找是否有该域名的缓存记录，如果有，直接返回 IP 给浏览器</li>
+<li>如果没有，则向本地指定的 Local DNS Server 发出查询请求（递归查询），由 DNS Server 完成后续查询操作</li>
+<li>DNS Server 如果查到，返回给 DNS Client，将域名的资源记录缓存 TTL 时间，同时返回给浏览器</li>
+</ol>
+<h3 id="dns_3">DNS 服务器层级</h3>
+<p>DNS 并不是由一个服务器完成解析的，而是多个层级、不同职责的服务器共同完成。不同层级的命名空间形成一个 "Zone"，归不同的 DNS Server 管辖。</p>
+<table>
+<thead>
+<tr>
+<th><strong>类型</strong></th>
+<th><strong>描述</strong></th>
+<th><strong>举例</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>根域名服务器（Root DNS Server）</td>
+<td>负责 .（根）顶级域名，告诉你 .com、.cn 等顶级域的服务器地址。全球共 13 个组（A~M），分布在多个镜像服务器上</td>
+<td><code>A.root-servers.net</code></td>
+</tr>
+<tr>
+<td>顶级域服务器（TLD DNS Server）</td>
+<td>管理 .com、.org、.cn 等顶级域，告诉你某个域名的权威服务器在哪</td>
+<td>负责 .com 的服务器</td>
+</tr>
+<tr>
+<td>权威域名服务器（Authoritative DNS Server）</td>
+<td>最终提供域名 <span class="arithmatex">\(\rightarrow\)</span> IP 的精确信息。由网站拥有者或 DNS 提供商（如 Cloudflare、阿里云）运营</td>
+<td><code>ns1.example.com</code></td>
+</tr>
+<tr>
+<td>递归解析器（Recursive Resolver）</td>
+<td>为客户端完成整个查询过程：从根 <span class="arithmatex">\(\rightarrow\)</span> TLD <span class="arithmatex">\(\rightarrow\)</span> 权威服务器，并将结果返回给用户。通常由 ISP 或公共 DNS 提供商（如 Google）提供</td>
+<td><code>8.8.8.8</code>（Google DNS）</td>
+</tr>
+</tbody>
+</table>
+<details class="info" open="open">
+<summary>各层级知道的信息</summary>
+<table>
+<thead>
+<tr>
+<th><strong>层级</strong></th>
+<th><strong>知道的信息</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>本地解析器</td>
+<td>根服务器的 IP（root hints）</td>
+</tr>
+<tr>
+<td>根服务器</td>
+<td>所有 TLD 的权威服务器</td>
+</tr>
+<tr>
+<td>TLD 服务器</td>
+<td>子域（如 example.com）的 NS 记录</td>
+</tr>
+<tr>
+<td>子域服务器</td>
+<td>其自身域内所有主机名的记录</td>
+</tr>
+</tbody>
+</table>
+</details>
+<h3 id="_5">域名解析</h3>
+<h4 id="_6">解析过程</h4>
+<ol>
+<li>应用层尝试连接某 URL</li>
+<li>应用层向 <strong>本地名字服务器 Local Name Server</strong> 发出请求</li>
+<li>Local Name Server：监听 UDP 53 端口，如果有本地缓存，则直接返回；如果没有，则执行步骤 4</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Local Name Server 与 Recursive Resolver</p>
+<p>Local Name Server 和 Recursive Resolver 实际上是一个实体，即客户端的应用层向它发起请求，剩下的查询过程完全由它负责，所以称为递归查询。</p>
+</div>
+<ol>
+<li>Local Name Server 进行迭代查询：<ol>
+<li>首先询问 <strong>Root 根服务器</strong>；根服务器告诉你 TLD 顶级域服务器的地址</li>
+<li>然后询问 <strong>TLD 顶级域服务器</strong>（比如 .com）</li>
+<li>逐次询问，直到到达 <strong>Authoritative 权威服务器</strong></li>
+<li><strong>Authoritative 权威服务器</strong>会告诉你域名对应的 IP 地址</li>
+</ol>
+</li>
+<li>DNS Resolver 递归解析器获得 IP 地址，再返回给浏览器</li>
+</ol>
+<figure>
+  <img alt="DNS 迭代查询过程" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170705710.png" width="70%" />
+</figure>
+<h4 id="vs">递归查询 vs. 迭代查询</h4>
+<table>
+<thead>
+<tr>
+<th><strong>项目</strong></th>
+<th><strong>递归查询（Recursive）</strong></th>
+<th><strong>迭代查询（Iterative）</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>查询方式</td>
+<td>查询者把"完全查询任务"交给对方，对方必须返回最终结果</td>
+<td>查询者逐级向不同服务器查询，对方只返回下一跳</td>
+</tr>
+<tr>
+<td>常见角色</td>
+<td>用户主机向本地 DNS 发起的是递归查询</td>
+<td>本地 DNS 向根/TLD/权威服务器发送的是迭代查询</td>
+</tr>
+<tr>
+<td>优点</td>
+<td>简化客户端负担</td>
+<td>服务器负担小，架构更分布式</td>
+</tr>
+<tr>
+<td>缺点</td>
+<td>服务器压力较大（特别是做递归的）</td>
+<td>查询者需要具备完整解析逻辑</td>
+</tr>
+</tbody>
+</table>
+<h3 id="dns_4">DNS 缓存</h3>
+<figure>
+  <img alt="DNS 缓存" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170708730.png" width="70%" />
+</figure>
+<h3 id="dns_5">DNS 报文格式</h3>
+<p>DNS 报文格式分为查询和响应两种，根据 RFC 1035 标准，DNS 报文封装格式如下：</p>
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-2-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-2-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-2-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-2-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-2-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-2-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-2-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-2-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-2-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-2-10">10</a></span>
+<span class="normal"><a href="#__codelineno-2-11">11</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><a id="__codelineno-2-1" name="__codelineno-2-1"></a>+------------------------------------------+
+</span><span id="__span-2-2"><a id="__codelineno-2-2" name="__codelineno-2-2"></a>|                  Header                  |
+</span><span id="__span-2-3"><a id="__codelineno-2-3" name="__codelineno-2-3"></a>+------------------------------------------|
+</span><span id="__span-2-4"><a id="__codelineno-2-4" name="__codelineno-2-4"></a>|                  Question                |
+</span><span id="__span-2-5"><a id="__codelineno-2-5" name="__codelineno-2-5"></a>+------------------------------------------|
+</span><span id="__span-2-6"><a id="__codelineno-2-6" name="__codelineno-2-6"></a>|                   Answer                 |
+</span><span id="__span-2-7"><a id="__codelineno-2-7" name="__codelineno-2-7"></a>+------------------------------------------|
+</span><span id="__span-2-8"><a id="__codelineno-2-8" name="__codelineno-2-8"></a>|                 Authority                |
+</span><span id="__span-2-9"><a id="__codelineno-2-9" name="__codelineno-2-9"></a>+------------------------------------------|
+</span><span id="__span-2-10"><a id="__codelineno-2-10" name="__codelineno-2-10"></a>|                 Additional               |
+</span><span id="__span-2-11"><a id="__codelineno-2-11" name="__codelineno-2-11"></a>+------------------------------------------+
+</span></code></pre></div></td></tr></table></div>
+<p>其中，DNS Header 的长度固定为 12 Bytes，包含识别码、标志、字段数等。</p>
+<h4 id="header-section-format">Header Section Format</h4>
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-3-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-3-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-3-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-3-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-3-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-3-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-3-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-3-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-3-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-3-10">10</a></span>
+<span class="normal"><a href="#__codelineno-3-11">11</a></span>
+<span class="normal"><a href="#__codelineno-3-12">12</a></span>
+<span class="normal"><a href="#__codelineno-3-13">13</a></span>
+<span class="normal"><a href="#__codelineno-3-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><a id="__codelineno-3-1" name="__codelineno-3-1"></a>0         5  6  7  8         11             15
+</span><span id="__span-3-2"><a id="__codelineno-3-2" name="__codelineno-3-2"></a>+---------------------------------------------+
+</span><span id="__span-3-3"><a id="__codelineno-3-3" name="__codelineno-3-3"></a>|                       ID                    |
+</span><span id="__span-3-4"><a id="__codelineno-3-4" name="__codelineno-3-4"></a>+---------------------------------------------|
+</span><span id="__span-3-5"><a id="__codelineno-3-5" name="__codelineno-3-5"></a>| QR | Opcode | AA | TC | RD | RA | Z | RCODE |
+</span><span id="__span-3-6"><a id="__codelineno-3-6" name="__codelineno-3-6"></a>+---------------------------------------------|
+</span><span id="__span-3-7"><a id="__codelineno-3-7" name="__codelineno-3-7"></a>|                     QDCOUNT                 |
+</span><span id="__span-3-8"><a id="__codelineno-3-8" name="__codelineno-3-8"></a>+---------------------------------------------|
+</span><span id="__span-3-9"><a id="__codelineno-3-9" name="__codelineno-3-9"></a>|                     ANCOUNT                 |
+</span><span id="__span-3-10"><a id="__codelineno-3-10" name="__codelineno-3-10"></a>+---------------------------------------------|
+</span><span id="__span-3-11"><a id="__codelineno-3-11" name="__codelineno-3-11"></a>|                     NSCOUNT                 |
+</span><span id="__span-3-12"><a id="__codelineno-3-12" name="__codelineno-3-12"></a>+---------------------------------------------|
+</span><span id="__span-3-13"><a id="__codelineno-3-13" name="__codelineno-3-13"></a>|                     ARCOUNT                 |
+</span><span id="__span-3-14"><a id="__codelineno-3-14" name="__codelineno-3-14"></a>+---------------------------------------------+
+</span></code></pre></div></td></tr></table></div>
+<p>主要字段说明：</p>
+<ul>
+<li><strong>ID</strong>：0 <span class="arithmatex">\(\sim\)</span> 15 bits，共 2 Bytes，查询标识符（客户端生成，由服务端返回结果，客户端通过它来匹配查询和响应）</li>
+<li><strong>QR</strong>：查询/响应，1 bit。Query = 0，Response = 1</li>
+<li><strong>OPCODE</strong>：操作码，4 bits。0 = 标准查询，1 = 方向查询，2 = 服务器状态请求</li>
+<li><strong>AA</strong>：Authoritative answer，是否是权威回答，1 bit</li>
+<li><strong>TC</strong>：Truncated，是否被截断，1 bit，不常见</li>
+<li><strong>RD</strong>：Recursion desired，是否期望递归</li>
+</ul>
+<details class="info" open="open">
+<summary>RD 字段详解</summary>
+<p>查询报中设置，请求 DNS 服务器帮我"递归"解析出最终 IP 地址，而不是只给我下一级服务器信息。</p>
+<p>RD = 0 时，名字服务器不会递归处理查询。如果它不是权威，它会告诉你"你可以去问谁"，并提供下一跳 DNS 服务器的名字/IP，你要自己去一层一层问到底。</p>
+</details>
+<ul>
+<li><strong>RA</strong>：Recursion Available，递归是否可用。服务器响应报中设置，告诉客户端"我是否支持递归解析"</li>
+<li><strong>Z</strong>：保留字段，3 bits</li>
+<li><strong>RCODE</strong>：响应码，4 bits（仅用于响应报）。0 = 没有出错，3 = 名字差错（从权威名字服务器中返回，表示查询中指定域名不存在）</li>
+<li><strong>QDCOUNT</strong> / <strong>ANCOUNT</strong> / <strong>NSCOUNT</strong> / <strong>ARCOUNT</strong>：Question / Answer / Authority / Additional 区的记录数</li>
+</ul>
+<h4 id="question-section-format">Question Section Format</h4>
+<table>
+<thead>
+<tr>
+<th><strong>字段名</strong></th>
+<th><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>QNAME</td>
+<td>要查询的域名（如 <code>www.bupt.edu.cn</code>，以"标签"+结束 0 字节表示）</td>
+</tr>
+<tr>
+<td>QTYPE</td>
+<td>查询类型（如 A=1, MX=15, AAAA=28）</td>
+</tr>
+<tr>
+<td>QCLASS</td>
+<td>查询类（通常是 IN=1，表示 Internet）</td>
+</tr>
+</tbody>
+</table>
+<h4 id="resource-record-format">Resource Record Format</h4>
+<table>
+<thead>
+<tr>
+<th><strong>字段名</strong></th>
+<th><strong>含义</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>NAME</td>
+<td>域名</td>
+</tr>
+<tr>
+<td>TYPE</td>
+<td>类型（A, AAAA, CNAME, MX 等）</td>
+</tr>
+<tr>
+<td>CLASS</td>
+<td>类（通常是 IN = 1，表示 Internet）</td>
+</tr>
+<tr>
+<td>TTL</td>
+<td>生存时间，单位秒，确定了客户端 DNS Cache 可以缓存该记录的时间</td>
+</tr>
+<tr>
+<td>RDLENGTH</td>
+<td>RDATA 字段的长度</td>
+</tr>
+<tr>
+<td>RDATA</td>
+<td>资源数据（如 A 记录是 IP 地址，MX 记录是多个邮件地址）</td>
+</tr>
+</tbody>
+</table>
+<h2 id="_7">电子邮件系统与协议</h2>
+<h3 id="_8">电子邮件系统的组成</h3>
+<figure>
+  <img alt="电子邮件系统组成" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170719633.png" width="70%" />
+</figure>
+<figure>
+  <img alt="电子邮件系统组成示意" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170722111.png" width="70%" />
+</figure>
+<dl>
+<dt>SMTP</dt>
+<dd>
+<p>简单邮件传输协议，用于将邮件从发送方客户端传输到服务器，或者从一个邮件服务器传输到另一个邮件服务器</p>
+<ul>
+<li>工作在应用层</li>
+<li>使用 TCP 端口 25</li>
+<li>负责发送邮件</li>
+<li>邮件客户端 <span class="arithmatex">\(\rightarrow\)</span> SMTP 邮件服务器</li>
+<li>SMTP 邮件服务器 <span class="arithmatex">\(\rightarrow\)</span> 收件方的邮件服务器</li>
+</ul>
+</dd>
+<dt>POP3</dt>
+<dd>
+<p>邮局协议第 3 版，用于从邮件服务器上接收（拉取）邮件到客户端</p>
+<ul>
+<li>工作在应用层</li>
+<li>使用 TCP 端口 110</li>
+<li>只负责接收邮件</li>
+</ul>
+</dd>
+<dt>UA</dt>
+<dd>User Agent，e.g. Outlook, Gmail</dd>
+<dt>MTA</dt>
+<dd>Message Transfer Agent，即邮件服务器，用于发/收邮件</dd>
+</dl>
+<h3 id="_9">邮件格式</h3>
+<ul>
+<li><strong>Message Envelope</strong>：消息信封，用于实现邮件在邮件服务器之间的可靠传输，并不是正文的一部分</li>
+<li><strong>Message Content</strong>：消息内容<ul>
+<li>Headers：from, to, subject, date, postmarks 等</li>
+<li>Blank Line：空行，用于区分 Header 和 Body</li>
+<li>Body：邮件正文</li>
+</ul>
+</li>
+</ul>
+<figure>
+  <img alt="邮件格式" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170738979.png" width="70%" />
+</figure>
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-4-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-4-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-4-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-4-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-4-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-4-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-4-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-4-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-4-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-4-10">10</a></span>
+<span class="normal"><a href="#__codelineno-4-11">11</a></span>
+<span class="normal"><a href="#__codelineno-4-12">12</a></span>
+<span class="normal"><a href="#__codelineno-4-13">13</a></span>
+<span class="normal"><a href="#__codelineno-4-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><a id="__codelineno-4-1" name="__codelineno-4-1"></a> ┌─────────────┐     ← Envelope（信封部分）—— 用于传输控制
+</span><span id="__span-4-2"><a id="__codelineno-4-2" name="__codelineno-4-2"></a> │ MAIL FROM: sender@example.com
+</span><span id="__span-4-3"><a id="__codelineno-4-3" name="__codelineno-4-3"></a> │ RCPT TO:   receiver@example.com
+</span><span id="__span-4-4"><a id="__codelineno-4-4" name="__codelineno-4-4"></a> └─────────────┘
+</span><span id="__span-4-5"><a id="__codelineno-4-5" name="__codelineno-4-5"></a>        ↓
+</span><span id="__span-4-6"><a id="__codelineno-4-6" name="__codelineno-4-6"></a> ┌──────────────────────────────┐
+</span><span id="__span-4-7"><a id="__codelineno-4-7" name="__codelineno-4-7"></a> │ Subject: Hello               │
+</span><span id="__span-4-8"><a id="__codelineno-4-8" name="__codelineno-4-8"></a> │ From: sender@example.com     │
+</span><span id="__span-4-9"><a id="__codelineno-4-9" name="__codelineno-4-9"></a> │ To: receiver@example.com     │
+</span><span id="__span-4-10"><a id="__codelineno-4-10" name="__codelineno-4-10"></a> │                              │
+</span><span id="__span-4-11"><a id="__codelineno-4-11" name="__codelineno-4-11"></a> │ Dear receiver, ...           │
+</span><span id="__span-4-12"><a id="__codelineno-4-12" name="__codelineno-4-12"></a> └──────────────────────────────┘
+</span><span id="__span-4-13"><a id="__codelineno-4-13" name="__codelineno-4-13"></a>         ↑
+</span><span id="__span-4-14"><a id="__codelineno-4-14" name="__codelineno-4-14"></a>     Message content（邮件内容/正文）
+</span></code></pre></div></td></tr></table></div>
+<h3 id="mime">MIME 多用途互联网邮件扩展</h3>
+<dl>
+<dt>MIME（Multipurpose Internet Mail Extensions，多用途互联网邮件扩展）</dt>
+<dd>
+<p>主要用来解决传统 SMTP + ASCII 传输的局限性。由于 ASCII 只有 7 bits 二进制编码，只能表示英文字符，无法表示汉字以及其他多媒体文件。它最初是为电子邮件设计的，但现在也被广泛应用于 HTTP 等</p>
+</dd>
+</dl>
+<p>MIME 主要通过在 Header 中新增字段来进行编码：</p>
+<figure>
+  <img alt="MIME" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170745331.png" width="70%" />
+</figure>
+<details class="example" open="open">
+<summary>带有附件的 MIME 那件</summary>
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-5-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-5-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-5-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-5-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-5-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-5-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-5-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-5-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-5-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-5-10">10</a></span>
+<span class="normal"><a href="#__codelineno-5-11">11</a></span>
+<span class="normal"><a href="#__codelineno-5-12">12</a></span>
+<span class="normal"><a href="#__codelineno-5-13">13</a></span>
+<span class="normal"><a href="#__codelineno-5-14">14</a></span>
+<span class="normal"><a href="#__codelineno-5-15">15</a></span>
+<span class="normal"><a href="#__codelineno-5-16">16</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><a id="__codelineno-5-1" name="__codelineno-5-1"></a>MIME-Version: 1.0
+</span><span id="__span-5-2"><a id="__codelineno-5-2" name="__codelineno-5-2"></a>Content-Type: multipart/mixed; boundary="abc123"
+</span><span id="__span-5-3"><a id="__codelineno-5-3" name="__codelineno-5-3"></a>
+</span><span id="__span-5-4"><a id="__codelineno-5-4" name="__codelineno-5-4"></a>--abc123
+</span><span id="__span-5-5"><a id="__codelineno-5-5" name="__codelineno-5-5"></a>Content-Type: text/plain; charset="utf-8"
+</span><span id="__span-5-6"><a id="__codelineno-5-6" name="__codelineno-5-6"></a>
+</span><span id="__span-5-7"><a id="__codelineno-5-7" name="__codelineno-5-7"></a>这是邮件正文部分。
+</span><span id="__span-5-8"><a id="__codelineno-5-8" name="__codelineno-5-8"></a>
+</span><span id="__span-5-9"><a id="__codelineno-5-9" name="__codelineno-5-9"></a>--abc123
+</span><span id="__span-5-10"><a id="__codelineno-5-10" name="__codelineno-5-10"></a>Content-Type: image/png
+</span><span id="__span-5-11"><a id="__codelineno-5-11" name="__codelineno-5-11"></a>Content-Transfer-Encoding: base64
+</span><span id="__span-5-12"><a id="__codelineno-5-12" name="__codelineno-5-12"></a>Content-Disposition: attachment; filename="logo.png"
+</span><span id="__span-5-13"><a id="__codelineno-5-13" name="__codelineno-5-13"></a>
+</span><span id="__span-5-14"><a id="__codelineno-5-14" name="__codelineno-5-14"></a>iVBORw0KGgoAAAANSUhEUgAAAAUA...
+</span><span id="__span-5-15"><a id="__codelineno-5-15" name="__codelineno-5-15"></a>
+</span><span id="__span-5-16"><a id="__codelineno-5-16" name="__codelineno-5-16"></a>--abc123--
+</span></code></pre></div></td></tr></table></div>
+<ul>
+<li>Header 部分：<code>multipart/mixed</code> 表示邮件内容由多个部分组成，每一部分用 boundary（即 <code>abc123</code>）分隔</li>
+<li>Body 部分：一段文本 + 一个 Base64 编码的 PNG 图片</li>
+</ul>
+</details>
+<h3 id="smtp">SMTP 协议</h3>
+<h4 id="_10">基本模型</h4>
+<figure>
+  <img alt="SMTP 基本模型" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170751861.png" width="70%" />
+</figure>
+<h4 id="_11">基本传输过程</h4>
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-6-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-6-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-6-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-6-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-6-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-6-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-6-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-6-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-6-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-6-10">10</a></span>
+<span class="normal"><a href="#__codelineno-6-11">11</a></span>
+<span class="normal"><a href="#__codelineno-6-12">12</a></span>
+<span class="normal"><a href="#__codelineno-6-13">13</a></span>
+<span class="normal"><a href="#__codelineno-6-14">14</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><a id="__codelineno-6-1" name="__codelineno-6-1"></a>S: 220 mail.example.com SMTP server ready
+</span><span id="__span-6-2"><a id="__codelineno-6-2" name="__codelineno-6-2"></a>C: HELO client.example.com
+</span><span id="__span-6-3"><a id="__codelineno-6-3" name="__codelineno-6-3"></a>S: 250 Hello client.example.com
+</span><span id="__span-6-4"><a id="__codelineno-6-4" name="__codelineno-6-4"></a>C: MAIL FROM:&lt;alice@example.com&gt;
+</span><span id="__span-6-5"><a id="__codelineno-6-5" name="__codelineno-6-5"></a>S: 250 OK
+</span><span id="__span-6-6"><a id="__codelineno-6-6" name="__codelineno-6-6"></a>C: RCPT TO:&lt;bob@example.net&gt;
+</span><span id="__span-6-7"><a id="__codelineno-6-7" name="__codelineno-6-7"></a>S: 250 OK
+</span><span id="__span-6-8"><a id="__codelineno-6-8" name="__codelineno-6-8"></a>C: DATA
+</span><span id="__span-6-9"><a id="__codelineno-6-9" name="__codelineno-6-9"></a>S: 354 End data with &lt;CR&gt;&lt;LF&gt;.&lt;CR&gt;&lt;LF&gt;
+</span><span id="__span-6-10"><a id="__codelineno-6-10" name="__codelineno-6-10"></a>C: 整封邮件内容
+</span><span id="__span-6-11"><a id="__codelineno-6-11" name="__codelineno-6-11"></a>C: .
+</span><span id="__span-6-12"><a id="__codelineno-6-12" name="__codelineno-6-12"></a>S: 250 Message accepted
+</span><span id="__span-6-13"><a id="__codelineno-6-13" name="__codelineno-6-13"></a>C: QUIT
+</span><span id="__span-6-14"><a id="__codelineno-6-14" name="__codelineno-6-14"></a>S: 221 Bye
+</span></code></pre></div></td></tr></table></div>
+<ul>
+<li>前三步是建立连接的过程</li>
+<li><code>MAIL FROM</code> 和 <code>RCPT TO</code> 是 Message Envelope 部分</li>
+<li><code>DATA</code> 之后就是邮件的内容（Header + Body）</li>
+<li>最后三步是释放连接的过程</li>
+</ul>
+<h3 id="pop3">POP3 协议</h3>
+<h4 id="_12">基本模型</h4>
+<figure>
+  <img alt="POP3 基本模型" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170755343.png" width="70%" />
+</figure>
+<p>Store-and-Forward：邮件服务器接收到其他邮件服务器发来的邮件后，先存储在服务器上，当客户端连接上服务器后，再转发给客户端；其通常是单连接，一次下载所有邮件。</p>
+<h4 id="_13">基本传输过程</h4>
+<div class="language-text highlight"><table class="highlighttable"><tr><th colspan="2" class="filename"><span class="filename">Text Only</span></th></tr><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"><a href="#__codelineno-7-1"> 1</a></span>
+<span class="normal"><a href="#__codelineno-7-2"> 2</a></span>
+<span class="normal"><a href="#__codelineno-7-3"> 3</a></span>
+<span class="normal"><a href="#__codelineno-7-4"> 4</a></span>
+<span class="normal"><a href="#__codelineno-7-5"> 5</a></span>
+<span class="normal"><a href="#__codelineno-7-6"> 6</a></span>
+<span class="normal"><a href="#__codelineno-7-7"> 7</a></span>
+<span class="normal"><a href="#__codelineno-7-8"> 8</a></span>
+<span class="normal"><a href="#__codelineno-7-9"> 9</a></span>
+<span class="normal"><a href="#__codelineno-7-10">10</a></span>
+<span class="normal"><a href="#__codelineno-7-11">11</a></span>
+<span class="normal"><a href="#__codelineno-7-12">12</a></span>
+<span class="normal"><a href="#__codelineno-7-13">13</a></span>
+<span class="normal"><a href="#__codelineno-7-14">14</a></span>
+<span class="normal"><a href="#__codelineno-7-15">15</a></span>
+<span class="normal"><a href="#__codelineno-7-16">16</a></span>
+<span class="normal"><a href="#__codelineno-7-17">17</a></span>
+<span class="normal"><a href="#__codelineno-7-18">18</a></span>
+<span class="normal"><a href="#__codelineno-7-19">19</a></span>
+<span class="normal"><a href="#__codelineno-7-20">20</a></span>
+<span class="normal"><a href="#__codelineno-7-21">21</a></span>
+<span class="normal"><a href="#__codelineno-7-22">22</a></span>
+<span class="normal"><a href="#__codelineno-7-23">23</a></span>
+<span class="normal"><a href="#__codelineno-7-24">24</a></span>
+<span class="normal"><a href="#__codelineno-7-25">25</a></span>
+<span class="normal"><a href="#__codelineno-7-26">26</a></span>
+<span class="normal"><a href="#__codelineno-7-27">27</a></span>
+<span class="normal"><a href="#__codelineno-7-28">28</a></span>
+<span class="normal"><a href="#__codelineno-7-29">29</a></span>
+<span class="normal"><a href="#__codelineno-7-30">30</a></span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1"><a id="__codelineno-7-1" name="__codelineno-7-1"></a>S: +OK mail.example.com POP3 server ready
+</span><span id="__span-7-2"><a id="__codelineno-7-2" name="__codelineno-7-2"></a>
+</span><span id="__span-7-3"><a id="__codelineno-7-3" name="__codelineno-7-3"></a>C: USER alice@example.com
+</span><span id="__span-7-4"><a id="__codelineno-7-4" name="__codelineno-7-4"></a>S: +OK User accepted
+</span><span id="__span-7-5"><a id="__codelineno-7-5" name="__codelineno-7-5"></a>
+</span><span id="__span-7-6"><a id="__codelineno-7-6" name="__codelineno-7-6"></a>C: PASS alice_password
+</span><span id="__span-7-7"><a id="__codelineno-7-7" name="__codelineno-7-7"></a>S: +OK Password accepted
+</span><span id="__span-7-8"><a id="__codelineno-7-8" name="__codelineno-7-8"></a>
+</span><span id="__span-7-9"><a id="__codelineno-7-9" name="__codelineno-7-9"></a>C: STAT
+</span><span id="__span-7-10"><a id="__codelineno-7-10" name="__codelineno-7-10"></a>S: +OK 2 1536
+</span><span id="__span-7-11"><a id="__codelineno-7-11" name="__codelineno-7-11"></a>        ↑ ↑
+</span><span id="__span-7-12"><a id="__codelineno-7-12" name="__codelineno-7-12"></a>        | └─ 总字节数
+</span><span id="__span-7-13"><a id="__codelineno-7-13" name="__codelineno-7-13"></a>        └── 有 2 封邮件
+</span><span id="__span-7-14"><a id="__codelineno-7-14" name="__codelineno-7-14"></a>
+</span><span id="__span-7-15"><a id="__codelineno-7-15" name="__codelineno-7-15"></a>C: LIST
+</span><span id="__span-7-16"><a id="__codelineno-7-16" name="__codelineno-7-16"></a>S: +OK 2 messages (1536 octets)
+</span><span id="__span-7-17"><a id="__codelineno-7-17" name="__codelineno-7-17"></a>S: 1 768
+</span><span id="__span-7-18"><a id="__codelineno-7-18" name="__codelineno-7-18"></a>S: 2 768
+</span><span id="__span-7-19"><a id="__codelineno-7-19" name="__codelineno-7-19"></a>S: .
+</span><span id="__span-7-20"><a id="__codelineno-7-20" name="__codelineno-7-20"></a>
+</span><span id="__span-7-21"><a id="__codelineno-7-21" name="__codelineno-7-21"></a>C: RETR 1
+</span><span id="__span-7-22"><a id="__codelineno-7-22" name="__codelineno-7-22"></a>S: +OK 768 octets
+</span><span id="__span-7-23"><a id="__codelineno-7-23" name="__codelineno-7-23"></a>S: [第一封邮件的原始内容]
+</span><span id="__span-7-24"><a id="__codelineno-7-24" name="__codelineno-7-24"></a>S: .
+</span><span id="__span-7-25"><a id="__codelineno-7-25" name="__codelineno-7-25"></a>
+</span><span id="__span-7-26"><a id="__codelineno-7-26" name="__codelineno-7-26"></a>C: DELE 1
+</span><span id="__span-7-27"><a id="__codelineno-7-27" name="__codelineno-7-27"></a>S: +OK Message 1 marked for deletion
+</span><span id="__span-7-28"><a id="__codelineno-7-28" name="__codelineno-7-28"></a>
+</span><span id="__span-7-29"><a id="__codelineno-7-29" name="__codelineno-7-29"></a>C: QUIT
+</span><span id="__span-7-30"><a id="__codelineno-7-30" name="__codelineno-7-30"></a>S: +OK Goodbye
+</span></code></pre></div></td></tr></table></div>
+<h4 id="pop3_1">POP3 的缺陷</h4>
+<p>POP3 协议存在缺陷：邮件下载到本地后，服务器上可删除。如果用户有多台设备，每个客户端邮件内容独立，无法同步。因此 IMAP 应运而生并代替了 POP3 协议。</p>
+<h3 id="imap">IMAP 协议</h3>
+<dl>
+<dt>IMAP（Internet Message Access Protocol，互联网邮件访问协议）</dt>
+<dd>
+<p>目前最常用的邮件读取协议之一，相比早期的 POP3，它更强大、更灵活，特别适合<strong>多设备、多客户端同步查看邮件</strong>的场景。IMAP 服务器监听 TCP 端口 143</p>
+</dd>
+</dl>
+<figure>
+  <img alt="IMAP vs POP3" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170802642.png" width="70%" />
+</figure>
+<table>
+<thead>
+<tr>
+<th><strong>特性</strong></th>
+<th><strong>IMAP</strong></th>
+<th><strong>POP3</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>邮件存储</td>
+<td>保存在服务器上（默认）</td>
+<td>下载到本地，服务器上可删除</td>
+</tr>
+<tr>
+<td>邮件阅读</td>
+<td>在线</td>
+<td>离线</td>
+</tr>
+<tr>
+<td>多设备访问</td>
+<td>支持，状态实时同步</td>
+<td>不支持，每个客户端独立</td>
+</tr>
+<tr>
+<td>文件夹</td>
+<td>支持，用户可管理收件夹/发件夹等</td>
+<td>不支持，只处理"收件箱"</td>
+</tr>
+<tr>
+<td>部分下载</td>
+<td>支持（如只获取邮件头）</td>
+<td>不支持，必须整封下载</td>
+</tr>
+<tr>
+<td>同步状态</td>
+<td>可同步"是否已读/标星/删除等状态"</td>
+<td>本地行为，不影响服务器</td>
+</tr>
+<tr>
+<td>协议端口</td>
+<td>默认端口 143（非加密），993（SSL）</td>
+<td>默认端口 110，995（SSL）</td>
+</tr>
+</tbody>
+</table>
+<p>简单来说，POP3 实现简单但局限，IMAP 功能强大，具有同步功能，但对服务器的资源需求更高。</p>
+<h3 id="web-mail">Web Mail</h3>
+<p>Web Mail（网页邮件）是一种通过网页浏览器使用电子邮件服务的方式，不依赖本地邮件客户端（如 Outlook、Thunderbird）。e.g. <a href="http://mail.bupt.edu.cn">北京邮电大学邮件系统</a></p>
+<p>本质上就是基于 HTTP/HTTPS 协议与后台的邮件服务器（通过 IMAP/SMTP）通信的前端界面。</p>
+<figure>
+  <img alt="Web Mail" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170804992.png" width="70%" />
+</figure>
+<h2 id="www">万维网（WWW）</h2>
+<h3 id="_14">概述</h3>
+<p>WWW（World Wide Web，万维网）是运行在互联网上的一个信息访问系统，它让用户能通过浏览器访问分布在全球各地的网页资源。</p>
+<ul>
+<li>目标：将分布在整个互联网不同设备上的资源组织起来</li>
+<li>内容分布在互联网上，存储在 Web Server 中</li>
+<li>通过 hyperlinks（超链接）进行访问</li>
+<li>资源格式包括 HTML、CSS、JavaScript、图片、视频等</li>
+<li>使用 C/S 模式，客户端为浏览器</li>
+<li>通过 <strong>URL（Uniform Resource Locator，统一资源定位符）</strong> 定位网络资源</li>
+<li>Web Document（也称 Web Page），由 <strong>HTML（HyperText Markup Language，超文本标记语言）</strong> 编写</li>
+<li>客户端与服务器通过 <strong>HTTP（Hyper-Text Transfer Protocol，超文本传输协议）</strong> 通信</li>
+</ul>
+<h3 id="web-client-browser">Web Client: Browser</h3>
+<figure>
+  <img alt="Web Client: Browser" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170809088.png" width="70%" />
+</figure>
+<h3 id="web-server">Web Server</h3>
+<figure>
+  <img alt="Web Server" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170818113.png" width="70%" />
+</figure>
+<h3 id="_15">网页分类</h3>
+<p>Web Document/Web Page（网页），用 HTML 编写，分为三种：</p>
+<dl>
+<dt>Static Web Page（静态网页）</dt>
+<dd>内容是事先写好并存储在服务器上的 HTML 文件，用户访问时，服务器直接将这些文件发送给客户端</dd>
+</dl>
+<figure>
+  <img alt="静态网页" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170824145.png" width="70%" />
+</figure>
+<dl>
+<dt>Dynamic Web Page（动态网页）</dt>
+<dd>内容是由服务器在用户请求时动态生成的，通常通过后端脚本语言（如 PHP、Python、Node.js 等）结合数据库生成 HTML 页面；每次访问内容可变</dd>
+</dl>
+<figure>
+  <img alt="动态网页" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170827890.png" width="70%" />
+</figure>
+<dl>
+<dt>Active Web Page（活动网页）</dt>
+<dd>客户端具有交互能力和动态行为的网页，主要依赖 JavaScript、AJAX、DOM 操作等技术在浏览器端运行。不需要依赖服务器处理，程序运行在浏览器端</dd>
+</dl>
+<figure>
+  <img alt="活动网页" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170833062.png" width="70%" />
+</figure>
+<h3 id="url">URL 统一资源定位符</h3>
+<figure>
+  <img alt="URL 格式" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170838273.png" width="70%" />
+</figure>
+<figure>
+  <img alt="URL 示例" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170840683.png" width="70%" />
+</figure>
+<h2 id="http">HTTP 超文本传输协议</h2>
+<h3 id="_16">概述</h3>
+<figure>
+  <img alt="HTTP 概述" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170846162.png" width="70%" />
+</figure>
+<h3 id="_17">工作流程</h3>
+<ol>
+<li>浏览器分析 URL</li>
+<li>浏览器通过 DNS 获得 IP 地址</li>
+<li>浏览器根据 IP 地址，和服务器建立 TCP 连接</li>
+<li>浏览器发送 HTTP Request 请求</li>
+<li>服务器发送一个响应的 Web Page 给浏览器</li>
+<li>释放 TCP 连接</li>
+<li>浏览器呈现前端页面</li>
+</ol>
+<figure>
+  <img alt="HTTP 工作流程" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170852741.png" width="70%" />
+</figure>
+<h3 id="_18">请求方式</h3>
+<figure>
+  <img alt="HTTP 请求方式" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170855590.png" width="70%" />
+</figure>
+<h3 id="_19">消息头</h3>
+<figure>
+  <img alt="HTTP 消息头" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170859999.png" width="70%" />
+</figure>
+<h3 id="_20">状态码</h3>
+<figure>
+  <img alt="HTTP 状态码" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170904918.png" width="70%" />
+</figure>
+<h3 id="http11-vs-http10">HTTP/1.1 vs. HTTP/1.0</h3>
+<figure>
+  <img alt="HTTP/1.1 vs HTTP/1.0" loading="lazy" src="https://webp-pic.yokumi.cn/2026/01/20260101170909192.png" width="70%" />
+</figure>
+<div class="admonition abstract">
+<p class="admonition-title">HTTP/1.1 相比 HTTP/1.0 的提升</p>
+<ul>
+<li><strong>支持持久连接</strong>：默认启用 Keep-Alive，多个 HTTP 请求可以复用同一个 TCP 连接，减少连接开销</li>
+<li><strong>支持流水线（Pipelining）</strong>：客户端在收到响应前连续发送多个请求，服务器按顺序响应；将多个请求打包到一个 TCP/IP 包</li>
+<li><strong>增强了缓存控制</strong></li>
+<li><strong>支持压缩</strong></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../transport-layer/" class="md-footer__link md-footer__link--prev" aria-label="上一页: 传输层">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                传输层
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../cn-review/" class="md-footer__link md-footer__link--next" aria-label="下一页: 计算机网络复习">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                计算机网络复习
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 - 2026 Yokumi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Yokumii" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://blog.yokumi.cn" target="_blank" rel="noopener" title="blog.yokumi.cn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M224 24c0-13.3 10.7-24 24-24 145.8 0 264 118.2 264 264 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-119.3-96.7-216-216-216-13.3 0-24-10.7-24-24M80 96c26.5 0 48 21.5 48 48v224c0 26.5 21.5 48 48 48s48-21.5 48-48-21.5-48-48-48c-8.8 0-16-7.2-16-16v-64c0-8.8 7.2-16 16-16 79.5 0 144 64.5 144 144s-64.5 144-144 144S32 447.5 32 368V144c0-26.5 21.5-48 48-48m168 0c92.8 0 168 75.2 168 168 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-66.3-53.7-120-120-120-13.3 0-24-10.7-24-24s10.7-24 24-24"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:yokumi0704@gmail.com" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M536.4-26.3c9.8-3.5 20.6-1 28 6.3s9.8 18.2 6.3 28l-178 496.9c-5 13.9-18.1 23.1-32.8 23.1-14.2 0-27-8.6-32.3-21.7l-64.2-158c-4.5-11-2.5-23.6 5.2-32.6l94.5-112.4c5.1-6.1 4.7-15-.9-20.6s-14.6-6-20.6-.9l-112.4 94.3c-9.1 7.6-21.6 9.6-32.6 5.2L38.1 216.8c-13.1-5.3-21.7-18.1-21.7-32.3 0-14.7 9.2-27.8 23.1-32.8z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest", "search.highlight", "search.share", "header.autohide", "navigation.footer", "content.footnote.tooltips", "content.code.copy", "content.code.select", "content.code.annotate", "content.action.edit", "content.action.view", "content.tooltips"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../../assets/javascripts/katex.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>

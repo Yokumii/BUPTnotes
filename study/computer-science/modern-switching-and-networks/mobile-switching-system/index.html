@@ -1,0 +1,2749 @@
+
+<!doctype html>
+<html lang="zh" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Yokumi's Course Notes in Beijing University of Posts and Telecommunications">
+      
+      
+        <meta name="author" content="Yokumi">
+      
+      
+        <link rel="canonical" href="https://buptwiki.yokumi.cn/study/computer-science/modern-switching-and-networks/mobile-switching-system/">
+      
+      
+        <link rel="prev" href="../session-initiation-protocol/">
+      
+      
+        <link rel="next" href="../software-defined-networking/">
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../../assets/images/favicon.ico">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>移动交换系统 - Yokumi's BUPT Course Notes</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+        
+        <link rel="stylesheet" href="../../../../assets/stylesheets/palette.ab4e12ef.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Serif+SC:300,300i,400,400i,700,700i%7CJetBrains+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Noto Serif SC";--md-code-font:"JetBrains Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="https://unpkg.com/katex@0/dist/katex.min.css">
+    
+    <script>__md_scope=new URL("../../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#_1" class="md-skip">
+          跳转至
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="页眉">
+    <a href="../../../.." title="Yokumi&#39;s BUPT Course Notes" class="md-header__button md-logo" aria-label="Yokumi's BUPT Course Notes" data-md-component="logo">
+      
+  <img src="https://webp-pic.yokumi.cn/2026/09/20260923163304050.png" alt="logo">
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            Yokumi's BUPT Course Notes
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              移动交换系统
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+        <form class="md-header__option" data-md-component="palette">
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme)" data-md-color-scheme="default" data-md-color-primary="indigo" data-md-color-accent="indigo"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_0">
+    
+      <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="m14.3 16-.7-2h-3.2l-.7 2H7.8L11 7h2l3.2 9zM20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12zm-9.15 3.96h2.3L12 9z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="white" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+    
+      <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a4 4 0 0 0-4 4 4 4 0 0 0 4 4 4 4 0 0 0 4-4 4 4 0 0 0-4-4m0 10a6 6 0 0 1-6-6 6 6 0 0 1 6-6 6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+    
+    
+    
+    <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="black" data-md-color-accent="cyan"  aria-label="Switch to system preference"  type="radio" name="__palette" id="__palette_2">
+    
+      <label class="md-header__button md-icon" title="Switch to system preference" for="__palette_0" hidden>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18c-.89 0-1.74-.2-2.5-.55C11.56 16.5 13 14.42 13 12s-1.44-4.5-3.5-5.45C10.26 6.2 11.11 6 12 6a6 6 0 0 1 6 6 6 6 0 0 1-6 6m8-9.31V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12z"/></svg>
+      </label>
+    
+  
+</form>
+      
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="搜索" placeholder="搜索" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="查找">
+        
+          <a href="javascript:void(0)" class="md-search__icon md-icon" title="分享" aria-label="分享" data-clipboard data-clipboard-text="" data-md-component="search-share" tabindex="-1">
+            
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M18 16.08c-.76 0-1.44.3-1.96.77L8.91 12.7c.05-.23.09-.46.09-.7s-.04-.47-.09-.7l7.05-4.11c.54.5 1.25.81 2.04.81a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3c0 .24.04.47.09.7L8.04 9.81C7.5 9.31 6.79 9 6 9a3 3 0 0 0-3 3 3 3 0 0 0 3 3c.79 0 1.5-.31 2.04-.81l7.12 4.15c-.05.21-.08.43-.08.66 0 1.61 1.31 2.91 2.92 2.91s2.92-1.3 2.92-2.91A2.92 2.92 0 0 0 18 16.08"/></svg>
+          </a>
+        
+        <button type="reset" class="md-search__icon md-icon" title="清空当前内容" aria-label="清空当前内容" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+        <div class="md-search__suggest" data-md-component="search-suggest"></div>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            正在初始化搜索引擎
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/Yokumii/BUPTnotes" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yokumii/BUPTnotes
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+<nav class="md-nav md-nav--primary" aria-label="导航栏" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../../.." title="Yokumi&#39;s BUPT Course Notes" class="md-nav__button md-logo" aria-label="Yokumi's BUPT Course Notes" data-md-component="logo">
+      
+  <img src="https://webp-pic.yokumi.cn/2026/09/20260923163304050.png" alt="logo">
+
+    </a>
+    Yokumi's BUPT Course Notes
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/Yokumii/BUPTnotes" title="前往仓库" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Yokumii/BUPTnotes
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../introduction-to-computing-and-programming/c-programming/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算导论与程序设计
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../discrete-math/dm-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    离散数学
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../data-structures/ds-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../digital-logic-and-digital-systems/verilog-programming/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数字逻辑与数字系统
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-organization/co-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机组成原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../csapp/csapp-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    深入理解计算机系统(CSAPP)
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-network/cn-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机网络
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../formal-languages-and-automata/fla-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    形式语言与自动机
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../compiler-principle-and-technology/compiler-overview/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    编译原理
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../operating-system/os-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    操作系统
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../database-system-concepts/db-introduction/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    数据库系统概念
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../design-and-analysis-of-algorithms/complexity-analysis/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    算法设计与分析
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+    
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+        
+        
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_14" checked>
+        
+          
+          <label class="md-nav__link" for="__nav_14" id="__nav_14_label" tabindex="0">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    现代交换原理
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_14_label" aria-expanded="true">
+          <label class="md-nav__title" for="__nav_14">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    现代交换原理
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../introduction/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    交换概论
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../switching-network/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    交换网络
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../packet-switching/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    分组交换
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../session-initiation-protocol/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SIP 信令
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+    
+  
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    移动交换系统
+  
+
+    
+  </span>
+  
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    移动交换系统
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        移动通信的基本概念
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2g-5g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        移动通信系统架构的演进 (2G - 5G)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="移动通信系统架构的演进 (2G - 5G)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gsm2g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GSM（2G）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gprs25g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPRS（2.5G）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#umts3g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UMTS（3G）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lte4g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LTE（4G）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sba5g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SBA（5G）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4g-vs-5g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4G vs. 5G 的区别
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        演进特点总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5G 移动交换系统
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5G 移动交换系统">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5g_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5G 的三大应用场景
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SBA 架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5gran" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5G无线接入网（RAN）的重构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5g_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5G 无线关键技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5g_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5G 网络关键技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5g_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5G 信令流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5G 信令流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5g_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5G 注册基本流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PDU 会话建立流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        业务请求流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ims" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基于 IMS 的移动实时通信
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基于 IMS 的移动实时通信">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#imsip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IMS（IP 多媒体子系统）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ims_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IMS 用户注册流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ims_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IMS 会话流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vonr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VoNR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../software-defined-networking/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    SDN 软件定义网络
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../solution/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    习题
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+        
+      
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    <li class="md-nav__item md-nav__item--pruned md-nav__item--nested">
+      
+        
+  
+  
+  
+    <a href="../../computer-architecture/basics/" class="md-nav__link">
+      
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    计算机系统结构
+  
+
+    
+  </span>
+  
+  
+
+      
+        <span class="md-nav__icon md-icon"></span>
+      
+    </a>
+  
+
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="目录">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      目录
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        移动通信的基本概念
+      
+    </span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#2g-5g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        移动通信系统架构的演进 (2G - 5G)
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="移动通信系统架构的演进 (2G - 5G)">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#gsm2g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GSM（2G）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#gprs25g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        GPRS（2.5G）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#umts3g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        UMTS（3G）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#lte4g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        LTE（4G）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sba5g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SBA（5G）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#4g-vs-5g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        4G vs. 5G 的区别
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        演进特点总结
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5g" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5G 移动交换系统
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5G 移动交换系统">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5g_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5G 的三大应用场景
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#sba" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        SBA 架构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5gran" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5G无线接入网（RAN）的重构
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5g_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5G 无线关键技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#5g_3" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5G 网络关键技术
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#5g_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5G 信令流程
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="5G 信令流程">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#5g_5" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        5G 注册基本流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#pdu" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        PDU 会话建立流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#_4" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        业务请求流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#ims" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        基于 IMS 的移动实时通信
+      
+    </span>
+  </a>
+  
+    <nav class="md-nav" aria-label="基于 IMS 的移动实时通信">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#imsip" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IMS（IP 多媒体子系统）
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ims_1" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IMS 用户注册流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#ims_2" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        IMS 会话流程
+      
+    </span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#vonr" class="md-nav__link">
+    <span class="md-ellipsis">
+      
+        VoNR
+      
+    </span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+                
+
+
+
+  
+
+
+  <nav class="md-path" aria-label="导航栏" >
+    <ol class="md-path__list">
+      
+        
+  
+  
+    <li class="md-path__item">
+      <a href="../../../.." class="md-path__link">
+        
+  <span class="md-ellipsis">
+    Home
+  </span>
+
+      </a>
+    </li>
+  
+
+      
+      
+        
+  
+  
+    
+    
+      <li class="md-path__item">
+        <a href="../introduction/" class="md-path__link">
+          
+  <span class="md-ellipsis">
+    现代交换原理
+  </span>
+
+        </a>
+      </li>
+    
+  
+
+      
+    </ol>
+  </nav>
+
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+    <a href="https://github.com/Yokumii/BUPTnotes/edit/main/docs/study/computer-science/modern-switching-and-networks/mobile-switching-system.md" title="编辑此页" class="md-content__button md-icon" rel="edit">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M10 20H6V4h7v5h5v3.1l2-2V8l-6-6H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h4zm10.2-7c.1 0 .3.1.4.2l1.3 1.3c.2.2.2.6 0 .8l-1 1-2.1-2.1 1-1c.1-.1.2-.2.4-.2m0 3.9L14.1 23H12v-2.1l6.1-6.1z"/></svg>
+    </a>
+  
+  
+    
+      
+    
+    <a href="https://github.com/Yokumii/BUPTnotes/raw/main/docs/study/computer-science/modern-switching-and-networks/mobile-switching-system.md" title="查看本页的源代码" class="md-content__button md-icon">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M17 18c.56 0 1 .44 1 1s-.44 1-1 1-1-.44-1-1 .44-1 1-1m0-3c-2.73 0-5.06 1.66-6 4 .94 2.34 3.27 4 6 4s5.06-1.66 6-4c-.94-2.34-3.27-4-6-4m0 6.5a2.5 2.5 0 0 1-2.5-2.5 2.5 2.5 0 0 1 2.5-2.5 2.5 2.5 0 0 1 2.5 2.5 2.5 2.5 0 0 1-2.5 2.5M9.27 20H6V4h7v5h5v4.07c.7.08 1.36.25 2 .49V8l-6-6H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h4.5a8.2 8.2 0 0 1-1.23-2"/></svg>
+    </a>
+  
+
+
+<h1 id="_1">移动交换系统</h1>
+<h2 id="_2">移动通信的基本概念</h2>
+<ul>
+<li><strong>移动通信的本质</strong>：移动通信本质上是一个在 <u><strong>复杂、不可靠的物理空间</strong></u>（大气空间）中，为用户建立 <u><strong>高效、可靠、安全</strong></u> 的数字信息通道的任务。<ul>
+<li>主要关注的是两个方面：<u><strong>效率</strong></u> 和 <u><strong>可靠性</strong></u>。</li>
+</ul>
+</li>
+<li>为了解决资源的稀缺性，网络必须采用 <u><strong>频率复用</strong></u> 等技术来提高效率。</li>
+<li>“<u><strong>蜂窝</strong></u>”概念的提出解决了移动通信中频率资源有限的问题，蜂窝组网标志着“无线”到“移动”的转变，关键技术包括 <u><strong>频率复用</strong></u>、<u><strong>移动性管理</strong></u>。<ul>
+<li>每个蜂窝基站 <span class="arithmatex">\(\rightarrow\)</span> 一组频段 <span class="arithmatex">\(\rightarrow\)</span> 一个地理区域，即“蜂窝”/“小区”。</li>
+<li>若干相邻小区 <span class="arithmatex">\(\rightarrow\)</span> 形成一个区群/簇 <span class="arithmatex">\(\rightarrow\)</span> 可使用整个系统的全部频段。</li>
+<li>频段被分配给同一簇内的不同小区，要求相邻小区使用不同子频段。</li>
+<li>不同簇内对应位置的小区可以使用相同的子频段 <span class="arithmatex">\(\rightarrow\)</span> 同频小区 <span class="arithmatex">\(\rightarrow\)</span> 存在同频干扰</li>
+</ul>
+</li>
+<li><strong>无线信道</strong>：移动通信中，移动台和基站之间的信息通道。<ul>
+<li>分类：<ul>
+<li>逻辑信道</li>
+<li>传输信道</li>
+<li>物理信道</li>
+</ul>
+</li>
+<li>特点：多径衰落与时变特征<ul>
+<li>大尺度衰落：路径损耗 + 阴影衰落</li>
+<li>小尺度衰落：多径衰落 + 多普勒频移</li>
+</ul>
+</li>
+<li>抗衰落技术：<ul>
+<li>分集接收</li>
+<li>自适应均衡</li>
+<li>纠错编码</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><strong>移动性管理技术</strong>：通过 <u><strong>位置跟踪</strong></u>、<u><strong>无缝切换</strong></u>、<u><strong>高效寻呼</strong></u> 等机制，保证终端在移动中“通信不中断、服务不掉线”：<ul>
+<li>核心功能：<ul>
+<li><strong>位置管理</strong>（移动通信的<strong>基础</strong>）：解决“网络如何知道移动终端在哪”问题，确保移动台能在移动中被寻呼到。<ul>
+<li>位置登记</li>
+<li>呼叫传递</li>
+<li>位置更新（终端位置变化时上报）</li>
+<li>寻呼（Paging）（网络通过全网或区域广播找到空闲状态终端的机制）</li>
+</ul>
+</li>
+<li><strong>切换管理</strong>：实现网络实体跨覆盖区域的无缝业务衔接，保证移动台在移动中通信不中断。它涉及三个关键问题：<ul>
+<li>越区切换准则（何时切）</li>
+<li>切换控制（如何切）</li>
+<li>信道分配</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="2g-5g">移动通信系统架构的演进 (2G - 5G)</h2>
+<p>移动通信系统由 <u><strong>移动终端（Mobile Terminal, MT）</strong></u>、<u><strong>无线接入网（Radio Access Network, RAN）</strong></u> 和 <u><strong>核心网（Core Network, CN）</strong></u> 和 <u><strong>外网</strong></u> 四大部分组成。</p>
+<h3 id="gsm2g">GSM（2G）</h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>完全过时的内容，22 级（2025年）开始应该就不考了。</p>
+</div>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629144618904.png" width="70%" /> </figure>
+<p>采用<strong>电路交换</strong>，基于模拟/数字技术，主要服务语音业务。</p>
+<p>分为：</p>
+<ul>
+<li><strong>MS（Mobile Station）</strong>：移动台，用户终端设备。包括<strong>移动终端（ME）</strong>、<strong>手机客户识别卡（SIM）</strong>。</li>
+<li><strong>BSS（Base Station Subsystem）</strong>：无线基站子系统，由 MSC（移动交换中心） 控制，是与 MS 通信的系统设备。主要完成无线发送接收和无线资源管理等功能。包括<ul>
+<li>BTS（Base Transceiver Station）：基站收发信机，完成无线传输、无线与有线的转换、无线分集、无线信道加密。</li>
+<li>BSC（Base Station Controller）：基站控制器，连接 BTS 与 MSC、为 BTS 和 OMC 的信息交换提供接口，具有控制一个或多个 BTS 的功能。完成无线网路资源的管理、呼叫和通信链路的建立与拆除、本控制区内 MS 越区切换的控制、小区配置数据管理、功率控制等。</li>
+</ul>
+</li>
+<li><strong>NSS（Network Switching Subsystem）</strong>：交换网路子系统，完成交换功能、完成客户数据、移动性管理、安全性管理所需的数据库功能。<ul>
+<li>MSC（Mobile Switching Center）：移动交换中心，蜂窝通信网络的核心，对位于本 MSC 控制区内的移动用户进行通信控制和管理。完成信道的管理和分配、呼叫的处理和控制、用户位置信息的登记与管理、越区切换和漫游的控制、用户号码和移动设备号码的登记和管理、服务类型的控制、用户鉴权、为系统中连接其他 MSC 和其他公用通信网络（PSTN、ISDN、PDN）提供链路接口。</li>
+<li>HLR（Home Location Register）：归属位置寄存器，存储本地用户位置信息的数据库。每个用户都必须在某个 HLR（相当于该用户的原籍）中登记。</li>
+<li>VLR（Visitor Location Register）：访客位置寄存器，存储本地用户位置信息的数据库。一个 VLR 可以为一个或多个相邻 MSC 服务。</li>
+<li>AUC（鉴权中心）：可靠地识别用户的身份，只允许有权用户接入网络获得服务。</li>
+<li>EIR（设备标志寄存器）：存储移动台设备参数的数据库。识别用户的 IMEI，对移动设备进行鉴别和监视，拒绝非法移动台入网。</li>
+<li>SMS-SC（短信息业务中心）：提供点对点短信服务和广播式公共信息服务。</li>
+<li>GMSC（网关交换中心）：负责移动交换网络与 PSTN 固话网络的互联互通。进行信令控制与话音转发。</li>
+</ul>
+</li>
+</ul>
+<details class="info">
+<summary>例题 1（2013-2014）</summary>
+<p>写出下列 GSM 网络设备对应功能的序号：</p>
+<table>
+<thead>
+<tr>
+<th>网络设备</th>
+<th>对应序号</th>
+<th>功能</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>GMSC</strong></td>
+<td>①</td>
+<td>① 负责与固定电话网互联互通</td>
+</tr>
+<tr>
+<td><strong>MSC</strong></td>
+<td>④</td>
+<td>② 存放所属网络的用户数据</td>
+</tr>
+<tr>
+<td><strong>HLR</strong></td>
+<td>②</td>
+<td>③ 对接入 GSM 网络的用户进行认证</td>
+</tr>
+<tr>
+<td><strong>BTS</strong></td>
+<td>⑥</td>
+<td>④ GSM 网络的交换设备，负责呼叫处理等功能</td>
+</tr>
+<tr>
+<td><strong>EIR</strong></td>
+<td>⑦</td>
+<td>⑤ 分配移动 IP 地址</td>
+</tr>
+<tr>
+<td><strong>AUC</strong></td>
+<td>③</td>
+<td>⑥ 完成空中无线信号的收发</td>
+</tr>
+<tr>
+<td><strong>GGSN</strong></td>
+<td>⑤</td>
+<td>⑦ 对接入 GSM 网络的移动终端设备进行认证</td>
+</tr>
+</tbody>
+</table>
+</details>
+<h3 id="gprs25g">GPRS（2.5G）</h3>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629145442048.png" width="70%" /> </figure>
+<p>引入了分组域，呈现电路域与分组域重叠、<strong>电路交换与分组交换共存</strong>的网络结构（增加了SGSN、GGSN网元）。</p>
+<ul>
+<li>BSC 新增 PCU，属于分组域，负责移动分组数据的组装和拆解。</li>
+<li>SGSN：功能类似 MSC/VLR。</li>
+<li>GGSN：功能类似 GMSC。</li>
+</ul>
+<details class="info">
+<summary>例题 1（2016-2017）</summary>
+<p>目前有很多智能手表，比如小米手表、华为手表，主要面向儿童群体。家长可以对儿童手表进行定位、语音通信，大部分产品要求用户的 SIM 卡开通 GPRS 功能。</p>
+<ol>
+<li>以前述手表为例，在下图方框中填入相关的网元（HLR、BSC、GGSN、MSC、VLR、SGSN、BTS、GMSC）；</li>
+<li>并在图中标示出手表发送定位信息和语音通信的路径；</li>
+<li>在这些网元设备中，哪个负责手表 IP 地址的分配？</li>
+</ol>
+<p><figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260630111020432.png" width="70%" /> </figure></p>
+<ul>
+<li>儿童手表定位信息一般通过 <strong>GPRS 分组数据业务</strong>上传到服务器，所以走 PS 域：<ul>
+<li><code>手表 → BTS → BSC → SGSN → GGSN → Internet → 定位服务器 / 家长手机 App</code></li>
+<li>其中 HLR 参与用户鉴权、业务签约信息查询等过程</li>
+</ul>
+</li>
+<li>语音通信走<strong>电路交换 CS 域</strong>：<ul>
+<li><code>手表 → BTS → BSC → MSC → GMSC → PSTN / 其他移动网</code></li>
+<li>其中 MSC 需要结合 VLR、HLR 完成用户位置登记、鉴权、呼叫接续等功能</li>
+</ul>
+</li>
+<li>负责手表 IP 地址分配的是： <strong>GGSN</strong>，它是移动分组数据业务的网关，负责与外部 IP 网络互联互通，并为移动终端分配 IP 地址。</li>
+</ul>
+</details>
+<h3 id="umts3g">UMTS（3G）</h3>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629145646397.png" width="70%" /> </figure>
+<ul>
+<li>3GPP-R99：核心网是构建在<strong>电路域</strong>之上的</li>
+<li><strong>3GPP-R4</strong>：引入了<strong>承载和控制相分离的软交换架构</strong>，将 MSC 拆分为 MSC Server（MSS，控制）和媒体网关（MGW，承载），是<strong>向分组交换演进</strong>的关键一步
+    <figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629150121101.png" width="70%" /> </figure></li>
+<li><strong>3GPP-R5</strong>：提出全 IP 承载网络，核心网分为电路域（CS，处理语音业务）、分组域（处理数据业务）和<strong>多媒体域（IMS，处理多媒体业务）</strong>。<ul>
+<li>CS 和 IMS 按照控制/承载分离的原则，分别由 MSC Server 和 Call Session Control Function（CSCF）控制。</li>
+</ul>
+</li>
+</ul>
+<h3 id="lte4g">LTE（4G）</h3>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>从这里开始也许是新的重点了。</p>
+</div>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629154006571.png" width="70%" /> </figure>
+<p>从手机 UE，经无线接入网 E-UTRAN，到核心网 EPC，再连接外部 IP 网络。</p>
+<ul>
+<li><strong>UE（User Equipment）</strong>：用户设备，移动终端。包括<strong>移动终端（ME）</strong>、<strong>用户身份模块（USIM）</strong>。<ul>
+<li>ME（Mobile Equipment） 是手机终端本体，负责无线收发、协议处理、业务运行。</li>
+<li>USIM 是 SIM/USIM 卡，保存用户身份、鉴权密钥、运营商信息。</li>
+</ul>
+</li>
+<li><strong>E-UTRAN</strong>（Evolved Universal Terrestrial Radio Access Network）：无线接入网，<strong>核心网元是 eNodeB</strong>，也就是 <strong>LTE 基站</strong>，负责：<ul>
+<li>无线资源调度，比如给用户分配时频资源；</li>
+<li>无线承载建立与释放；</li>
+<li>上下行数据转发；</li>
+<li>移动性管理中的切换控制；</li>
+<li>加密、完整性保护等部分接入层安全功能。</li>
+</ul>
+</li>
+<li><strong>EPC</strong>（Evolved Packet Core）：LTE 的<strong>分组核心网</strong>。LTE 是<strong>全 IP 网络</strong>，语音、视频、网页等业务都承载在 IP 数据通道上，包括以下核心网元：<ul>
+<li><strong>MME（Mobility Management Entity, 移动管理实体）</strong>：<strong>控制面核心网元</strong>，主要负责用户附着、鉴权、位置管理、寻呼、承载控制和切换控制。图中 eNodeB 到 MME 的接口是 S1-MME，<strong>传控制信令</strong>。</li>
+<li><strong>S-GW（Serving Gateway）</strong>：<strong>服务网关</strong>，负责<strong>用户面数据转发</strong>，是 <strong>UE 移动时的数据锚点（eNode 之间切换的锚点）</strong>。eNodeB 到 S-GW 的接口是 S1-U，传用户数据。</li>
+<li><strong>P-GW（PDN Gateway）</strong>：<strong>分组数据网网关</strong>，负责<strong>连接外部 IP 网络</strong>，为 <strong>UE 分配 IP 地址</strong>，做计费、策略执行、NAT/防火墙等。</li>
+<li><strong>HSS（Home Subscriber Server, 归属签约用户服务器）</strong>：<strong>用户数据库</strong>，保存用户签约信息、鉴权数据、漫游信息等。MME 通过 S6a 接口访问 HSS。</li>
+<li><strong>PCRF（Policy and Charging Rules Function）</strong>：<strong>策略与计费规则功能</strong>，决定 QoS、计费策略、业务策略等。它通过 Gx 与 P-GW 交互，通过 Rx 与业务平台交互。</li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">一句话总结</p>
+<p><strong>eNodeB 管无线接入，MME 管信令和移动性，S-GW 转发数据，P-GW 连接外网，HSS 管用户资料，PCRF 管策略与计费</strong>。</p>
+</div>
+<details class="info">
+<summary>例题 1</summary>
+<p>LTE 采用扁平化网络架构，WCDMA 网络中原 RNC 的功能主要由 哪个网元设备来承担？</p>
+<p>答：<strong>eNodeB</strong>。</p>
+</details>
+<details class="info">
+<summary>例题 2</summary>
+<p>LTE 网络中， 移动终端 UE 的 IP 地址由哪个网元设备来分配？</p>
+<p>答：<strong>P-GW</strong>。</p>
+</details>
+<details class="info">
+<summary>例题 3</summary>
+<p>LTE 网络的一个重要特点是控制平面与用户平面分离，只负责控制信息处理的网元是哪一个？</p>
+<p>答：<strong>MME</strong>。</p>
+</details>
+<h3 id="sba5g">SBA（5G）</h3>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629155244595.png" width="70%" /> </figure>
+<p>SBA（Service Based Architecture），即<strong>服务化架构</strong>。</p>
+<ul>
+<li><strong>NG-RAN</strong>（Next Generation Radio Access Network, 无线接入网）：由 <strong>gNB（5G 基站）</strong>组成。</li>
+<li><strong>NGC（Next Generation Core, 核心网）</strong>：5G 核心网，采用 SBA 架构，核心网元都是<strong>服务化网元（NF）</strong>，通过 <strong>服务化接口（SBI）</strong> 互联。</li>
+<li><strong>DN</strong>（Data Network, 数据网络）：5G 核心网连接的外部数据网络，可以是互联网、企业网、运营商专网等。</li>
+</ul>
+<h3 id="4g-vs-5g">4G vs. 5G 的区别</h3>
+<ul>
+<li>演进过程：4G <span class="arithmatex">\(\rightarrow\)</span> <strong>控制面与用户面分离</strong>（CUPS，Control and User Plane Separation） <span class="arithmatex">\(\rightarrow\)</span> 4.5G <span class="arithmatex">\(\rightarrow\)</span> <strong>功能模块化</strong>（SBA，Service-Based Architecture） <span class="arithmatex">\(\rightarrow\)</span> 5G。<ul>
+<li>首先将同一设备 S/PGW 同时承担控制 + 数据拆分为 S/PGW-C（控制）和 S/PGW-U（数据），实现控制面与用户面的分离（CUPS）。</li>
+<li>进一步将一个大网元（MME）拆成很多小网元（如 AMF、AUSF 和 UDM 等），实现功能模块化（SBA）。
+<figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629160442619.png" width="70%" /> </figure></li>
+<li><strong>允许用户面网元（UPF）根据业务性能差异灵活下沉（部署在靠近用户侧的边缘）</strong>，显著降低网络传输时延，减轻骨干回传网的带宽压力。</li>
+</ul>
+</li>
+<li><strong>刚性网络 vs. 柔性网络</strong>：<ul>
+<li>4G 核心网是<strong>刚性网络</strong>，基于传统<strong>物理网元实体</strong>，固定 <u><strong>连接</strong></u>、固定 <u><strong>功能</strong></u>、固化 <u><strong>信令交互</strong></u>，无法灵活扩展和演进。</li>
+<li>5G 核心网是<strong>柔性网络</strong>，彻底重构为<strong>基于服务</strong>的架构（SBA）与微服务架构，实现 <u><strong>软件定义</strong></u> 的网络功能和网络连接。</li>
+</ul>
+</li>
+<li><strong>物理网元实体</strong> <span class="arithmatex">\(\rightarrow\)</span> <strong>虚拟网络功能</strong>：5G 核心网层面采用云化分布式部署架构，通过 SDN 和 NFV 技术把网元进行<strong>虚拟化</strong>的处理；</li>
+<li><strong>点对点构架</strong> <span class="arithmatex">\(\rightarrow\)</span> <strong>基于服务的架构（SBA）</strong></li>
+<li><strong>单体式构架</strong> <span class="arithmatex">\(\rightarrow\)</span> <strong>微服务架构</strong></li>
+<li><strong>单一网络</strong> <span class="arithmatex">\(\rightarrow\)</span> <strong>网络切片</strong>：5G 核心网支持网络切片（Network Slicing），可以在同一物理网络上创建多个虚拟网络，每个切片可以针对不同的业务需求进行优化和定制；</li>
+</ul>
+<h3 id="_3">演进特点总结</h3>
+<div class="admonition note">
+<p class="admonition-title">架构演进的总体趋势与特点</p>
+<ul>
+<li><strong>架构扁平化</strong></li>
+<li><strong>承载全IP化</strong></li>
+<li><strong>用户面和控制面彻底分离</strong></li>
+<li><strong>功能虚拟化与云化</strong></li>
+<li><strong>服务化与切片化</strong></li>
+</ul>
+</div>
+<h2 id="5g">5G 移动交换系统</h2>
+<ul>
+<li><strong>核心驱动力</strong>：<u><strong>移动互联网</strong></u> 和 <u><strong>物联网</strong></u> 是5G移动通信发展的两大驱动力</li>
+</ul>
+<h3 id="5g_1">5G 的三大应用场景</h3>
+<ul>
+<li><strong>eMBB</strong>（<strong>增强型移动宽带</strong>，Enhanced Mobile Broadband）：针对<strong>3D/超高清视频、VR/AR等大流量</strong>业务；</li>
+<li><strong>uRLLC</strong>（<strong>超可靠超低时延通信</strong>，Ultra-Reliable and Low Latency Communications）：针对<strong>车联网、工业自动化、无人驾驶</strong>等，提供极低时延和极高可靠性。</li>
+<li><strong>mMTC</strong>（<strong>大规模机器类通信</strong>，Massive Machine Type Communications）：针对<strong>大规模物联网（环境监测、智慧城市等）</strong>，提供海量连接（100万连接/平方公里）和低功耗</li>
+</ul>
+<h3 id="sba">SBA 架构</h3>
+<p>5G 核心网采用 SBA（Service Based Architecture，服务化架构），将<strong>网络功能和网络硬件解耦</strong>：</p>
+<ul>
+<li>传统硬件网元 <span class="arithmatex">\(\rightarrow\)</span> 多个小的模块化组件 <strong>NF</strong>（Network Function，<strong>网络功能</strong>） <span class="arithmatex">\(\rightarrow\)</span> 每个 NF 提供多个特定的服务 <strong>NFS</strong>（Network Function Service，<strong>网络功能服务</strong>）；</li>
+<li>NFS 高度独立自治，并通过开放接口来相互通信，可以像搭积木一样组合成大的 NF，以提升业务部署的敏捷性和弹性。</li>
+<li>网络功能服务自动化管理。由独立的网络功能负责管理网络中的所有功能；</li>
+<li>网元间通信机制优化。所有网元接口初期采用 HTTP/2 协议，后续可演进至 QUIC/UDP 协议及 SRv6技术。</li>
+</ul>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629163208035.png" width="70%" /> </figure>
+<ul>
+<li><strong>核心控制面网元</strong>：<ul>
+<li><strong>AMF（接入和移动性管理功能）</strong>：负责终端的 <u><strong>注册</strong></u>、<u><strong>连接</strong></u>、<u><strong>可达性</strong></u> 及 <u><strong>移动性管理</strong></u>，以及 NAS 信号的加密与完整性保护。</li>
+<li><strong>SMF（会话管理功能）</strong>：负责会话管理（会话建立/修改/释放）、UPF的选择和控制、IP地址分配；</li>
+<li><strong>UDM（统一数据管理）</strong>、<strong>AUSF（鉴权服务功能）</strong>、<strong>PCF（策略控制功能）</strong>：负责执行用户数据管理、鉴权、策略控制等</li>
+<li><strong>NEF（网络开放功能）、NRF（网络存储功能）</strong>：用于帮助 Expose 和 Publish 网络数据，以及<strong>帮助其他节点发现网络服务</strong>。</li>
+<li><strong>NSSF（网络切片选择功能）</strong></li>
+</ul>
+</li>
+<li><strong>核心用户面网元</strong>：<ul>
+<li><strong>UPF（用户平面功能）</strong>：5G 唯一的用户面网元，代替了 4G 的 SGW/PGW。作为移动性锚点和外部数据网（DN）的连接点，执行<strong>报文路由和流量转发</strong>。</li>
+</ul>
+</li>
+<li><strong>服务化架构的管理中心 NRF</strong>：<ul>
+<li><strong>NRF（网络存储功能）</strong>：支持网络功能 NF 的注册登记、NF 服务的状态检测等，实现网络功能的自动化管理、自动选择和自动扩展。</li>
+<li>每个 NF 启动时，都必须向 NRF 注册登记，才能为其他 NF 提供服务。
+<figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629164247890.png" width="70%" /> </figure></li>
+</ul>
+</li>
+<li><strong>5G 的数据存储架构</strong>：实现计算与存储分离<ul>
+<li><strong>UDSF</strong>（Unstructured Data Storage Function，非结构化数据存储功能）：用于<strong>存储所有 NF 的非结构化数据</strong>，被所有 NF 所共享；</li>
+<li><strong>UDR</strong>（Unified Data Repository，统一数据仓库）：用于 UDM 存储订阅数据或读取订阅数据以及 PCF 存储策略数据或者读取策略数据等；</li>
+</ul>
+</li>
+</ul>
+<h3 id="5gran">5G无线接入网（RAN）的重构</h3>
+<ul>
+<li><strong>BBU <span class="arithmatex">\(\rightarrow\)</span> CU + DU</strong>：打破了 4G 基站 BBU + RRU 的刚性组合。将原 BBU 重构为 <u><strong>CU（集中式单元，处理非实时高层协议）</strong></u> 和 <u><strong>DU（分布式单元，处理实时底层协议）</strong></u> 两个逻辑实体，可合设也可分离部署。</li>
+<li>CU/DU 分离的核心原因：增强小区间深度协作、<strong>满足 5G 多样化业务对时延/带宽的差异化需求</strong>、增加<strong>组网灵活性</strong>（支持合设或分布式分离部署）。  </li>
+</ul>
+<h3 id="5g_2">5G 无线关键技术</h3>
+<ul>
+<li>大规模天线技术（Massive MIMO）</li>
+<li>毫米波通信（mmWave）</li>
+<li>增强载波技术（Carrier Aggregation, CA）</li>
+<li>超密集组网：在热点区域大量部署微基站/皮基站，大幅提升频谱效率和系统容量</li>
+<li>新型多址接入：如 NOMA（非正交多址接入），允许多用户同时占用全部带宽，利用功率域复用，并在接收端采用 SIC（串行干扰消除）技术分离信号</li>
+<li>先进编码技术：5G控制信道采用 Polar码（极化码，适用于短码长控制信息传输）和 LDPC码（低密度奇偶校验码，适用于大数据量用户数据传输）以满足大数据量和高吞吐需求</li>
+</ul>
+<h3 id="5g_3">5G 网络关键技术</h3>
+<ul>
+<li>5G 网络切片：定制性、隔离/专用性、质量可保证、统一平台，实现<strong>按需组网</strong><ul>
+<li><strong>网络切片</strong>：提供特定网络能力的、端到端的<strong>逻辑专用网络</strong>。</li>
+<li>一个网络切片实例是由<strong>网络功能和所需的物理/虚拟资源的集合</strong>，具体可包括接入网、核心网、传输承载网及应用。</li>
+</ul>
+</li>
+<li>多接入边缘计算（MEC）：将5G的 UPF 和计算/存储资源下沉部署到<strong>网络边缘（更接近用户侧）</strong>，降低网络时延<ul>
+<li>典型应用：例如<strong>视频监控应用</strong>，通过 MEC 本地分析处理视频，提取有价值部分回传，极大节省核心网传输带宽，并提供超低时延服务（把 MEC 部署在 UPF 之前）</li>
+</ul>
+</li>
+</ul>
+<h2 id="5g_4">5G 信令流程</h2>
+<h3 id="5g_5">5G 注册基本流程</h3>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629171807481.png" width="70%" /> </figure>
+<ol>
+<li><strong>UE <span class="arithmatex">\(\rightarrow\)</span> AMF 初始注册请求</strong></li>
+<li><strong>AMF <span class="arithmatex">\(\rightarrow\)</span> AUSF / UDM 鉴权请求</strong></li>
+<li><strong>进行合法性检查（双向鉴权）</strong>：<ul>
+<li>UDM 确认用户购买过 5G 服务</li>
+<li>指示 AUST / AMF 和 UE 进行双向鉴权</li>
+</ul>
+</li>
+<li><strong>AMF <span class="arithmatex">\(\leftrightarrow\)</span> UDM / PCF 获取签约数据和网络使用要求</strong>：鉴权成功后，AMF从UDM和PCF获取用户的签约数据和用网策略</li>
+<li><strong>AMF <span class="arithmatex">\(\rightarrow\)</span> UE 接受注册请求</strong>：AMF 通知 UE 初始注册完成，可以接入网络</li>
+</ol>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629172524687.png" width="70%" /> </figure>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629172549721.png" width="70%" /> </figure>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629172700605.png" width="70%" /> </figure>
+<h3 id="pdu">PDU 会话建立流程</h3>
+<ul>
+<li><strong>PDU 会话</strong>：<u><strong>用户设备（UE）</strong></u> 与 <u><strong>数据网络（DN）</strong></u> 之间建立的<strong>端到端逻辑连接</strong>，用于传输<strong>分组数据单元（PDU）</strong>，是5G网络中数据通信的核心载体。</li>
+<li>核心作用：<ul>
+<li>建立数据通路</li>
+<li>承载 QoS 需求</li>
+<li>绑定网络切片</li>
+</ul>
+</li>
+<li><strong>SSC（会话和业务连续性）模式</strong>：为了支持高移动性场景（如地铁手游、V2X），5G支持不同的SSC模式。<ol>
+<li>SSC mode 1：<ul>
+<li>PDU 会话建立后，无论UE移动到哪个地理位置，其锚点 UPF 保持不变</li>
+<li>适用于任何需要<strong>长连接且不能接受 IP 变更</strong>的场景：<strong>运营商语音/视频类</strong>、<strong>企业视频会议</strong>等</li>
+</ul>
+</li>
+<li>SSC mode 2：<ul>
+<li>网络主动释放当前 PDU 会话，并指示 UE 立即向同一数据网络发起新的会话建立请求，可选择新的锚点 UPF</li>
+<li>适用于对<strong>短暂中断不敏感</strong>的消费级业务：<strong>普通网页浏览</strong>、<strong>社交媒体刷新</strong>等</li>
+</ul>
+</li>
+<li>SSC mode 3：<ul>
+<li>在网络释放旧连接前，先建立一条新的通往新锚点 UPF 的 PDU 会话连接，“双通道”并行，待新路径就绪后再释放旧路径</li>
+<li>适用于高移动性场景下的<strong>实时交互类</strong>业务：<strong>移动中游戏</strong>（如地铁打手游）、<strong>车联网V2X通信</strong>等</li>
+</ul>
+</li>
+</ol>
+</li>
+<li><strong>SSC 模式选择</strong>：<ol>
+<li>PCF <span class="arithmatex">\(\rightarrow\)</span> UE：提供SSCMSP（SSC mode selection policy）</li>
+<li>SMF 针对 UE 请求 SSC mode、签约、本地策略，确定 SSC mode</li>
+</ol>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">关于PDU会话的知识点</p>
+<ul>
+<li>一个用户可以同时有多个PDU会话</li>
+<li>一个PDU会话可以通过不同QoS Flow满足不同类型的业务需求</li>
+<li>PDU会话创建后，不是静态不变的，也是可以修改和释放的</li>
+</ul>
+</div>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629174009031.png" width="70%" /> </figure>
+<ol>
+<li><strong>UE <span class="arithmatex">\(\rightarrow\)</span> AMF PDU 会话建立请求</strong></li>
+<li><strong>AMF 查询 UE 基本信息后交由 SMF 处理</strong></li>
+<li><strong>SMF <span class="arithmatex">\(\leftrightarrow\)</span> PCF 获取会话建立策略</strong></li>
+<li><strong>SMF <span class="arithmatex">\(\leftrightarrow\)</span> UPF 选择合适的锚点 UPF</strong>：为建立 PDU 会话做好信令准备</li>
+<li><strong>SMF <span class="arithmatex">\(\leftrightarrow\)</span> 无线基站 &amp; UE 按指定要求建立PDU会话上行通道</strong></li>
+<li><strong>SMF <span class="arithmatex">\(\leftrightarrow\)</span> UPF 按照指定要求建立PDU会话下行通道</strong></li>
+</ol>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629174524359.png" width="70%" /> </figure>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629174541859.png" width="70%" /> </figure>
+<h3 id="_4">业务请求流程</h3>
+<ul>
+<li>UE 触发的业务请求：<ul>
+<li>终端发送上行信令</li>
+<li>终端需要发送上行数据</li>
+<li>响应网络的寻呼请求</li>
+<li>激活用户面连接
+<figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629174951203.png" width="70%" /> </figure></li>
+</ul>
+</li>
+<li>网络触发的业务请求：<ul>
+<li>网络需要向终端发送信令<ul>
+<li>若 UE 处于空闲状态，网络会先发起寻呼 Paging 请求</li>
+<li>若 UE 处于连接状态， 则用户面激活，发送业务请求
+<figure markdown="span">   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629175137348.png" width="70%" /> </figure></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="ims">基于 IMS 的移动实时通信</h2>
+<h3 id="imsip">IMS（IP 多媒体子系统）</h3>
+<ul>
+<li>IMS（IP多媒体子系统）本质：一种基于 <strong>IP 网络</strong>的多媒体服务框架，采用 <strong>SIP 协议</strong>进行呼叫控制，具有<strong>与接入网络无关</strong>的特性。<ul>
+<li>以 SIP 协议为核心实现端到端呼叫控制，并通过 SDP 等协议协商媒体参数</li>
+<li>执行用户数据、策略、计费操作时用 Diameter 协议</li>
+<li>媒体网关控制用 H.248 协议</li>
+<li>媒体流用 RTP 协议</li>
+</ul>
+</li>
+</ul>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629201355643.png" width="70%" /> </figure>
+<ul>
+<li>IMS 核心控制网元<ul>
+<li><strong>P-CSCF（代理-呼叫会话控制功能）</strong>：IMS 的第一接触点，负责信令代理、安全性检查及计费策略下载。</li>
+<li><strong>I-CSCF（查询-呼叫会话控制功能）</strong>：相当于网关或入口，负责在用户注册/呼入时进行 S-CSCF 分配与路由查询，同时对外隐藏本网拓扑。</li>
+<li><strong>S-CSCF（服务-呼叫会话控制功能）</strong>：IMS 的核心控制节点，负责用户认证（鉴权）、注册管理、业务触发和会话路由。</li>
+<li><strong>MGCF（媒体网关控制功能）</strong> 与 <strong>BGCF（出口网关控制功能）</strong>：MGCF 协调 IMS 与 PSTN 或电路域的交互，BGCF 则负责选择与外部网络的接口点。</li>
+</ul>
+</li>
+<li>双重用户标识（IMS-HSS 侧开通）：<ul>
+<li><strong>IMPI（私有标识）</strong>：格式通常为 <span class="arithmatex">\(IMSI@ims...\)</span>，仅用于网络的注册和鉴权，常见于注册流程；</li>
+<li><strong>IMPU（公有标识）</strong>：格式为 <span class="arithmatex">\(sip:...\)</span> 或 <span class="arithmatex">\(tel:...\)</span>，用于用户的<strong>呼叫和寻址</strong>，常见于会话流程。</li>
+</ul>
+</li>
+</ul>
+<h3 id="ims_1">IMS 用户注册流程</h3>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629202007963.png" width="70%" /> </figure>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629202029021.png" width="70%" /> </figure>
+<h3 id="ims_2">IMS 会话流程</h3>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629202058113.png" width="70%" /> </figure>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629202150854.png" width="70%" /> </figure>
+<figure>   <img alt="" loading="lazy" src="https://webp-pic.yokumi.cn/2026/06/20260629202201231.png" width="70%" /> </figure>
+<h3 id="vonr">VoNR</h3>
+<ul>
+<li><strong>5G 语音标配 —— VoNR</strong>：在 5G NR 网络上原生承载的高清音视频通话技术。它完全依靠 <strong>IMS</strong> 来管理语音呼叫连接的建立、维护和释放。</li>
+</ul>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  回到页面顶部
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+      
+      <nav class="md-footer__inner md-grid" aria-label="页脚" >
+        
+          
+          <a href="../session-initiation-protocol/" class="md-footer__link md-footer__link--prev" aria-label="上一页: SIP 信令">
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+            </div>
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                上一页
+              </span>
+              <div class="md-ellipsis">
+                SIP 信令
+              </div>
+            </div>
+          </a>
+        
+        
+          
+          <a href="../software-defined-networking/" class="md-footer__link md-footer__link--next" aria-label="下一页: SDN 软件定义网络">
+            <div class="md-footer__title">
+              <span class="md-footer__direction">
+                下一页
+              </span>
+              <div class="md-ellipsis">
+                SDN 软件定义网络
+              </div>
+            </div>
+            <div class="md-footer__button md-icon">
+              
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11z"/></svg>
+            </div>
+          </a>
+        
+      </nav>
+    
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2024 - 2026 Yokumi
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+        
+<div class="md-social">
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://github.com/Yokumii" target="_blank" rel="noopener" title="github.com" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M173.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6m-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3m44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9M252.8 8C114.1 8 8 113.3 8 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C436.2 457.8 504 362.9 504 252 504 113.3 391.5 8 252.8 8M105.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1m-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7m32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1m-11.4-14.7c-1.6 1-1.6 3.6 0 5.9s4.3 3.3 5.6 2.3c1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2"/></svg>
+    </a>
+  
+    
+    
+    
+    
+      
+      
+    
+    <a href="https://blog.yokumi.cn" target="_blank" rel="noopener" title="blog.yokumi.cn" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M224 24c0-13.3 10.7-24 24-24 145.8 0 264 118.2 264 264 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-119.3-96.7-216-216-216-13.3 0-24-10.7-24-24M80 96c26.5 0 48 21.5 48 48v224c0 26.5 21.5 48 48 48s48-21.5 48-48-21.5-48-48-48c-8.8 0-16-7.2-16-16v-64c0-8.8 7.2-16 16-16 79.5 0 144 64.5 144 144s-64.5 144-144 144S32 447.5 32 368V144c0-26.5 21.5-48 48-48m168 0c92.8 0 168 75.2 168 168 0 13.3-10.7 24-24 24s-24-10.7-24-24c0-66.3-53.7-120-120-120-13.3 0-24-10.7-24-24s10.7-24 24-24"/></svg>
+    </a>
+  
+    
+    
+    
+    
+    <a href="mailto:yokumi0704@gmail.com" target="_blank" rel="noopener" title="" class="md-social__link">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M536.4-26.3c9.8-3.5 20.6-1 28 6.3s9.8 18.2 6.3 28l-178 496.9c-5 13.9-18.1 23.1-32.8 23.1-14.2 0-27-8.6-32.3-21.7l-64.2-158c-4.5-11-2.5-23.6 5.2-32.6l94.5-112.4c5.1-6.1 4.7-15-.9-20.6s-14.6-6-20.6-.9l-112.4 94.3c-9.1 7.6-21.6 9.6-32.6 5.2L38.1 216.8c-13.1-5.3-21.7-18.1-21.7-32.3 0-14.7 9.2-27.8 23.1-32.8z"/></svg>
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+      <div class="md-progress" data-md-component="progress" role="progressbar"></div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../../..", "features": ["navigation.instant", "navigation.instant.prefetch", "navigation.instant.progress", "navigation.tracking", "navigation.path", "navigation.prune", "navigation.indexes", "toc.follow", "navigation.top", "search.suggest", "search.highlight", "search.share", "header.autohide", "navigation.footer", "content.footnote.tooltips", "content.code.copy", "content.code.select", "content.code.annotate", "content.action.edit", "content.action.view", "content.tooltips"], "search": "../../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "\u5df2\u590d\u5236", "clipboard.copy": "\u590d\u5236", "search.result.more.one": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.more.other": "\u5728\u8be5\u9875\u4e0a\u8fd8\u6709 # \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.none": "\u6ca1\u6709\u627e\u5230\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.one": "\u627e\u5230 1 \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.other": "# \u4e2a\u7b26\u5408\u6761\u4ef6\u7684\u7ed3\u679c", "search.result.placeholder": "\u952e\u5165\u4ee5\u5f00\u59cb\u641c\u7d22", "search.result.term.missing": "\u7f3a\u5c11", "select.version": "\u9009\u62e9\u5f53\u524d\u7248\u672c"}, "version": null}</script>
+    
+    
+      <script src="../../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+        <script src="../../../../assets/javascripts/katex.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/katex.min.js"></script>
+      
+        <script src="https://unpkg.com/katex@0/dist/contrib/auto-render.min.js"></script>
+      
+    
+  </body>
+</html>
