@@ -1,0 +1,259 @@
+site_name: Yokumi's BUPT Course Notes
+site_url: https://buptwiki.yokumi.cn
+site_description: Yokumi's Course Notes in Beijing University of Posts and Telecommunications
+site_author: Yokumi
+
+repo_url: https://github.com/Yokumii/BUPTnotes
+repo_name: Yokumii/BUPTnotes
+edit_uri: edit/main/docs/
+
+theme:
+  name: material
+  font:
+    text: Noto Serif SC
+    code: JetBrains Mono
+  palette:
+    # Palette toggle for automatic mode
+    - media: "(prefers-color-scheme)"
+      toggle:
+        icon: material/brightness-auto
+        name: Switch to light mode
+
+    # Palette toggle for light mode
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: white
+      accent: light blue
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+
+    # Palette toggle for dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: black
+      accent: cyan
+      toggle:
+        icon: material/brightness-4
+        name: Switch to system preference    
+  language: zh
+  logo: https://webp-pic.yokumi.cn/2026/09/20260923163304050.png
+  favicon: assets/images/favicon.ico
+  features:
+    - navigation.instant
+    - navigation.instant.prefetch
+    - navigation.instant.progress
+    - navigation.tracking
+    # - navigation.tabs
+    # - navigation.tabs.sticky
+    # - navigation.sections
+    - navigation.path
+    - navigation.prune
+    - navigation.indexes
+    - toc.follow
+    - navigation.top
+    - search.suggest
+    - search.highlight
+    - search.share
+    - header.autohide
+    - navigation.footer
+    - content.footnote.tooltips
+    - content.code.copy
+    - content.code.select
+    - content.code.annotate
+    - content.action.edit
+    - content.action.view
+    - content.tooltips
+
+
+markdown_extensions:
+  - material.extensions.preview:
+      configurations:
+        - targets:
+            include:
+              - changelog/index.md
+              - customization.md
+              - insiders/changelog/*
+              - setup/extensions/*
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - footnotes
+  - pymdownx.critic
+  - pymdownx.caret
+  - pymdownx.keys
+  - pymdownx.mark
+  - pymdownx.tilde
+  - def_list
+  - pymdownx.tasklist:
+      custom_checkbox: true
+  - pymdownx.arithmatex:
+      generic: true
+  - abbr
+  - attr_list
+  - pymdownx.snippets
+  - pymdownx.highlight:
+      linenums: true
+      anchor_linenums: true
+      auto_title: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.superfences
+  - md_in_html
+  - admonition
+  - pymdownx.details
+  - pymdownx.blocks.caption
+
+extra_javascript:
+  - assets/javascripts/katex.js
+  - https://unpkg.com/katex@0/dist/katex.min.js
+  - https://unpkg.com/katex@0/dist/contrib/auto-render.min.js
+
+extra_css:
+  - https://unpkg.com/katex@0/dist/katex.min.css
+
+plugins:
+  - search
+  - social:
+      enabled: false
+      cards_layout_options:
+        font_family: Noto Sans SC
+        title: Yokumi's BUPT Course Notes
+        description: Yokumi's Course Notes in Beijing University of Posts and Telecommunications
+  - tags
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Yokumii
+    - icon: fontawesome/solid/blog
+      link: https://blog.yokumi.cn
+    - icon: fontawesome/solid/paper-plane
+      link: mailto:yokumi0704@gmail.com
+  generator: true
+
+copyright: Copyright &copy; 2024 - 2026 Yokumi
+
+
+
+nav:
+  - index.md
+  - 计算导论与程序设计:
+      - C 语言程序设计: study/computer-science/introduction-to-computing-and-programming/c-programming.md
+      - 计算机原理: study/computer-science/introduction-to-computing-and-programming/computer-principles.md 
+  - 离散数学:
+      - 离散数学概述: study/computer-science/discrete-math/dm-overview.md
+      - 群论: study/computer-science/discrete-math/group-theory.md
+      - 图论: study/computer-science/discrete-math/graph-theory.md
+  - 数据结构:
+      - 数据结构概述: study/computer-science/data-structures/ds-overview.md
+      - 线性表: study/computer-science/data-structures/linear-list.md
+      - 栈与队列: study/computer-science/data-structures/stack-and-queue.md
+      - 串: study/computer-science/data-structures/string.md
+      - 数组与广义表: study/computer-science/data-structures/array-and-generalized-list.md
+      - 树与二叉树: study/computer-science/data-structures/tree.md
+      - 图: study/computer-science/data-structures/ds-graph.md
+      - 查找: study/computer-science/data-structures/searching.md
+      - 内部排序: study/computer-science/data-structures/internal-sorting.md
+      - 外部排序: study/computer-science/data-structures/external-sorting.md
+  - 数字逻辑与数字系统:
+      - Verilog 编程: study/computer-science/digital-logic-and-digital-systems/verilog-programming.md
+      - 存储系统: study/computer-science/digital-logic-and-digital-systems/storage-system.md
+      - PLD 与 FPGA: study/computer-science/digital-logic-and-digital-systems/pld-and-fpga.md
+      - 数字系统设计: study/computer-science/digital-logic-and-digital-systems/digital-system-design.md
+  - 计算机组成原理:
+      - 计算机组成原理概述: study/computer-science/computer-organization/co-overview.md
+      - 运算方法与运算器: study/computer-science/computer-organization/arithmetic-unit.md
+      - 存储系统: study/computer-science/computer-organization/storage-system.md
+      - 指令系统: study/computer-science/computer-organization/instruction-system.md
+      - 中央处理器: study/computer-science/computer-organization/cpu.md
+      - 总线系统: study/computer-science/computer-organization/bus-system.md
+      - 输入输出系统: study/computer-science/computer-organization/io-system.md
+      - 外围设备: study/computer-science/computer-organization/peripheral-devices.md
+      - 计算机组成原理复习: study/computer-science/computer-organization/co-review.md
+  - 深入理解计算机系统(CSAPP):
+      - CSAPP 概述: study/computer-science/csapp/csapp-overview.md
+      - 信息的表示与处理: study/computer-science/csapp/data-representation.md
+      - 机器级表示: study/computer-science/csapp/machine-level-representation.md
+      - 链接: study/computer-science/csapp/linking.md
+      - 异常控制流: study/computer-science/csapp/exceptional-control-flow.md
+      - 系统级 I/O: study/computer-science/csapp/system-level-io.md
+      - CSAPP 习题解答: study/computer-science/csapp/csapp-exercise-solutions.md
+  - 计算机网络:
+      - 计算机网络概述: study/computer-science/computer-network/cn-introduction.md
+      - 物理层: study/computer-science/computer-network/physical-layer.md
+      - 数据链路层: study/computer-science/computer-network/data-link-layer.md
+      - 介质访问控制子层: study/computer-science/computer-network/mac-sublayer.md
+      - 网络层: study/computer-science/computer-network/network-layer.md
+      - 传输层: study/computer-science/computer-network/transport-layer.md
+      - 应用层: study/computer-science/computer-network/application-layer.md
+      - 计算机网络复习: study/computer-science/computer-network/cn-review.md
+  - 形式语言与自动机:
+      - 文法与Chomsky体系: study/computer-science/formal-languages-and-automata/fla-overview.md
+      - 正则语言与有限自动机: study/computer-science/formal-languages-and-automata/regular-languages.md
+      - 上下文无关文法与下推自动机: study/computer-science/formal-languages-and-automata/cfg-and-pda.md
+      - 图灵机: study/computer-science/formal-languages-and-automata/turing-machine.md
+      - 形式语言与自动机复习: study/computer-science/formal-languages-and-automata/fla-review.md
+  - 编译原理:
+      - 编译概述: study/computer-science/compiler-principle-and-technology/compiler-overview.md
+      - 词法分析: study/computer-science/compiler-principle-and-technology/lexical-analysis.md
+      - 语法分析: study/computer-science/compiler-principle-and-technology/syntax-analysis.md
+      - 语法制导翻译: study/computer-science/compiler-principle-and-technology/syntax-directed-translation.md
+      - 语义分析: study/computer-science/compiler-principle-and-technology/semantic-analysis.md
+      - 运行环境: study/computer-science/compiler-principle-and-technology/runtime-environment.md
+      - 中间代码生成与优化: study/computer-science/compiler-principle-and-technology/intermediate-code.md
+  - 操作系统:
+      - 操作系统引论: study/computer-science/operating-system/os-introduction.md
+      - 操作系统结构: study/computer-science/operating-system/os-structures.md
+      - 进程: study/computer-science/operating-system/processes.md
+      - 线程: study/computer-science/operating-system/threads.md
+      - CPU 调度: study/computer-science/operating-system/cpu-scheduling.md
+      - 进程同步: study/computer-science/operating-system/process-synchronization.md
+      - 死锁: study/computer-science/operating-system/deadlocks.md
+      - 内存管理: study/computer-science/operating-system/memory-management.md
+      - 虚拟内存: study/computer-science/operating-system/virtual-memory.md
+      - 文件系统接口: study/computer-science/operating-system/file-system-interface.md
+      - 文件系统实现: study/computer-science/operating-system/file-system-implementation.md
+      - 大容量存储结构: study/computer-science/operating-system/mass-storage-structure.md
+      - 操作系统复习: study/computer-science/operating-system/os-review.md
+  - 数据库系统概念:
+      - 数据库系统引论: study/computer-science/database-system-concepts/db-introduction.md
+      - 关系模型: study/computer-science/database-system-concepts/relational-model.md
+      - SQL 基础: study/computer-science/database-system-concepts/sql.md
+      - SQL 进阶: study/computer-science/database-system-concepts/intermediate-sql.md
+      - E-R 模型与数据库设计: study/computer-science/database-system-concepts/er-model.md
+      - 关系数据库设计: study/computer-science/database-system-concepts/relational-database-design.md
+      - 数据存储结构: study/computer-science/database-system-concepts/data-storage-structures.md
+      - 索引: study/computer-science/database-system-concepts/indexing.md
+      - 查询处理: study/computer-science/database-system-concepts/query-processing.md
+      - 查询优化: study/computer-science/database-system-concepts/query-optimization.md
+      - 事务: study/computer-science/database-system-concepts/transactions.md
+      - 并发控制: study/computer-science/database-system-concepts/concurrency-control.md
+      - 恢复系统: study/computer-science/database-system-concepts/recovery-system.md
+      - 数据库系统复习: study/computer-science/database-system-concepts/db-review.md
+  - 算法设计与分析:
+      - 算法复杂度分析: study/computer-science/design-and-analysis-of-algorithms/complexity-analysis.md
+      - 分治法: study/computer-science/design-and-analysis-of-algorithms/divide-and-conquer.md
+      - 动态规划: study/computer-science/design-and-analysis-of-algorithms/dp-algorithm.md
+      - 贪心法: study/computer-science/design-and-analysis-of-algorithms/greedy-algorithm.md
+      - 回溯法: study/computer-science/design-and-analysis-of-algorithms/backtracking.md
+  - 现代交换原理:
+      - 交换概论: study/computer-science/modern-switching-and-networks/introduction.md
+      - 交换网络: study/computer-science/modern-switching-and-networks/switching-network.md
+      - 分组交换: study/computer-science/modern-switching-and-networks/packet-switching.md
+      - SIP 信令: study/computer-science/modern-switching-and-networks/session-initiation-protocol.md
+      - 移动交换系统: study/computer-science/modern-switching-and-networks/mobile-switching-system.md
+      - SDN 软件定义网络: study/computer-science/modern-switching-and-networks/software-defined-networking.md
+      - 习题: study/computer-science/modern-switching-and-networks/solution.md
+  - 计算机系统结构:
+      - 基础知识: study/computer-science/computer-architecture/basics.md
+      - 流水线技术: study/computer-science/computer-architecture/pipelining.md
+      - 向量处理机: study/computer-science/computer-architecture/vector-processor.md
+      - 指令级并行及其开发: study/computer-science/computer-architecture/instruction-level-parallelism.md
+      - 互连网络: study/computer-science/computer-architecture/interconnection-network.md
+      - 多处理机: study/computer-science/computer-architecture/multiprocessor.md
+      - 阵列处理机: study/computer-science/computer-architecture/simd.md
+      - 习题: study/computer-science/computer-architecture/solution.md
