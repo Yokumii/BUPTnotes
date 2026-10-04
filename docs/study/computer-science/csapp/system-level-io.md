@@ -1,3 +1,7 @@
+---
+description: 讲解 Unix 文件与系统级 I/O、进程创建、I/O 重定向、标准 I/O，以及系统调用和 API 的关系。
+---
+
 # 系统级 I/O
 
 ## 概述
@@ -229,4 +233,3 @@ Parent: c1 = a, c2 = c
 <figure markdown="span">
   ![系统级 I/O 总结图](https://webp-pic.yokumi.cn/2026/01/20260101164629280.png){ loading=lazy width="70%" }
 </figure>
-

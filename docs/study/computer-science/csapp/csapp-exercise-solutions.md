@@ -1,3 +1,7 @@
+---
+description: 整理 CSAPP 信息表示、机器级程序、链接和系统级 I/O 章节的习题解答与关键推导过程。
+---
+
 # CSAPP 习题解答
 
 本文收录《Computer Systems: A Programmer's Perspective》（CSAPP）课后习题的个人解答，涵盖第2、3、7、10章，侧重信息表示、机器级表示、链接与系统级 I/O 等核心主题。

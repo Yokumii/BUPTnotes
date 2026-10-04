@@ -1,3 +1,7 @@
+---
+description: 介绍有序、稠密、稀疏和多级索引，讲解 B+ 树与散列索引结构、更新操作及 SQL 索引语句。
+---
+
 # 索引
 
 ## 索引的目的
@@ -77,4 +81,3 @@ B+ 树索引
 <figure markdown="span">
   ![索引分类总结](https://webp-pic.yokumi.cn/2025/12/20251206105645370.png){ loading=lazy width="70%" }
 </figure>
-

@@ -1,3 +1,7 @@
+---
+description: 讲解符号解析、ELF 目标文件、重定位、静态库与共享库，梳理编译后程序的完整链接过程。
+---
+
 # 链接
 
 ## 链接概述
@@ -362,4 +366,3 @@ PLT（过程链接表）
 <figure markdown="span">
   ![GOT与PLT的工作机制](https://webp-pic.yokumi.cn/2026/01/20260101164522129.png){ loading=lazy width="70%" }
 </figure>
-

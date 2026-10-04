@@ -1,3 +1,7 @@
+---
+description: 讲解 Rolle、Lagrange、Cauchy 中值定理，L'Hôpital 法则、Taylor 公式、函数凹凸性与极值判定。
+---
+
 # 微分中值定理与 Taylor 展开
 
 微分中值定理把区间上的整体增量与某一点的导数联系起来，是单调性、极限、误差估计和 Taylor 公式的共同基础。

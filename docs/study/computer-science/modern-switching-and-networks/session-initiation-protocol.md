@@ -1,3 +1,7 @@
+---
+description: 讲解 SIP 协议栈、核心组件、消息结构与状态机，并介绍 SDP、RTP、RTCP 媒体协商和 SDL。
+---
+
 # SIP 信令
 
 ## SIP 协议栈

@@ -1,3 +1,7 @@
+---
+description: 讲解 Fourier 系数、Dirichlet 收敛定理、奇偶函数展开、典型级数与半区间展开的计算流程。
+---
+
 # Fourier 级数
 
 Fourier 级数用不同频率的正弦、余弦表示周期函数。与 Taylor 级数围绕一点展开不同，Fourier 系数由函数在整个周期上的积分决定。
