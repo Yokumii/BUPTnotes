@@ -141,119 +141,154 @@ copyright: Copyright &copy; 2024 - 2026 Yokumi
 
 nav:
   - index.md
-  - 计算导论与程序设计:
+  - 大一学期:
+    - 计算导论与程序设计:
       - C 语言程序设计: study/computer-science/introduction-to-computing-and-programming/c-programming.md
-      - 计算机原理: study/computer-science/introduction-to-computing-and-programming/computer-principles.md 
-  - 离散数学:
-      - 离散数学概述: study/computer-science/discrete-math/dm-overview.md
-      - 群论: study/computer-science/discrete-math/group-theory.md
-      - 图论: study/computer-science/discrete-math/graph-theory.md
-  - 数据结构:
-      - 数据结构概述: study/computer-science/data-structures/ds-overview.md
-      - 线性表: study/computer-science/data-structures/linear-list.md
-      - 栈与队列: study/computer-science/data-structures/stack-and-queue.md
-      - 串: study/computer-science/data-structures/string.md
-      - 数组与广义表: study/computer-science/data-structures/array-and-generalized-list.md
-      - 树与二叉树: study/computer-science/data-structures/tree.md
-      - 图: study/computer-science/data-structures/ds-graph.md
-      - 查找: study/computer-science/data-structures/searching.md
-      - 内部排序: study/computer-science/data-structures/internal-sorting.md
-      - 外部排序: study/computer-science/data-structures/external-sorting.md
-  - 数字逻辑与数字系统:
-      - Verilog 编程: study/computer-science/digital-logic-and-digital-systems/verilog-programming.md
-      - 存储系统: study/computer-science/digital-logic-and-digital-systems/storage-system.md
-      - PLD 与 FPGA: study/computer-science/digital-logic-and-digital-systems/pld-and-fpga.md
-      - 数字系统设计: study/computer-science/digital-logic-and-digital-systems/digital-system-design.md
-  - 计算机组成原理:
-      - 计算机组成原理概述: study/computer-science/computer-organization/co-overview.md
-      - 运算方法与运算器: study/computer-science/computer-organization/arithmetic-unit.md
-      - 存储系统: study/computer-science/computer-organization/storage-system.md
-      - 指令系统: study/computer-science/computer-organization/instruction-system.md
-      - 中央处理器: study/computer-science/computer-organization/cpu.md
-      - 总线系统: study/computer-science/computer-organization/bus-system.md
-      - 输入输出系统: study/computer-science/computer-organization/io-system.md
-      - 外围设备: study/computer-science/computer-organization/peripheral-devices.md
-      - 计算机组成原理复习: study/computer-science/computer-organization/co-review.md
-  - 深入理解计算机系统(CSAPP):
-      - CSAPP 概述: study/computer-science/csapp/csapp-overview.md
-      - 信息的表示与处理: study/computer-science/csapp/data-representation.md
-      - 机器级表示: study/computer-science/csapp/machine-level-representation.md
-      - 链接: study/computer-science/csapp/linking.md
-      - 异常控制流: study/computer-science/csapp/exceptional-control-flow.md
-      - 系统级 I/O: study/computer-science/csapp/system-level-io.md
-      - CSAPP 习题解答: study/computer-science/csapp/csapp-exercise-solutions.md
-  - 计算机网络:
-      - 计算机网络概述: study/computer-science/computer-network/cn-introduction.md
-      - 物理层: study/computer-science/computer-network/physical-layer.md
-      - 数据链路层: study/computer-science/computer-network/data-link-layer.md
-      - 介质访问控制子层: study/computer-science/computer-network/mac-sublayer.md
-      - 网络层: study/computer-science/computer-network/network-layer.md
-      - 传输层: study/computer-science/computer-network/transport-layer.md
-      - 应用层: study/computer-science/computer-network/application-layer.md
-      - 计算机网络复习: study/computer-science/computer-network/cn-review.md
-  - 形式语言与自动机:
-      - 文法与Chomsky体系: study/computer-science/formal-languages-and-automata/fla-overview.md
-      - 正则语言与有限自动机: study/computer-science/formal-languages-and-automata/regular-languages.md
-      - 上下文无关文法与下推自动机: study/computer-science/formal-languages-and-automata/cfg-and-pda.md
-      - 图灵机: study/computer-science/formal-languages-and-automata/turing-machine.md
-      - 形式语言与自动机复习: study/computer-science/formal-languages-and-automata/fla-review.md
-  - 编译原理:
-      - 编译概述: study/computer-science/compiler-principle-and-technology/compiler-overview.md
-      - 词法分析: study/computer-science/compiler-principle-and-technology/lexical-analysis.md
-      - 语法分析: study/computer-science/compiler-principle-and-technology/syntax-analysis.md
-      - 语法制导翻译: study/computer-science/compiler-principle-and-technology/syntax-directed-translation.md
-      - 语义分析: study/computer-science/compiler-principle-and-technology/semantic-analysis.md
-      - 运行环境: study/computer-science/compiler-principle-and-technology/runtime-environment.md
-      - 中间代码生成与优化: study/computer-science/compiler-principle-and-technology/intermediate-code.md
-  - 操作系统:
-      - 操作系统引论: study/computer-science/operating-system/os-introduction.md
-      - 操作系统结构: study/computer-science/operating-system/os-structures.md
-      - 进程: study/computer-science/operating-system/processes.md
-      - 线程: study/computer-science/operating-system/threads.md
-      - CPU 调度: study/computer-science/operating-system/cpu-scheduling.md
-      - 进程同步: study/computer-science/operating-system/process-synchronization.md
-      - 死锁: study/computer-science/operating-system/deadlocks.md
-      - 内存管理: study/computer-science/operating-system/memory-management.md
-      - 虚拟内存: study/computer-science/operating-system/virtual-memory.md
-      - 文件系统接口: study/computer-science/operating-system/file-system-interface.md
-      - 文件系统实现: study/computer-science/operating-system/file-system-implementation.md
-      - 大容量存储结构: study/computer-science/operating-system/mass-storage-structure.md
-      - 操作系统复习: study/computer-science/operating-system/os-review.md
-  - 数据库系统概念:
-      - 数据库系统引论: study/computer-science/database-system-concepts/db-introduction.md
-      - 关系模型: study/computer-science/database-system-concepts/relational-model.md
-      - SQL 基础: study/computer-science/database-system-concepts/sql.md
-      - SQL 进阶: study/computer-science/database-system-concepts/intermediate-sql.md
-      - E-R 模型与数据库设计: study/computer-science/database-system-concepts/er-model.md
-      - 关系数据库设计: study/computer-science/database-system-concepts/relational-database-design.md
-      - 数据存储结构: study/computer-science/database-system-concepts/data-storage-structures.md
-      - 索引: study/computer-science/database-system-concepts/indexing.md
-      - 查询处理: study/computer-science/database-system-concepts/query-processing.md
-      - 查询优化: study/computer-science/database-system-concepts/query-optimization.md
-      - 事务: study/computer-science/database-system-concepts/transactions.md
-      - 并发控制: study/computer-science/database-system-concepts/concurrency-control.md
-      - 恢复系统: study/computer-science/database-system-concepts/recovery-system.md
-      - 数据库系统复习: study/computer-science/database-system-concepts/db-review.md
-  - 算法设计与分析:
-      - 算法复杂度分析: study/computer-science/design-and-analysis-of-algorithms/complexity-analysis.md
-      - 分治法: study/computer-science/design-and-analysis-of-algorithms/divide-and-conquer.md
-      - 动态规划: study/computer-science/design-and-analysis-of-algorithms/dp-algorithm.md
-      - 贪心法: study/computer-science/design-and-analysis-of-algorithms/greedy-algorithm.md
-      - 回溯法: study/computer-science/design-and-analysis-of-algorithms/backtracking.md
-  - 现代交换原理:
-      - 交换概论: study/computer-science/modern-switching-and-networks/introduction.md
-      - 交换网络: study/computer-science/modern-switching-and-networks/switching-network.md
-      - 分组交换: study/computer-science/modern-switching-and-networks/packet-switching.md
-      - SIP 信令: study/computer-science/modern-switching-and-networks/session-initiation-protocol.md
-      - 移动交换系统: study/computer-science/modern-switching-and-networks/mobile-switching-system.md
-      - SDN 软件定义网络: study/computer-science/modern-switching-and-networks/software-defined-networking.md
-      - 习题: study/computer-science/modern-switching-and-networks/solution.md
-  - 计算机系统结构:
-      - 基础知识: study/computer-science/computer-architecture/basics.md
-      - 流水线技术: study/computer-science/computer-architecture/pipelining.md
-      - 向量处理机: study/computer-science/computer-architecture/vector-processor.md
-      - 指令级并行及其开发: study/computer-science/computer-architecture/instruction-level-parallelism.md
-      - 互连网络: study/computer-science/computer-architecture/interconnection-network.md
-      - 多处理机: study/computer-science/computer-architecture/multiprocessor.md
-      - 阵列处理机: study/computer-science/computer-architecture/simd.md
-      - 习题: study/computer-science/computer-architecture/solution.md
+      - 计算机原理: study/computer-science/introduction-to-computing-and-programming/computer-principles.md
+    - 数学分析:
+      - 实数、确界与函数有界性: study/mathematics/mathematical-analysis/real-numbers-and-supremum.md
+      - 数列极限: study/mathematics/mathematical-analysis/sequence-limits.md
+      - 函数极限与连续性: study/mathematics/mathematical-analysis/function-limits-and-continuity.md
+      - 导数与微分: study/mathematics/mathematical-analysis/derivatives-and-differentials.md
+      - 微分中值定理与 Taylor 展开: study/mathematics/mathematical-analysis/mean-value-theorems-and-taylor.md
+      - 不定积分: study/mathematics/mathematical-analysis/indefinite-integrals.md
+      - 定积分: study/mathematics/mathematical-analysis/definite-integrals.md
+      - 定积分的几何应用: study/mathematics/mathematical-analysis/applications-of-definite-integrals.md
+      - 数项级数: study/mathematics/mathematical-analysis/numerical-series.md
+      - 函数列与函数项级数: study/mathematics/mathematical-analysis/function-sequences-and-series.md
+      - 幂级数: study/mathematics/mathematical-analysis/power-series.md
+      - Fourier 级数: study/mathematics/mathematical-analysis/fourier-series.md
+      - 多元函数微分学: study/mathematics/mathematical-analysis/multivariable-differential-calculus.md
+      - 重积分: study/mathematics/mathematical-analysis/multiple-integrals.md
+      - 曲线积分与曲面积分: study/mathematics/mathematical-analysis/line-and-surface-integrals.md
+    - 线性代数:
+      - 行列式与矩阵运算: study/mathematics/linear-algebra/matrices-and-determinants.md
+      - 向量组与线性方程组: study/mathematics/linear-algebra/vector-spaces-and-linear-systems.md
+      - 矩阵的秩: study/mathematics/linear-algebra/matrix-rank.md
+      - 相抵、相似与特征值: study/mathematics/linear-algebra/similarity-and-eigenvalues.md
+      - 正交性与实对称矩阵: study/mathematics/linear-algebra/orthogonality-and-symmetric-matrices.md
+      - 二次型与正定矩阵: study/mathematics/linear-algebra/quadratic-forms.md
+      - 多项式理论与矩阵多项式: study/mathematics/linear-algebra/polynomials-and-matrices.md
+  - 大二学期:
+    - 离散数学:
+        - 初等数论: study/mathematics/discrete-math/number-theory.md
+        - 群论: study/mathematics/discrete-math/group-theory.md
+        - 图论: study/mathematics/discrete-math/graph-theory.md
+    - 概率论与数理统计:
+        - 多维随机变量及其分布: study/mathematics/probability-and-statistics/multivariate-random-variables.md
+        - 随机变量的数字特征: study/mathematics/probability-and-statistics/numerical-characteristics.md
+        - 大数定律与中心极限定理: study/mathematics/probability-and-statistics/limit-theorems.md
+        - 抽样与统计量: study/mathematics/probability-and-statistics/sampling-and-statistics.md
+        - 区间估计: study/mathematics/probability-and-statistics/interval-estimation.md
+        - 假设检验: study/mathematics/probability-and-statistics/hypothesis-testing.md
+        - 一元线性回归: study/mathematics/probability-and-statistics/simple-linear-regression.md
+    - 数据结构:
+        - 数据结构概述: study/computer-science/data-structures/ds-overview.md
+        - 线性表: study/computer-science/data-structures/linear-list.md
+        - 栈与队列: study/computer-science/data-structures/stack-and-queue.md
+        - 串: study/computer-science/data-structures/string.md
+        - 数组与广义表: study/computer-science/data-structures/array-and-generalized-list.md
+        - 树与二叉树: study/computer-science/data-structures/tree.md
+        - 图: study/computer-science/data-structures/ds-graph.md
+        - 查找: study/computer-science/data-structures/searching.md
+        - 内部排序: study/computer-science/data-structures/internal-sorting.md
+        - 外部排序: study/computer-science/data-structures/external-sorting.md
+    - 数字逻辑与数字系统:
+        - Verilog 编程: study/computer-science/digital-logic-and-digital-systems/verilog-programming.md
+        - 存储系统: study/computer-science/digital-logic-and-digital-systems/storage-system.md
+        - PLD 与 FPGA: study/computer-science/digital-logic-and-digital-systems/pld-and-fpga.md
+        - 数字系统设计: study/computer-science/digital-logic-and-digital-systems/digital-system-design.md
+    - 计算机组成原理:
+        - 计算机组成原理概述: study/computer-science/computer-organization/co-overview.md
+        - 运算方法与运算器: study/computer-science/computer-organization/arithmetic-unit.md
+        - 存储系统: study/computer-science/computer-organization/storage-system.md
+        - 指令系统: study/computer-science/computer-organization/instruction-system.md
+        - 中央处理器: study/computer-science/computer-organization/cpu.md
+        - 总线系统: study/computer-science/computer-organization/bus-system.md
+        - 输入输出系统: study/computer-science/computer-organization/io-system.md
+        - 外围设备: study/computer-science/computer-organization/peripheral-devices.md
+        - 计算机组成原理复习: study/computer-science/computer-organization/co-review.md
+    - 深入理解计算机系统(CSAPP):
+        - CSAPP 概述: study/computer-science/csapp/csapp-overview.md
+        - 信息的表示与处理: study/computer-science/csapp/data-representation.md
+        - 机器级表示: study/computer-science/csapp/machine-level-representation.md
+        - 链接: study/computer-science/csapp/linking.md
+        - 异常控制流: study/computer-science/csapp/exceptional-control-flow.md
+        - 系统级 I/O: study/computer-science/csapp/system-level-io.md
+        - CSAPP 习题解答: study/computer-science/csapp/csapp-exercise-solutions.md
+    - 计算机网络:
+        - 计算机网络概述: study/computer-science/computer-network/cn-introduction.md
+        - 物理层: study/computer-science/computer-network/physical-layer.md
+        - 数据链路层: study/computer-science/computer-network/data-link-layer.md
+        - 介质访问控制子层: study/computer-science/computer-network/mac-sublayer.md
+        - 网络层: study/computer-science/computer-network/network-layer.md
+        - 传输层: study/computer-science/computer-network/transport-layer.md
+        - 应用层: study/computer-science/computer-network/application-layer.md
+        - 计算机网络复习: study/computer-science/computer-network/cn-review.md
+  - 大三学期:
+    - 形式语言与自动机:
+        - 文法与Chomsky体系: study/computer-science/formal-languages-and-automata/fla-overview.md
+        - 正则语言与有限自动机: study/computer-science/formal-languages-and-automata/regular-languages.md
+        - 上下文无关文法与下推自动机: study/computer-science/formal-languages-and-automata/cfg-and-pda.md
+        - 图灵机: study/computer-science/formal-languages-and-automata/turing-machine.md
+        - 形式语言与自动机复习: study/computer-science/formal-languages-and-automata/fla-review.md
+    - 编译原理:
+        - 编译概述: study/computer-science/compiler-principle-and-technology/compiler-overview.md
+        - 词法分析: study/computer-science/compiler-principle-and-technology/lexical-analysis.md
+        - 语法分析: study/computer-science/compiler-principle-and-technology/syntax-analysis.md
+        - 语法制导翻译: study/computer-science/compiler-principle-and-technology/syntax-directed-translation.md
+        - 语义分析: study/computer-science/compiler-principle-and-technology/semantic-analysis.md
+        - 运行环境: study/computer-science/compiler-principle-and-technology/runtime-environment.md
+        - 中间代码生成与优化: study/computer-science/compiler-principle-and-technology/intermediate-code.md
+    - 操作系统:
+        - 操作系统引论: study/computer-science/operating-system/os-introduction.md
+        - 操作系统结构: study/computer-science/operating-system/os-structures.md
+        - 进程: study/computer-science/operating-system/processes.md
+        - 线程: study/computer-science/operating-system/threads.md
+        - CPU 调度: study/computer-science/operating-system/cpu-scheduling.md
+        - 进程同步: study/computer-science/operating-system/process-synchronization.md
+        - 死锁: study/computer-science/operating-system/deadlocks.md
+        - 内存管理: study/computer-science/operating-system/memory-management.md
+        - 虚拟内存: study/computer-science/operating-system/virtual-memory.md
+        - 文件系统接口: study/computer-science/operating-system/file-system-interface.md
+        - 文件系统实现: study/computer-science/operating-system/file-system-implementation.md
+        - 大容量存储结构: study/computer-science/operating-system/mass-storage-structure.md
+        - 操作系统复习: study/computer-science/operating-system/os-review.md
+    - 数据库系统概念:
+        - 数据库系统引论: study/computer-science/database-system-concepts/db-introduction.md
+        - 关系模型: study/computer-science/database-system-concepts/relational-model.md
+        - SQL 基础: study/computer-science/database-system-concepts/sql.md
+        - SQL 进阶: study/computer-science/database-system-concepts/intermediate-sql.md
+        - E-R 模型与数据库设计: study/computer-science/database-system-concepts/er-model.md
+        - 关系数据库设计: study/computer-science/database-system-concepts/relational-database-design.md
+        - 数据存储结构: study/computer-science/database-system-concepts/data-storage-structures.md
+        - 索引: study/computer-science/database-system-concepts/indexing.md
+        - 查询处理: study/computer-science/database-system-concepts/query-processing.md
+        - 查询优化: study/computer-science/database-system-concepts/query-optimization.md
+        - 事务: study/computer-science/database-system-concepts/transactions.md
+        - 并发控制: study/computer-science/database-system-concepts/concurrency-control.md
+        - 恢复系统: study/computer-science/database-system-concepts/recovery-system.md
+        - 数据库系统复习: study/computer-science/database-system-concepts/db-review.md
+    - 算法设计与分析:
+        - 算法复杂度分析: study/computer-science/design-and-analysis-of-algorithms/complexity-analysis.md
+        - 分治法: study/computer-science/design-and-analysis-of-algorithms/divide-and-conquer.md
+        - 动态规划: study/computer-science/design-and-analysis-of-algorithms/dp-algorithm.md
+        - 贪心法: study/computer-science/design-and-analysis-of-algorithms/greedy-algorithm.md
+        - 回溯法: study/computer-science/design-and-analysis-of-algorithms/backtracking.md
+    - 现代交换原理:
+        - 交换概论: study/computer-science/modern-switching-and-networks/introduction.md
+        - 交换网络: study/computer-science/modern-switching-and-networks/switching-network.md
+        - 分组交换: study/computer-science/modern-switching-and-networks/packet-switching.md
+        - SIP 信令: study/computer-science/modern-switching-and-networks/session-initiation-protocol.md
+        - 移动交换系统: study/computer-science/modern-switching-and-networks/mobile-switching-system.md
+        - SDN 软件定义网络: study/computer-science/modern-switching-and-networks/software-defined-networking.md
+        - 习题: study/computer-science/modern-switching-and-networks/solution.md
+    - 计算机系统结构:
+        - 基础知识: study/computer-science/computer-architecture/basics.md
+        - 流水线技术: study/computer-science/computer-architecture/pipelining.md
+        - 向量处理机: study/computer-science/computer-architecture/vector-processor.md
+        - 指令级并行及其开发: study/computer-science/computer-architecture/instruction-level-parallelism.md
+        - 互连网络: study/computer-science/computer-architecture/interconnection-network.md
+        - 多处理机: study/computer-science/computer-architecture/multiprocessor.md
+        - 阵列处理机: study/computer-science/computer-architecture/simd.md
+        - 习题: study/computer-science/computer-architecture/solution.md
