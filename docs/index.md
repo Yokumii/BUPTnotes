@@ -1,6 +1,10 @@
-## Welcome to Yokumi's BUPT Course Notes!
+---
+description: 北京邮电大学课程笔记，整理数学、计算机科学及通信相关课程的知识点、复习资料与学习笔记。
+---
 
-Yokumi's Course Notes in Beijing University of Posts and Telecommunications.
+# Yokumi 的北邮课程笔记
+
+这里整理北京邮电大学本科课程的知识点、复习资料与学习笔记，内容涵盖数学、计算机科学及通信相关课程。
 
 !!! danger "写在前面"
     部分内容由原始笔记经过 LLM 整理而成，可能存在错误或不完整之处，请谨慎参考。

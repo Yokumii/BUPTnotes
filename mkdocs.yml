@@ -1,7 +1,10 @@
-site_name: Yokumi's BUPT Course Notes
+site_name: Yokumi 的北邮课程笔记
 site_url: https://buptwiki.yokumi.cn
-site_description: Yokumi's Course Notes in Beijing University of Posts and Telecommunications
+site_description: 北京邮电大学课程笔记，涵盖数学分析、线性代数、离散数学、数据结构、计算机网络、操作系统、编译原理等课程。
 site_author: Yokumi
+
+hooks:
+  - hooks/sitemap_lastmod.py
 
 repo_url: https://github.com/Yokumii/BUPTnotes
 repo_name: Yokumii/BUPTnotes
@@ -121,8 +124,8 @@ plugins:
       enabled: false
       cards_layout_options:
         font_family: Noto Sans SC
-        title: Yokumi's BUPT Course Notes
-        description: Yokumi's Course Notes in Beijing University of Posts and Telecommunications
+        title: Yokumi 的北邮课程笔记
+        description: 北京邮电大学课程笔记，涵盖数学分析、线性代数、离散数学、数据结构、计算机网络、操作系统、编译原理等课程。
   - tags
 
 extra:
